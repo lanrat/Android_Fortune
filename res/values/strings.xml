@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Example Fortune</string>
+    <string name="action_settings">Settings</string>
+    <string name="create_notification">Create Notification!</string>
+    <string name="fortune">Danger looms in your future</string>
+    <string name="notification_title">New Fortune</string>
+    <string name="result_text">You clicked on a fortune!</string>
+</resources>
