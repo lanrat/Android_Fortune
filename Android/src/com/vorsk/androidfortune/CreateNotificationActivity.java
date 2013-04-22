@@ -1,25 +1,25 @@
 package com.vorsk.androidfortune;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.vorsk.androidfortune.R;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 
 
-public class CreateNotificationActivity extends Activity {
+public class CreateNotificationActivity extends SherlockActivity {
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create_notification, menu);
+        getSupportMenuInflater().inflate(R.menu.create_notification, menu);
         return true;
     }
 	  @Override
