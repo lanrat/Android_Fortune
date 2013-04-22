@@ -1,14 +1,14 @@
 package com.vorsk.androidfortune;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.vorsk.androidfortune.R;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class NotificationReceiverActivity extends Activity {
+public class NotificationReceiverActivity extends SherlockActivity {
 	  @Override
 	  protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
