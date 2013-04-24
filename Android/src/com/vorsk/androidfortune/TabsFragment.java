@@ -2,7 +2,11 @@ package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -74,6 +78,54 @@ public class TabsFragment extends SherlockFragmentActivity {
 
     }
 
+    
+    
+    
+    
+    //TODO move this function
+	  public void createNotification(View view) {
+		  
+		  Log.v("TAG","Button pressed");
+		  
+	    // Prepare intent which is triggered if the
+	    // notification is selected
+		 int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
+		 int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
+	    Intent intent = new Intent(this, NotificationReceiverActivity.class);
+	    intent.setFlags(intentFlag);
+	    intent.putExtra("action", "Click");
+	    Intent intentUp = new Intent(this, NotificationReceiverActivity.class);
+	    intent.setFlags(intentFlag);
+	    intentUp.putExtra("action", "Upvote");
+	    Intent intentDown = new Intent(this, NotificationReceiverActivity.class);
+	    intent.setFlags(intentFlag);
+	    intentDown.putExtra("action", "Downvote");
+	    PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, pendingFlag);
+	    PendingIntent pIntentUp = PendingIntent.getActivity(this, 1, intentUp, pendingFlag);
+	    PendingIntent pIntentDown = PendingIntent.getActivity(this, 2, intentDown, pendingFlag);
+	    
+	    
+	    // Build notification
+	    // Actions are just fake
+	    Notification noti = new Notification.Builder(this)
+	        .setContentTitle(getResources().getString(R.string.notification_title))
+	        .setContentText(getResources().getString(R.string.fortune)).setSmallIcon(R.drawable.ic_launcher)
+	        .setContentIntent(pIntent)
+	        .addAction(R.drawable.up, "Upvote", pIntentUp)
+	        .addAction(R.drawable.down, "Downvote", pIntentDown).build();
+	    NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+	    // Hide the notification after its selected
+	    noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+	    notificationManager.notify(0, noti);
+
+	  }
+    
+    
+    
+    
+    
     /**
      * This is a helper class that implements the management of tabs and all
      * details of connecting a ViewPager with associated TabHost.  It relies on a
