@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Example Fortune</string>
+    <string name="app_name">Android Fortune</string>
     <string name="action_settings">Settings</string>
     <string name="create_notification">Create Notification!</string>
     <string name="fortune">Danger looms in your future</string>
