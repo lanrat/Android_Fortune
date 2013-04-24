@@ -13,7 +13,7 @@ public class NotificationReceiverActivity extends SherlockActivity {
 	  protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 		Log.v("TAG","Got notification activity");
-	    setContentView(R.layout.result);
+	    setContentView(R.layout.notification_result);
 
 	    Log.v("TAG","Got new intent");
 		  
