@@ -3,6 +3,7 @@ package com.vorsk.androidfortune;
 import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
 
 import android.support.v4.app.FragmentManager;
 
@@ -20,7 +21,6 @@ public class HomeFragmentActivity extends SherlockFragmentActivity {
             fm.beginTransaction().add(android.R.id.content, list).commit();
         }
     }
-
 
     public static class HomeFragment extends SherlockListFragment {
 

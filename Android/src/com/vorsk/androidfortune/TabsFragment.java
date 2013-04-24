@@ -8,12 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 
 public class TabsFragment extends SherlockFragmentActivity {
@@ -47,6 +51,27 @@ public class TabsFragment extends SherlockFragmentActivity {
         
         //0-based so 1 is the second tab
         mViewPager.setCurrentItem(1);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	//TODO possibly move this to an actionbar item
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_settings:
+        	Log.v("Tabs","Settings selected");
+        	//TODO Menu Activity
+            //startActivity(new Intent(this, SetPreference.class));
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+
     }
 
     /**

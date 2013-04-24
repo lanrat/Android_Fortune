@@ -19,7 +19,7 @@ public class CreateNotificationActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getSupportMenuInflater().inflate(R.menu.create_notification, menu);
+        getSupportMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 	  @Override
