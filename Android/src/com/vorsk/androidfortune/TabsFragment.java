@@ -16,7 +16,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 
 
-public class HomeActivity extends SherlockFragmentActivity {
+public class TabsFragment extends SherlockFragmentActivity {
     ViewPager  mViewPager;
     TabsAdapter mTabsAdapter;
 
@@ -27,6 +27,7 @@ public class HomeActivity extends SherlockFragmentActivity {
         setContentView(R.layout.fragment_tabs_pager);
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
+        
 
         // This block thanks to http://stackoverflow.com/q/9790279/517561
         ActionBar bar = getSupportActionBar();
@@ -43,6 +44,9 @@ public class HomeActivity extends SherlockFragmentActivity {
         		HomeFragmentActivity.HomeFragment.class, null);
         mTabsAdapter.addTab("right", "Submit",
         		HomeFragmentActivity.HomeFragment.class, null);
+        
+        //0-based so 1 is the second tab
+        mViewPager.setCurrentItem(1);
     }
 
     /**
@@ -63,7 +67,7 @@ public class HomeActivity extends SherlockFragmentActivity {
         private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
         static final class TabInfo {
-            @SuppressWarnings("unused")
+        	//tags is not currently used
             private final String tag;
             private final Class<?> clss;
             private final Bundle args;
