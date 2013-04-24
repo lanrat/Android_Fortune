@@ -47,11 +47,11 @@ public class TabsFragment extends SherlockFragmentActivity {
         mTabsAdapter = new TabsAdapter(this, mViewPager);
 
         mTabsAdapter.addTab("left", "History", 
-        		HomeFragmentActivity.HomeFragment.class, null);
+        		HistoryActivity.HistoryFragment.class, null);
         mTabsAdapter.addTab("home", "Fortune",
-        		HomeFragmentActivity.HomeFragment.class, null);
+        		FortuneActivity.FortuneFragment.class, null);
         mTabsAdapter.addTab("right", "Submit",
-        		HomeFragmentActivity.HomeFragment.class, null);
+        		SubmitActivity.SubmitFragment.class, null);
         
         //0-based so 1 is the second tab
         mViewPager.setCurrentItem(1);
