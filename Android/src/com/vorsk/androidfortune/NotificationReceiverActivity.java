@@ -8,16 +8,16 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class NotificationReceiverActivity extends SherlockActivity {
-	  @Override
-	  protected void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-		Log.v("TAG","Got notification activity");
-	    setContentView(R.layout.notification_result);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.v("TAG", "Got notification activity");
+		setContentView(R.layout.notification_result);
 
-	    Log.v("TAG","Got new intent");
-		  
-	    TextView text = (TextView) findViewById(R.id.textView2);
+		Log.v("TAG", "Got new intent");
 
-	    text.setText(getIntent().getExtras().getString("action"));
-	  }
+		TextView text = (TextView) findViewById(R.id.textView2);
+
+		text.setText(getIntent().getExtras().getString("action"));
+	}
 }

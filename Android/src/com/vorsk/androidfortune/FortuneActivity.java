@@ -11,32 +11,31 @@ import android.view.ViewGroup;
 
 public class FortuneActivity extends SherlockFragmentActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        FragmentManager fm = getSupportFragmentManager();
+		FragmentManager fm = getSupportFragmentManager();
 
-        // Create the list fragment and add it as our sole content.
-        if (fm.findFragmentById(android.R.id.content) == null) {
-        	FortuneFragment fragment = new FortuneFragment();
-            fm.beginTransaction().add(android.R.id.content, fragment).commit();
-        }
-    }
+		// Create the list fragment and add it as our sole content.
+		if (fm.findFragmentById(android.R.id.content) == null) {
+			FortuneFragment fragment = new FortuneFragment();
+			fm.beginTransaction().add(android.R.id.content, fragment).commit();
+		}
+	}
 
-    public static class FortuneFragment extends SherlockFragment {
+	public static class FortuneFragment extends SherlockFragment {
 
-    	@Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.home, null);
-        }
-    	
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-        }
-        
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			return inflater.inflate(R.layout.home, null);
+		}
 
-    }
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+		}
+
+	}
 }
-

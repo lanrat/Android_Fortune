@@ -7,4 +7,5 @@
     <string name="fortune">Danger looms in your future</string>
     <string name="notification_title">New Fortune</string>
     <string name="result_text">You clicked on a fortune!</string>
+
 </resources>
