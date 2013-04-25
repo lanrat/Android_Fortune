@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -77,10 +78,6 @@ public class TabsFragment extends SherlockFragmentActivity {
         }
 
     }
-
-    
-    
-    
     
     //TODO move this function
 	  public void createNotification(View view) {
@@ -108,18 +105,17 @@ public class TabsFragment extends SherlockFragmentActivity {
 	    
 	    // Build notification
 	    // Actions are just fake
-	    Notification noti = new Notification.Builder(this)
+	    Notification noti = new NotificationCompat.Builder(this)
 	        .setContentTitle(getResources().getString(R.string.notification_title))
 	        .setContentText(getResources().getString(R.string.fortune)).setSmallIcon(R.drawable.ic_launcher)
 	        .setContentIntent(pIntent)
 	        .addAction(R.drawable.up, "Upvote", pIntentUp)
-	        .addAction(R.drawable.down, "Downvote", pIntentDown).build();
+	        .addAction(R.drawable.down, "Downvote", pIntentDown)
+	        .build();
 	    NotificationManager notificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
 	    // Hide the notification after its selected
 	    noti.flags |= Notification.FLAG_AUTO_CANCEL;
-
 	    notificationManager.notify(0, noti);
-
 	  }
     
     
