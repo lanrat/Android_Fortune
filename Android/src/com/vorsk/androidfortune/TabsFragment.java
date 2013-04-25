@@ -110,8 +110,8 @@ public class TabsFragment extends SherlockFragmentActivity {
 						getResources().getString(R.string.notification_title))
 				.setContentText(getResources().getString(R.string.fortune))
 				.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
-				.addAction(R.drawable.up, "Upvote", pIntentUp)
-				.addAction(R.drawable.down, "Downvote", pIntentDown).build();
+				.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
+				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown).build();
 		NotificationManager notificationManager = (NotificationManager) this
 				.getSystemService(NOTIFICATION_SERVICE);
 		// Hide the notification after its selected
