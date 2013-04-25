@@ -1,7 +1,6 @@
 package com.vorsk.androidfortune;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.vorsk.androidfortune.R;
 
 import android.os.Bundle;
 import android.util.Log;
