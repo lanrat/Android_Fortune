@@ -41,7 +41,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayShowTitleEnabled(true);
 		bar.setDisplayShowHomeEnabled(true);
-		//
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 
@@ -119,6 +118,10 @@ public class TabsFragment extends SherlockFragmentActivity {
 		notificationManager.notify(0, noti);
 	}
 
+	
+	//Everything below this line is part of the tabs view pager api.
+	//It should not be modified.
+	
 	/**
 	 * This is a helper class that implements the management of tabs and all
 	 * details of connecting a ViewPager with associated TabHost. It relies on a
