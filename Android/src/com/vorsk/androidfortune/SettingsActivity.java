@@ -1,15 +1,14 @@
 package com.vorsk.androidfortune;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 
 
-
-
-public class SettingsActivity extends PreferenceActivity implements
+public class SettingsActivity extends SherlockPreferenceActivity implements
 	OnSharedPreferenceChangeListener {
 
 	public static final String KEY_INTERVAL = "pref_notification_interval";
