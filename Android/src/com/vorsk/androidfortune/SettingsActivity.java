@@ -9,7 +9,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
 
 public class SettingsActivity extends SherlockPreferenceActivity {
@@ -24,6 +23,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		//Display fragment as main content
 		getFragmentManager().beginTransaction().replace(android.R.id.content,
 				new Prefs1Fragment()).commit();
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	/**
