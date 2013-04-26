@@ -7,15 +7,8 @@
         <item>Biweekly</item>
         <item>Monthly</item>
         <item>Yearly</item>
+        <item>Surprise me!</item>
     </string-array>
     
-    <string-array name="time_intervals_values">
-        <item>1</item>
-        <item>2</item>
-        <item>7</item>
-        <item>14</item>
-        <item>30</item>
-        <item>365</item>
-    </string-array>
-
+   
 </resources>
