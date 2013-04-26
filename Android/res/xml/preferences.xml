@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+     <PreferenceCategory 
+        android:title="@string/pref_notification"
+        android:key="pref_key_notification">
+	    <CheckBoxPreference
+	        android:key="pref_enable_notification"
+	        android:title="@string/pref_enable_notification"
+	        android:summary="@string/pref_enable_notification_summ"
+	        android:defaultValue="true" />
+	    <ListPreference
+	        android:key="pref_notification_interval"
+	        android:title="@string/pref_notification_interval"
+	        android:dependency="pref_enable_notification"
+	        android:defaultValue="Daily"
+           	android:entries="@array/time_intervals"
+           	android:entryValues="@array/time_intervals" />
+	</PreferenceCategory>
+</PreferenceScreen>

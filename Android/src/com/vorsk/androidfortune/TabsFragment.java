@@ -69,7 +69,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		case R.id.action_settings:
 			Log.v("Tabs", "Settings selected");
 			// TODO Menu Activity
-			// startActivity(new Intent(this, SetPreference.class));
+			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -7,5 +7,9 @@
     <string name="fortune">Danger looms in your future</string>
     <string name="notification_title">New Fortune</string>
     <string name="result_text">You clicked on a fortune!</string>
-
+    
+    <string name="pref_notification">Notifications</string>
+    <string name="pref_enable_notification">Enable notifications</string>
+	<string name="pref_enable_notification_summ">Allow app to show notifications</string>
+	<string name="pref_notification_interval">Send notifications</string>
 </resources>

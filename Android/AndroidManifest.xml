@@ -22,7 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NotificationReceiverActivity" >
+        <activity android:name="com.vorsk.androidfortune.NotificationReceiverActivity" >
+        </activity>
+        <activity
+            android:name="com.vorsk.androidfortune.SettingsActivity"
+            android:label="@string/action_settings" >
         </activity>
     </application>
 
