@@ -3,6 +3,7 @@ package com.vorsk.androidfortune;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -30,6 +31,17 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, new Prefs1Fragment())
 					.commit();
+		}
+	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return false;
 		}
 	}
 
