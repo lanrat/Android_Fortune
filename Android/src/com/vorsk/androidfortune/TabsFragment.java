@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -21,7 +22,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class TabsFragment extends SherlockFragmentActivity {
@@ -57,23 +57,20 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO possibly move this to an actionbar item
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		super.onCreateOptionsMenu(menu);
+		// actionbar menu
+		getSupportMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			Log.v("Tabs", "Settings selected");
-			// TODO Menu Activity
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-
 	}
 
 	// TODO move this function
@@ -110,7 +107,8 @@ public class TabsFragment extends SherlockFragmentActivity {
 				.setContentText(getResources().getString(R.string.fortune))
 				.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
 				.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
-				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown).build();
+				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
+				.build();
 		NotificationManager notificationManager = (NotificationManager) this
 				.getSystemService(NOTIFICATION_SERVICE);
 		// Hide the notification after its selected
@@ -118,10 +116,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 		notificationManager.notify(0, noti);
 	}
 
-	
-	//Everything below this line is part of the tabs view pager api.
-	//It should not be modified.
-	
+	// Everything below this line is part of the tabs view pager api.
+	// It should not be modified.
+
 	/**
 	 * This is a helper class that implements the management of tabs and all
 	 * details of connecting a ViewPager with associated TabHost. It relies on a
