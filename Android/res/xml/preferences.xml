@@ -15,5 +15,9 @@
 	        android:defaultValue="Daily"
            	android:entries="@array/time_intervals"
            	android:entryValues="@array/time_intervals" />
+	    <com.vorsk.androidfortune.TimePreference
+	        android:key="pref_notification_time"
+	        android:title="@string/pref_notification_time"
+	        android:dependency="pref_enable_notification" />
 	</PreferenceCategory>
 </PreferenceScreen>
