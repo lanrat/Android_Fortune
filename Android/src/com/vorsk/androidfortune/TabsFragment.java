@@ -115,6 +115,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		noti.flags |= Notification.FLAG_AUTO_CANCEL;
 		notificationManager.notify(0, noti);
 	}
+	
 
 	// Everything below this line is part of the tabs view pager api.
 	// It should not be modified.
