@@ -2,12 +2,16 @@ package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -70,6 +74,22 @@ public class TabsFragment extends SherlockFragmentActivity {
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	public void onResume() {
+		super.onResume();
+		Log.v("NotificationService","setting alarm");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		Intent intent = new Intent(this, NotificationReceiver.class);
+	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+	        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+	    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+	    am.cancel(pendingIntent);
+		if ( prefs.getBoolean("pref_enable_notification",false) ) {
+		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+		       AlarmManager.INTERVAL_DAY, pendingIntent);
 		}
 	}
 

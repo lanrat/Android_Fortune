@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+
+//from this stackoverflow post: http://stackoverflow.com/questions/5533078/timepicker-in-preferencescreen
 public class TimePreference extends DialogPreference {
 
 	private Calendar calendar;
