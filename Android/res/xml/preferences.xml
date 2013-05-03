@@ -24,6 +24,7 @@
         android:title="@string/pref_database"
         android:key="pref_key_database">
 	     <Preference android:title="@string/pref_database_clear"
-	                android:key="pref_database_clear" />
+	                android:key="pref_database_clear"
+	     			android:summary="Nuke the database"/>
      </PreferenceCategory>
 </PreferenceScreen>
