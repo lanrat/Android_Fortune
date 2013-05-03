@@ -7,7 +7,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 public class SubmitActivity extends SherlockFragmentActivity {
 
@@ -26,16 +30,30 @@ public class SubmitActivity extends SherlockFragmentActivity {
 
 	public static class SubmitFragment extends SherlockFragment {
 
+		private static RelativeLayout layout;
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			return inflater.inflate(R.layout.submit, null);
+			layout = (RelativeLayout)inflater.inflate(R.layout.submit, null);
+	
+			View submitButton = layout.findViewById(R.id.button1);
+			((Button)submitButton).setOnClickListener(new OnClickListener() {
+
+	            @Override
+	            public void onClick(View v) {
+	            	FortuneDbAdapter.getInstance(null).createFortune(
+	            			((EditText)layout.findViewById(R.id.editText1)).getText().toString());
+	            }
+			});
+			return layout;
 		}
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 		}
+		
+		
 
 	}
 }

@@ -20,4 +20,10 @@
 	        android:title="@string/pref_notification_time"
 	        android:dependency="pref_enable_notification" />
 	</PreferenceCategory>
+	<PreferenceCategory 
+        android:title="@string/pref_database"
+        android:key="pref_key_database">
+	     <Preference android:title="@string/pref_database_clear"
+	                android:key="pref_database_clear" />
+     </PreferenceCategory>
 </PreferenceScreen>
