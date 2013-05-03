@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleExpandableListAdapter;
 
 public class HistoryActivity extends SherlockFragmentActivity {
@@ -48,12 +51,34 @@ public class HistoryActivity extends SherlockFragmentActivity {
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 			
+			/*
 			Fortune[] fortunes = new Fortune[10];
 			for(int i = 0; i < 10; i++) fortunes[i] = (new Fortune("Fortune " + (i + 1)));
+			*/
+
+			
+			//TODO fix deprecation
+			// Get all of the notes from the database and create the item list
+	        Cursor c = FortuneDbAdapter.getInstance(null).fetchAllFortunes();
+	        getActivity().startManagingCursor(c);
+
+	        String[] from = new String[] { FortuneDbAdapter.KEY_BODY };
+	        int[] to = new int[] { android.R.id.text1 };
+	        
+	        // Now create an array adapter and set it to display using our row
+	        SimpleCursorAdapter fortunes =
+	            new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to);
+	        ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
+			lv.setAdapter(fortunes);
+			
+			//TODO change to ExpandableListView
+			/*String[] history = new String[10];
+			for(int i = 0; i < 10; i++) 
+				history[i] = "Fortune " + (i + 1);
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
-			lv.setAdapter(adapter);
+			lv.setAdapter(adapter);*/
 			
 			
 		}

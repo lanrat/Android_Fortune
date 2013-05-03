@@ -11,8 +11,10 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements
 	OnSharedPreferenceChangeListener  {
@@ -78,6 +80,16 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			addPreferencesFromResource(R.xml.preferences);
 			mIntervalPreference = (ListPreference) getPreferenceScreen()
 					.findPreference(KEY_INTERVAL);
+			
+			Preference button = (Preference)findPreference("pref_database_clear");
+			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+			                @Override
+			                public boolean onPreferenceClick(Preference arg0) {
+			                	Log.v("Local Database", "clear database");
+			                    FortuneDbAdapter.getInstance(null).removeAll();
+			                    return true;
+			                }
+			            });
 		}
 	}
 
