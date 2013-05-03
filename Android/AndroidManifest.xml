@@ -11,8 +11,32 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
+        
+	    <receiver 
+	        android:icon="@drawable/ic_launcher"
+	        android:label="Fortune Widget"
+	        android:name="FortuneWidgetProvider"> 
+ 			<meta-data  
+ 			    android:name="android.appwidget.provider" 
+ 				android:resource="@xml/fortune_widget_info"/>
+ 			<intent-filter> 
+			 	<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/> 
+ 			</intent-filter> 
+ 	    </receiver> 
+ 	    
+ 	    
+	<!--
+	    <activity 
+	        android:name="com.vorsk.ConfigureFortuneWidgetActivity"
+			android:label="Configure Fortune Widget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+			</intent-filter>
+		</activity>
+	
+	-->  
+	    
         <activity
             android:name="com.vorsk.androidfortune.TabsFragment"
             android:label="@string/app_name" >
@@ -35,5 +59,4 @@
             android:exported="true" >
         </receiver>
     </application>
-
 </manifest>
