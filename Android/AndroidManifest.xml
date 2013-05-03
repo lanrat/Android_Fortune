@@ -52,5 +52,11 @@
             android:name="com.vorsk.androidfortune.SettingsActivity"
             android:label="@string/action_settings" >
         </activity>
+
+        <receiver
+            android:name="com.vorsk.androidfortune.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
     </application>
 </manifest>

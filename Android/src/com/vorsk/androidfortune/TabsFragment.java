@@ -2,18 +2,23 @@ package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -21,7 +26,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class TabsFragment extends SherlockFragmentActivity {
@@ -57,23 +61,36 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO possibly move this to an actionbar item
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		super.onCreateOptionsMenu(menu);
+		// actionbar menu
+		getSupportMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			Log.v("Tabs", "Settings selected");
-			// TODO Menu Activity
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	public void onResume() {
+		super.onResume();
+		Log.v("NotificationService","setting alarm");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+		Intent intent = new Intent(this, NotificationReceiver.class);
+	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+	        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+	    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+	    am.cancel(pendingIntent);
+		if ( prefs.getBoolean("pref_enable_notification",false) ) {
+		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+		       AlarmManager.INTERVAL_DAY, pendingIntent);
+		}
 	}
 
 	// TODO move this function
@@ -110,18 +127,19 @@ public class TabsFragment extends SherlockFragmentActivity {
 				.setContentText(getResources().getString(R.string.fortune))
 				.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
 				.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
-				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown).build();
+				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
+				.build();
 		NotificationManager notificationManager = (NotificationManager) this
 				.getSystemService(NOTIFICATION_SERVICE);
 		// Hide the notification after its selected
 		noti.flags |= Notification.FLAG_AUTO_CANCEL;
 		notificationManager.notify(0, noti);
 	}
+	
 
-	
-	//Everything below this line is part of the tabs view pager api.
-	//It should not be modified.
-	
+	// Everything below this line is part of the tabs view pager api.
+	// It should not be modified.
+
 	/**
 	 * This is a helper class that implements the management of tabs and all
 	 * details of connecting a ViewPager with associated TabHost. It relies on a

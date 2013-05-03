@@ -1,5 +1,11 @@
 package com.vorsk.androidfortune;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import android.content.Context;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -8,6 +14,10 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
+import android.widget.SimpleExpandableListAdapter;
 
 public class HistoryActivity extends SherlockFragmentActivity {
 
@@ -22,8 +32,9 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			HistoryFragment fragment = new HistoryFragment();
 			fm.beginTransaction().add(android.R.id.content, fragment).commit();
 		}
+		
 	}
-
+	
 	public static class HistoryFragment extends SherlockFragment {
 
 		@Override
@@ -35,7 +46,16 @@ public class HistoryActivity extends SherlockFragmentActivity {
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
+			
+			//TODO change to ExpandableListView
+			String[] history = new String[10];
+			for(int i = 0; i < 10; i++) 
+				history[i] = "Fortune " + (i + 1);
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, history);
+			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
+			lv.setAdapter(adapter);
+			
 		}
-
 	}
 }
