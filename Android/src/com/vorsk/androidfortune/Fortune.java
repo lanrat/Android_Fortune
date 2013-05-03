@@ -25,9 +25,14 @@ public class Fortune implements Comparable<Fortune> {
 		//TODO ctor for fortune from sql db
 	}
 	
+	/*
+	 * User submitted fortune
+	 */
 	public Fortune(String fortune)
 	{
-		//TODO ctor to create user submitted fortune
+		fortuneText = fortune;
+		seen = submitted = new Date(); // current time when created
+		owner = true;
 	}
 	
 	public void flag()
@@ -79,6 +84,13 @@ public class Fortune implements Comparable<Fortune> {
 			//TODO update the date in the local data storage
 		}
 		return this.fortuneText;
+	}
+	
+	public Date getDate()
+	{
+		if (this.seen == null)
+			this.seen = new Date();
+		return this.seen;
 	}
 	
 	public boolean owner()

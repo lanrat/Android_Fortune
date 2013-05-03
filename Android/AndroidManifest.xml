@@ -15,7 +15,8 @@
         android:theme="@style/Theme.Sherlock" >
         <activity
             android:name="com.vorsk.androidfortune.TabsFragment"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="stateUnchanged" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

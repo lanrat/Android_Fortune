@@ -1,5 +1,6 @@
 package com.vorsk.androidfortune;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,14 +48,13 @@ public class HistoryActivity extends SherlockFragmentActivity {
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 			
-			//TODO change to ExpandableListView
-			String[] history = new String[10];
-			for(int i = 0; i < 10; i++) 
-				history[i] = "Fortune " + (i + 1);
+			Fortune[] fortunes = new Fortune[10];
+			for(int i = 0; i < 10; i++) fortunes[i] = (new Fortune("Fortune " + (i + 1)));
 			
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, history);
+			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			lv.setAdapter(adapter);
+			
 			
 		}
 	}
