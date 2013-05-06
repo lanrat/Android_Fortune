@@ -40,6 +40,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 
+		//create instance and open
+		FortuneDbAdapter.getInstance(this).open();
+		
 		// This block thanks to http://stackoverflow.com/q/9790279/517561
 		ActionBar bar = getSupportActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -58,8 +61,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		// 0-based so 1 is the second tab
 		mViewPager.setCurrentItem(1);
 		
-		//create instance and open
-		FortuneDbAdapter.getInstance(this).open();
+
 	}
 
 	@Override

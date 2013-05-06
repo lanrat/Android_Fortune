@@ -62,12 +62,12 @@ public class HistoryActivity extends SherlockFragmentActivity {
 	        Cursor c = FortuneDbAdapter.getInstance(null).fetchAllFortunes();
 	        getActivity().startManagingCursor(c);
 
-	        String[] from = new String[] { FortuneDbAdapter.KEY_BODY };
-	        int[] to = new int[] { android.R.id.text1 };
+	        String[] from = new String[] { FortuneDbAdapter.KEY_TEXT, FortuneDbAdapter.KEY_SUBMITDATE };
+	        int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
 	        
 	        // Now create an array adapter and set it to display using our row
 	        SimpleCursorAdapter fortunes =
-	            new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to);
+	            new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_2, c, from, to);
 	        ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			lv.setAdapter(fortunes);
 			
