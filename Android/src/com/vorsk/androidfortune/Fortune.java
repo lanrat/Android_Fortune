@@ -15,7 +15,7 @@ public class Fortune implements Comparable<Fortune> {
 	private Date submitted;
 	
 
-	public Fortune(String str, boolean test)
+	public Fortune(String str)
 	{
 		//TODO construct from json from server
 	}
@@ -28,10 +28,10 @@ public class Fortune implements Comparable<Fortune> {
 	/*
 	 * User submitted fortune
 	 */
-	public Fortune(String fortune)
+	public Fortune(String fortune, Date date)
 	{
 		fortuneText = fortune;
-		seen = submitted = new Date(); // current time when created
+		seen = submitted = date; // current time when created
 		owner = true;
 	}
 	
