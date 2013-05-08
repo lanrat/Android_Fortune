@@ -26,7 +26,7 @@ public class FortuneDbAdapter {
 	 */
 	private static final String DATABASE_CREATE =
 			"create table fortunes (_id integer primary key autoincrement, "
-					+ "body text not null);";
+					+ "body text not null, time text not null);";
 
 	private static final String DATABASE_NAME = "data";
 	private static final String DATABASE_TABLE = "fortunes";

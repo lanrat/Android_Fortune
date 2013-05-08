@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,11 +18,14 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.TextView;
 
 public class HistoryActivity extends SherlockFragmentActivity {
 
@@ -52,11 +56,6 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			super.onActivityCreated(savedInstanceState);
 			
 			/*
-			Fortune[] fortunes = new Fortune[10];
-			for(int i = 0; i < 10; i++) fortunes[i] = (new Fortune("Fortune " + (i + 1)));
-			*/
-
-			
 			//TODO fix deprecation
 			// Get all of the notes from the database and create the item list
 	        Cursor c = FortuneDbAdapter.getInstance(null).fetchAllFortunes();
@@ -70,15 +69,36 @@ public class HistoryActivity extends SherlockFragmentActivity {
 	            new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to);
 	        ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			lv.setAdapter(fortunes);
+			*/
 			
-			//TODO change to ExpandableListView
-			/*String[] history = new String[10];
-			for(int i = 0; i < 10; i++) 
-				history[i] = "Fortune " + (i + 1);
+			Fortune[] fortunes = new Fortune[10];
+			for(int i = 0; i < 10; i++) fortunes[i] = (new Fortune("Fortune " + (i + 1)));
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
-			lv.setAdapter(adapter);*/
+			lv.setOnItemClickListener(new OnItemClickListener(){
+
+				@Override
+				public void onItemClick(AdapterView<?> list, View view, int position, long id) {
+					// TODO Auto-generated method stub
+					Fortune fortune = (Fortune)list.getAdapter().getItem(position);
+					
+					final Dialog dialog = new Dialog(getActivity());
+			        dialog.setContentView(R.layout.history_info_dialog);
+			        dialog.setTitle("Fortune Information");
+			        dialog.setCancelable(true);
+			        //set up text
+			        TextView timeText = (TextView) dialog.findViewById(R.id.dialogTime);
+			        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
+			        
+			        timeText.setText(fortune.getDate().toString());
+			        bodyText.setText(fortune.getFortune());
+			        
+			        dialog.show();
+				}
+			});
+			lv.setAdapter(adapter);
+			
 			
 			
 		}
