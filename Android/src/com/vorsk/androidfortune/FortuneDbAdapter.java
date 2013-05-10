@@ -1,5 +1,8 @@
 package com.vorsk.androidfortune;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -129,6 +132,30 @@ public class FortuneDbAdapter {
 		initialValues.put(KEY_SUBMITDATE, System.currentTimeMillis() );
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
+	
+	/**
+	 * Take a JSON string and insert it into the database
+	 * 
+	 * @param body the body of the fortune
+	 * @return rowId or -1 if failed
+	 * @throws JSONException 
+	 */
+	public long createFortuneFromJson(String json) throws JSONException {
+		JSONObject data = new JSONObject(json);
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_ID, data.getInt("fortuneID"));
+		initialValues.put(KEY_TEXT, data.getString("text"));
+		initialValues.put(KEY_UPVOTES, data.getInt("upvote"));
+		initialValues.put(KEY_DOWNVOTES, data.getInt("downvote"));
+		initialValues.put(KEY_UPVOTED, 0);
+		initialValues.put(KEY_DOWNVOTED, 0);
+		initialValues.put(KEY_SUBMITDATE, data.getInt("uploadDate"));
+		initialValues.put(KEY_VIEWDATE, -1);
+		initialValues.put(KEY_FLAG, 0);
+		initialValues.put(KEY_OWNER, data.getInt("uploaders"));
+		
+		return mDb.insert(DATABASE_TABLE, null, initialValues);
+	}
 
 	/**
 	 * Delete the fortune with the given rowId
@@ -155,22 +182,23 @@ public class FortuneDbAdapter {
 	/**
 	 * Return a Cursor positioned at the fortune that matches the given rowId
 	 * 
-	 * @param rowId id of fortune to retrieve
-	 * @return Cursor positioned to matching fortune, if found
+	 * @param fortuneId id of fortune to retrieve
+	 * @return Fortune object 
 	 * @throws SQLException if fortune could not be found/retrieved
 	 */
-	public Cursor fetchFortune(long rowId) throws SQLException {
+	public Fortune fetchFortune(long fortuneId) throws SQLException {
 
 		Cursor mCursor =
 
-				mDb.query(true, DATABASE_TABLE, new String[] {KEY_ID,
-						KEY_TEXT}, KEY_ID + "=" + rowId, null,
+				mDb.query(true, DATABASE_TABLE, new String[] {KEY_ID, KEY_TEXT, KEY_UPVOTES,
+						KEY_DOWNVOTES, KEY_UPVOTED, KEY_DOWNVOTED, KEY_FLAG,KEY_OWNER,
+						KEY_SUBMITDATE, KEY_VIEWDATE}, KEY_ID + "=" + fortuneId, null,
 						null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
-		return mCursor;
-
+		
+		return new Fortune(mCursor);
 	}
 
 	/**

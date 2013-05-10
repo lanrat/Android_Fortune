@@ -2,8 +2,11 @@ package com.vorsk.androidfortune;
 
 import java.util.Date;
 
+import android.database.Cursor;
+
 public class Fortune implements Comparable<Fortune> {
 	
+	private int fortuneID;
 	private String fortuneText;
 	private int upvotes = 0;
 	private boolean upvoted = false;
@@ -20,9 +23,24 @@ public class Fortune implements Comparable<Fortune> {
 		//TODO construct from json from server
 	}
 	
-	public Fortune(Object sql)
+	public Fortune(Cursor c)
 	{
-		//TODO ctor for fortune from sql db
+		fortuneID = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_ID));
+		fortuneText = c.getString(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_TEXT));
+		upvotes = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_UPVOTES));
+		upvoted = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_UPVOTED))!=0;
+		downvotes = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_DOWNVOTES));
+		downvoted = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_DOWNVOTED))!=0;
+		flagged = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_FLAG))!=0 ;
+		owner = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_OWNER))!=0 ;
+		
+		int tempTime = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_VIEWDATE));
+		if ( tempTime > 0 ) {
+			seen = new Date(tempTime*1000);
+		}
+		
+		submitted = new Date(c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
+		
 	}
 	
 	/*
