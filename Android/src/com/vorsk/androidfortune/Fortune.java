@@ -34,12 +34,11 @@ public class Fortune implements Comparable<Fortune> {
 		flagged = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_FLAG))!=0 ;
 		owner = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_OWNER))!=0 ;
 		
-		int tempTime = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_VIEWDATE));
+		long tempTime = c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_VIEWDATE));
 		if ( tempTime > 0 ) {
 			seen = new Date(tempTime*1000);
 		}
-		
-		submitted = new Date(c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
+		submitted = new Date( c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
 		
 	}
 	
@@ -58,7 +57,8 @@ public class Fortune implements Comparable<Fortune> {
 		if (!this.flagged)
 		{
 			this.flagged = true;
-			//TODO update server
+			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(),
+					FortuneDbAdapter.KEY_FLAG, getFlagged());
 		}
 	}
 	
@@ -68,10 +68,18 @@ public class Fortune implements Comparable<Fortune> {
 		{
 			this.upvoted = true;
 			this.upvotes++;
+			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+					FortuneDbAdapter.KEY_UPVOTED, getUpvoted());
+			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+					FortuneDbAdapter.KEY_UPVOTES, getUpvotes());
 			if (this.downvoted)
 			{
 				this.downvoted = false;
 				this.downvotes--;
+				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+						FortuneDbAdapter.KEY_DOWNVOTED, getDownvoted());
+				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+						FortuneDbAdapter.KEY_DOWNVOTES, getDownvotes());
 			}
 			//TODO inform the server of the change
 		}
@@ -83,12 +91,19 @@ public class Fortune implements Comparable<Fortune> {
 		{
 			this.downvoted = true;
 			this.downvotes++;
+			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+					FortuneDbAdapter.KEY_DOWNVOTED, getDownvoted());
+			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+					FortuneDbAdapter.KEY_DOWNVOTES, getDownvotes());
 			if (this.upvoted)
 			{
 				this.upvoted = false;
 				this.upvotes--;
+				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+						FortuneDbAdapter.KEY_UPVOTED, getUpvoted());
+				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
+						FortuneDbAdapter.KEY_UPVOTES, getUpvotes());
 			}
-			//TODO inform the server of the change
 		}
 	}
 	
@@ -99,15 +114,17 @@ public class Fortune implements Comparable<Fortune> {
 		{
 			//update the date to the current time
 			this.seen = new Date();
-			//TODO update the date in the local data storage
+			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, FortuneDbAdapter.KEY_VIEWDATE, this.seen);
 		}
 		return this.fortuneText;
 	}
 	
 	public Date getDate()
 	{
-		if (this.seen == null)
+		if (this.seen == null) {
 			this.seen = new Date();
+			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, FortuneDbAdapter.KEY_VIEWDATE, this.seen);
+		}
 		return this.seen;
 	}
 	
@@ -128,5 +145,17 @@ public class Fortune implements Comparable<Fortune> {
 		}
 		return this.seen.compareTo(another.seen);
 	}
+	
+	//Getters
+	public int getFortuneID() { return fortuneID; }
+	public String getFortuneText() { return fortuneText; }
+	public int getUpvotes() { return upvotes; }
+	public boolean getUpvoted() { return upvoted; }
+	public int getDownvotes() { return downvotes; }
+	public boolean getDownvoted() { return downvoted; }
+	public boolean getFlagged() { return flagged; }
+	public boolean getOwner() { return owner; }
+	public Date getSeen() { return seen; }
+	public Date getSubmitted() { return submitted; }
 	
 }

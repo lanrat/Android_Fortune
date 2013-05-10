@@ -1,14 +1,8 @@
 package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -21,11 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 public class HistoryActivity extends SherlockFragmentActivity {
@@ -58,28 +48,29 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			
 		
 			//trying out json to database to fortune
-			FortuneDbAdapter.getInstance(null).removeAll();
+			/*FortuneDbAdapter.getInstance(null).removeAll();
 			String json0 = "{\"fortuneID\":\"0\",\"text\":\"hello\",\"upvote\":\"0\","+
 			"\"downvote\":\"1\",\"uploadDate\":\"1368035681\",\"uploaders\":\"0\"}";
 			String json1 = "{\"fortuneID\":\"1\",\"text\":\"world\",\"upvote\":\"7\","+
 					"\"downvote\":\"1\",\"uploadDate\":\"1368032681\",\"uploaders\":\"0\"}";
 			try {
-				FortuneDbAdapter.getInstance(null).createFortuneFromJson(json0);
+				FortuneDbAdapter.getInstance().createFortuneFromJson(json0);
 			} catch (Exception e) {
 				Log.v(null,e.getMessage());
 			}
 			try {
-				FortuneDbAdapter.getInstance(null).createFortuneFromJson(json1);
+				FortuneDbAdapter.getInstance().createFortuneFromJson(json1);
 			} catch (Exception e) {
 				Log.v(null,e.getMessage());
 			}
-			Fortune[] fortunes = new Fortune[2];
-			for(int i = 0; i < 2; i++) fortunes[i] = FortuneDbAdapter.getInstance(null).fetchFortune(i);
+			FortuneDbAdapter.getInstance().updateFortuneCol(0, FortuneDbAdapter.KEY_TEXT, "HELLO");
+			FortuneDbAdapter.getInstance().updateFortuneCol(0, FortuneDbAdapter.KEY_VIEWDATE, "1368032681");
+			/ortune[] fortunes = new Fortune[2];
+			for(int i = 0; i < 2; i++) fortunes[i] = FortuneDbAdapter.getInstance(null).fetchFortune(i);*/
 		
 			
-			//Fortune[] fortunes = new Fortune[10];
-			//for(int i = 0; i < 10; i++) fortunes[i] = (new Fortune("Fortune " + (i + 1)));
-			
+			ArrayList<Fortune> list = FortuneDbAdapter.getInstance().fetchAllFortunes();
+			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			lv.setOnItemClickListener(new OnItemClickListener(){

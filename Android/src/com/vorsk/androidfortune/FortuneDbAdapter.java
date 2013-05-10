@@ -1,5 +1,8 @@
 package com.vorsk.androidfortune;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,6 +70,14 @@ public class FortuneDbAdapter {
 	    return mInstance;
 	}
 	
+	//overloaded method. need to initialize using the other first though
+	public static FortuneDbAdapter getInstance(){
+	    if (mInstance == null) {
+	    	Log.v(TAG,"FortuneDbAdapter instance has not been initialized.");
+	    }
+	    return mInstance;
+	}
+	
 	/**
 	 * Constructor - takes the context to allow the database to be opened/created
 	 * 
@@ -130,6 +141,15 @@ public class FortuneDbAdapter {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_TEXT, text);
 		initialValues.put(KEY_SUBMITDATE, System.currentTimeMillis() );
+		
+		initialValues.put(KEY_UPVOTES, 0);
+		initialValues.put(KEY_DOWNVOTES, 0);
+		initialValues.put(KEY_UPVOTED, 0);
+		initialValues.put(KEY_DOWNVOTED, 0);
+		initialValues.put(KEY_VIEWDATE, -1);
+		initialValues.put(KEY_FLAG, 0);
+		initialValues.put(KEY_OWNER, 1);
+		
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
 	
@@ -156,6 +176,28 @@ public class FortuneDbAdapter {
 		
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
+	
+	/**
+	 * Returns the JSON string representation of row
+	 * 
+	 * @param id row to create Json of
+	 * @return String JSON string
+	 */
+	public String createFortuneJson(int id) {
+		Cursor c = 
+				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + id, null,
+						null, null, null, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+		
+		String format = "{\"fortuneID\":%d,\"text\":%s,\"upvote\":%s,"+
+			"\"downvote\":%s,\"uploadDate\":%s,\"uploaders\":%s}";
+		
+		String s = String.format(format, c.getInt(c.getColumnIndexOrThrow(KEY_ID)));
+		//TODO
+		return s;
+	}
 
 	/**
 	 * Delete the fortune with the given rowId
@@ -169,14 +211,23 @@ public class FortuneDbAdapter {
 	}
 
 	/**
-	 * Return a Cursor over the list of all fortunes in the database
+	 * Return a list of all fortunes
 	 * 
-	 * @return Cursor over all fortunes
+	 * @return ArrayList of all fortunes
 	 */
-	public Cursor fetchAllFortunes() {
-
-		return mDb.query(DATABASE_TABLE, new String[] {KEY_ID,
-				KEY_TEXT, KEY_SUBMITDATE}, null, null, null, null, null);
+	public ArrayList<Fortune> fetchAllFortunes() {
+		ArrayList<Fortune> fortunes = new ArrayList<Fortune>();
+		Cursor c = mDb.query(DATABASE_TABLE, null, null, null, null, null, null);
+		
+		if (c != null) {
+			c.moveToFirst();
+		}
+		
+		while ( !c.isAfterLast() ) {
+			fortunes.add(new Fortune(c));
+			c.moveToNext();
+		}
+		return fortunes;
 	}
 
 	/**
@@ -188,11 +239,8 @@ public class FortuneDbAdapter {
 	 */
 	public Fortune fetchFortune(long fortuneId) throws SQLException {
 
-		Cursor mCursor =
-
-				mDb.query(true, DATABASE_TABLE, new String[] {KEY_ID, KEY_TEXT, KEY_UPVOTES,
-						KEY_DOWNVOTES, KEY_UPVOTED, KEY_DOWNVOTED, KEY_FLAG,KEY_OWNER,
-						KEY_SUBMITDATE, KEY_VIEWDATE}, KEY_ID + "=" + fortuneId, null,
+		Cursor mCursor = 
+				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + fortuneId, null,
 						null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
@@ -200,23 +248,82 @@ public class FortuneDbAdapter {
 		
 		return new Fortune(mCursor);
 	}
-
+	
 	/**
-	 * Update the fortune using the details provided.
+	 * UPDATE ALL THE THINGS!!! (updates all fields of fortune whether you need to or not)
 	 * 
-	 * @param rowId id of fortune to update
-	 * @param body value to set fortune body to
+	 * @param fortune row/object to update.
 	 * @return true if the fortune was successfully updated, false otherwise
 	 */
-	public boolean updatefortune(long rowId, String title, String body) {
+	public boolean updateFortune(Fortune f) {
 		ContentValues args = new ContentValues();
-		args.put(KEY_TEXT, body);
-
-		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + rowId, null) > 0;
+		args.put(KEY_TEXT, f.getFortuneText());
+		args.put(KEY_UPVOTES, f.getUpvotes());
+		args.put(KEY_DOWNVOTES, f.getDownvotes());
+		args.put(KEY_UPVOTED, f.getUpvoted() ? 1 : 0);
+		args.put(KEY_DOWNVOTED, f.getDownvoted() ? 1 : 0);
+		//don't update submit date
+		if ( f.getSeen()!= null )
+			args.put(KEY_VIEWDATE, f.getSeen().getTime()/1000);
+		args.put(KEY_FLAG, f.getFlagged() ? 1 : 0);
+		//args.put(KEY_OWNER, f.getOwner()? 1 : 0 ); //probably shouldn't update
+		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + f.getFortuneID(), null) > 0;
 	}
 	
 	/**
-	 * Remove all users and groups from database.
+	 * Update the fortune using the details provided.
+	 * 
+	 * @param id id of fortune to update
+	 * @param columnName column to update
+	 * @param value new value to update column to
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneCol(int id, String columnName, String value) {
+		ContentValues args = new ContentValues();
+		args.put(columnName, value);
+		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + id, null) > 0;
+	}
+	
+	/**
+	 * Update the fortune using the details provided.
+	 * 
+	 * @param id id of fortune to update
+	 * @param columnName column to update
+	 * @param value new value to update column to
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneCol(int id, String columnName, long value) {
+		ContentValues args = new ContentValues();
+		args.put(columnName, value);
+		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + id, null) > 0;
+	}
+	
+	/**
+	 * Update the fortune using the details provided.
+	 * 
+	 * @param id id of fortune to update
+	 * @param columnName column to update
+	 * @param value new value to update column to
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneCol(int id, String columnName, boolean value) {
+		return updateFortuneCol(id, columnName, value ? 1 : 0);
+	}
+	
+	/**
+	 * Update the fortune using the details provided.
+	 * 
+	 * @param id id of fortune to update
+	 * @param columnName column to update
+	 * @param value new value to update column to
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneCol(int id, String columnName, Date value) {
+		return updateFortuneCol(id, columnName, value.getTime()/1000);
+	}
+	
+	/**
+	 * Remove all users and groups from database. Probably should remove. Or hide.
 	 */
 	public void removeAll()
 	{
