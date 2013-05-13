@@ -68,7 +68,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			/ortune[] fortunes = new Fortune[2];
 			for(int i = 0; i < 2; i++) fortunes[i] = FortuneDbAdapter.getInstance(null).fetchFortune(i);*/
 			
-			ArrayList<Fortune> list = FortuneDbAdapter.getInstance().fetchAllFortunes();
+			ArrayList<Fortune> list = FortuneDbAdapter.getInstance().fetchAllByUser();
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);

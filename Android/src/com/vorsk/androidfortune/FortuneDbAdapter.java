@@ -122,7 +122,7 @@ public class FortuneDbAdapter {
 		mDbHelper = new DatabaseHelper(mContext);
 		mDb = mDbHelper.getWritableDatabase();
 		
-		Log.v(TAG, "Db version: "+ mDb.getVersion());
+		Log.v(TAG, "DB version "+ mDb.getVersion()+ " opened.");
 		return this;
 	}
 
@@ -154,10 +154,10 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
-	 * Take a JSON string and insert it into the database
+	 * Take a JSON string and inserts it into the database
 	 * 
-	 * @param body the body of the fortune
-	 * @return rowId or -1 if failed
+	 * @param json String to parse as JSON to insert into database
+	 * @return id or -1 if failed
 	 * @throws JSONException 
 	 */
 	public long createFortuneFromJson(String json) throws JSONException {
@@ -217,18 +217,18 @@ public class FortuneDbAdapter {
 	}
 
 	/**
-	 * Return a list of all fortunes
+	 * Return a list of all fortunes that matches the where clause.
 	 * 
 	 * @return ArrayList of all fortunes
 	 */
-	public ArrayList<Fortune> fetchAllFortunes() {
+	public ArrayList<Fortune> fetchAllBy(String where) {
 		ArrayList<Fortune> fortunes = new ArrayList<Fortune>();
-		Cursor c = mDb.query(DATABASE_TABLE, null, null, null, null, null, null);
+		Cursor c = mDb.query(DATABASE_TABLE, null, where, null, null, null, null);
 		
-		if (c != null) {
-			c.moveToFirst();
+		if (c == null) {
+			return null;
 		}
-		
+		c.moveToFirst();
 		while ( !c.isAfterLast() ) {
 			fortunes.add(new Fortune(c));
 			c.moveToNext();
@@ -237,23 +237,21 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
+	 * Return a list of all fortunes
+	 * 
+	 * @return ArrayList of all fortunes
+	 */
+	public ArrayList<Fortune> fetchAllFortunes() {
+		return fetchAllBy(null);
+	}
+	
+	/**
 	 * Return a list of all the fortunes by the current user
 	 * 
 	 * @return ArrayList of all fortunes
 	 */
 	public ArrayList<Fortune> fetchAllByUser() {
-		ArrayList<Fortune> fortunes = new ArrayList<Fortune>();
-		Cursor c = mDb.query(DATABASE_TABLE, null, KEY_OWNER + "=" + 1, null, null, null, null);
-		
-		if (c != null) {
-			c.moveToFirst();
-		}
-		
-		while ( !c.isAfterLast() ) {
-			fortunes.add(new Fortune(c));
-			c.moveToNext();
-		}
-		return fortunes;
+		return fetchAllBy(KEY_OWNER+"="+1);
 	}
 
 	/**
@@ -276,7 +274,7 @@ public class FortuneDbAdapter {
 	
 	
 	/**
-	 * UPDATE ALL THE THINGS!!! (updates all fields of fortune whether you need to or not)
+	 * UPDATE ALL THE THINGS!!! (updates all fields of fortune in the db whether you need to or not)
 	 * 
 	 * @param fortune row/object to update.
 	 * @return true if the fortune was successfully updated, false otherwise
@@ -297,7 +295,7 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
-	 * Update the fortune using the details provided.
+	 * Update the fortune using the details provided. Overloaded.
 	 * 
 	 * @param id id of fortune to update
 	 * @param columnName column to update
@@ -311,7 +309,7 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
-	 * Update the fortune using the details provided.
+	 * Update the fortune using the details provided. Overloaded.
 	 * 
 	 * @param id id of fortune to update
 	 * @param columnName column to update
@@ -325,7 +323,7 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
-	 * Update the fortune using the details provided.
+	 * Update the fortune using the details provided. Overloaded.
 	 * 
 	 * @param id id of fortune to update
 	 * @param columnName column to update
@@ -337,7 +335,7 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
-	 * Update the fortune using the details provided.
+	 * Update the fortune using the details provided. Overloaded.
 	 * 
 	 * @param id id of fortune to update
 	 * @param columnName column to update
@@ -353,6 +351,7 @@ public class FortuneDbAdapter {
 	 */
 	public void removeAll()
 	{
+		Log.v(TAG, "Clearing database");	
 	    mDb.delete(DATABASE_TABLE, null, null);
 	}
 }
