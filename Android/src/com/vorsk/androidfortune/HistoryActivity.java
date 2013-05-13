@@ -67,7 +67,6 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			FortuneDbAdapter.getInstance().updateFortuneCol(0, FortuneDbAdapter.KEY_VIEWDATE, "1368032681");
 			/ortune[] fortunes = new Fortune[2];
 			for(int i = 0; i < 2; i++) fortunes[i] = FortuneDbAdapter.getInstance(null).fetchFortune(i);*/
-		
 			
 			ArrayList<Fortune> list = FortuneDbAdapter.getInstance().fetchAllFortunes();
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			

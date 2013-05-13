@@ -235,6 +235,26 @@ public class FortuneDbAdapter {
 		}
 		return fortunes;
 	}
+	
+	/**
+	 * Return a list of all the fortunes by the current user
+	 * 
+	 * @return ArrayList of all fortunes
+	 */
+	public ArrayList<Fortune> fetchAllByUser() {
+		ArrayList<Fortune> fortunes = new ArrayList<Fortune>();
+		Cursor c = mDb.query(DATABASE_TABLE, null, KEY_OWNER + "=" + 1, null, null, null, null);
+		
+		if (c != null) {
+			c.moveToFirst();
+		}
+		
+		while ( !c.isAfterLast() ) {
+			fortunes.add(new Fortune(c));
+			c.moveToNext();
+		}
+		return fortunes;
+	}
 
 	/**
 	 * Return a Cursor positioned at the fortune that matches the given rowId
@@ -253,6 +273,7 @@ public class FortuneDbAdapter {
 		mCursor.moveToFirst();
 		return new Fortune(mCursor);
 	}
+	
 	
 	/**
 	 * UPDATE ALL THE THINGS!!! (updates all fields of fortune whether you need to or not)
