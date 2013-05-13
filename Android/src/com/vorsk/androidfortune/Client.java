@@ -2,6 +2,7 @@ package com.vorsk.androidfortune;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,48 +13,97 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.ResponseServer;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 //TODO add CSRF Support
+/**
+ * Client class in charge of interfacing with the application and all data management
+ * with the local database and remote server
+ */
 public class Client
 {
 	private static String TAG = "ServerTask";
 	private static final String SERVER = "http://cse-190-fortune.herokuapp.com/server.php";
-	private String userID;
-	FortuneDbAdapter database;
+	private static String userID;
+	private static FortuneDbAdapter database = FortuneDbAdapter.getInstance();
+	private static Client instance; //used to access this class as a static singleton
 
 	/**
-	 * ctor for fortune client
+	 * constructor for fortune client
 	 * @param userID the id of the current user
 	 */
 	public Client(String userID)
 	{
-		this.userID = userID;
-		this.database = FortuneDbAdapter.getInstance();
+		Client.userID = userID;
+		Client.instance = this;
+	}
+
+	/**
+	 * returns the current client instance
+	 * MAKE SURE IT IS INITALIZED BEFORE USE!!!
+	 * @return the client instance to use
+	 */
+	public static Client getInstance(){
+	    if (instance == null) {
+	    	Log.v(TAG,"instance has not been initialized.");
+	    }
+	    return instance;
 	}
 	
+	/**
+	 * logs a fortune as seen by a user
+	 * @param fortune the fortune to mark
+	 */
 	public void submitView(Fortune fortune)
 	{
-		//TODO
+		if (fortune.getSeen() != null)
+		{
+			/*JSONObject obj = getRequestJSON();
+			try {
+				obj.put("fortune_id", fortune.getFortuneID());
+				sendData("submitView", obj);
+			} catch (JSONException e) {
+				Log.e(TAG,"JSONException");
+				return;
+			}*/
+			database.updateFortuneCol(fortune.getFortuneID(), 
+					FortuneDbAdapter.KEY_VIEWDATE, fortune.getSeen());
+		}
 	}
 	
+	/**
+	 * Sets the fortune as flagged in the database
+	 * Should only be called by Fortune object
+	 * @param fortune the fortune to flag
+	 */
 	public void submitFlag(Fortune fortune)
 	{
-		//TODO
+		if (!fortune.getFlagged())
+		{
+			JSONObject obj = getRequestJSON();
+			try {
+				obj.put("fortune_id", fortune.getFortuneID());
+				sendData("submitFlag", obj);
+			} catch (JSONException e) {
+				Log.e(TAG,"JSONException");
+				return;
+			}
+			database.updateFortuneCol(fortune.getFortuneID(),
+					FortuneDbAdapter.KEY_FLAG, fortune.getFlagged());
+		}
 	}
 	
 	/**
 	 * Submits a vote for a fortune
 	 * THIS SHOULD ONLY BE CALLED FROM WITHIN FORTUNE!
 	 * @param fortune the fortune
-	 * @param flag true if upvote, false otherwise
+	 * @param flag true if upvote, otherwise downvote
 	 */
 	public void submitVote(Fortune fortune, boolean flag)
 	{
@@ -62,7 +112,7 @@ public class Client
 			JSONObject obj = getRequestJSON();
 			try {
 				obj.put("vote", flag);
-				String json = sendData("submitVote", obj);
+				sendData("submitVote", obj);
 			} catch (JSONException e) {
 				Log.e(TAG,"JSONException");
 			}
@@ -91,11 +141,21 @@ public class Client
 		JSONObject obj = getRequestJSON();
 		try {
 			obj.put("fortune_text", text);
-			String json = sendData("getFortuneByID", obj);
+			sendData("getFortuneByID", obj);
 			database.createFortuneFromJson(sendData("submitFortune", obj));
 		} catch (JSONException e) {
 			Log.e(TAG,"JSONException");
 		}
+	}
+	
+	/**
+	 * returns all fortunes stored locally
+	 * @return an arraylist f the fortunes
+	 */
+	public ArrayList<Fortune> getSeenFortunes()
+	{
+		//TODO filter only seen fortunes
+		return database.fetchAllFortunes();
 	}
 	
 	/**
@@ -149,6 +209,24 @@ public class Client
 	}
 	
 	/**
+	 * Utility function to generate a unique string per device
+	 * @param context used to contact the Android TelephonyManager
+	 * @return the unique string
+	 */
+	public static String getUniqueDeviceID(Context context)
+	{
+		final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+	    final String tmDevice, tmSerial, androidId;
+	    tmDevice = "" + tm.getDeviceId();
+	    tmSerial = "" + tm.getSimSerialNumber();
+	    androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
+	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+	    return deviceUuid.toString();
+	}
+	
+	/**
 	 * getRequestJSON
 	 * @return JSONObject to be sent to the server
 	 */
@@ -156,7 +234,7 @@ public class Client
 	{
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("user",this.userID );
+			obj.put("user",Client.userID );
 		} catch (JSONException e) {
 			Log.e(TAG,"JSONException");
 		}

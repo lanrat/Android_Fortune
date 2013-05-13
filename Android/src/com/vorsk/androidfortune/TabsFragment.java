@@ -31,10 +31,13 @@ import com.actionbarsherlock.view.MenuItem;
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
+	Client client;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//create the client TODO update the singleton instance ctor to model the DB
+		this.client = new Client(Client.getUniqueDeviceID(this));
 
 		setContentView(R.layout.fragment_tabs_pager);
 

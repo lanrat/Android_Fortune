@@ -41,7 +41,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 
 	            @Override
 	            public void onClick(View v) {
-	            	FortuneDbAdapter.getInstance().createFortune(
+	            	Client.getInstance().submitFortune(
 	            			((EditText)layout.findViewById(R.id.editText1)).getText().toString());
 	            }
 			});

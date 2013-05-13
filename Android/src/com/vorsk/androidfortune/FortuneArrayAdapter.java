@@ -31,8 +31,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 		TextView timeText = (TextView) rowView.findViewById(R.id.time);
 		TextView bodyText = (TextView) rowView.findViewById(R.id.body);
 
-		timeText.setText(fortunes[position].getDate().toString());
-		bodyText.setText(fortunes[position].getFortuneText());
+		timeText.setText(fortunes[position].getSeen().toString());
+		bodyText.setText(fortunes[position].getFortuneText(false));
 		
 		return rowView;
     	

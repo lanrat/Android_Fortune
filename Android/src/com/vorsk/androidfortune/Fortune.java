@@ -18,7 +18,7 @@ public class Fortune implements Comparable<Fortune> {
 	private Date submitted;
 	
 
-	public Fortune(String str)
+	public Fortune(String json)
 	{
 		//TODO construct from json from server
 	}
@@ -42,8 +42,10 @@ public class Fortune implements Comparable<Fortune> {
 		
 	}
 	
-	/*
+	/**
 	 * User submitted fortune
+	 * @param fortune string of text
+	 * @param date date submitted/seen
 	 */
 	public Fortune(String fortune, Date date)
 	{
@@ -52,62 +54,76 @@ public class Fortune implements Comparable<Fortune> {
 		owner = true;
 	}
 	
+	/**
+	 * returns true if the user has voted on the fortune
+	 * @return
+	 */
 	public boolean hasVoted()
 	{
 		return this.upvoted || this.downvoted;
 	}
 	
+	/**
+	 * Flags the current fortune if it has not been flaged already
+	 */
 	public void flag()
 	{
 		if (!this.flagged)
 		{
 			this.flagged = true;
-			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(),
-					FortuneDbAdapter.KEY_FLAG, getFlagged());
+			Client.getInstance().submitFlag(this);
 		}
 	}
 	
+	/**
+	 * upvotes the current function if the user has not already voted
+	 */
 	public void upvote()
 	{
 		if (!this.hasVoted())
 		{
 			this.upvoted = true;
 			this.upvotes++;
-			//TODO call client.submitVote(this,true);
+			Client.getInstance().submitVote(this,true);
 		}
 	}
 	
+	/**
+	 * downvotes the current function if it has not already been voted on
+	 */
 	public void downvote()
 	{
 		if (!this.hasVoted())
 		{
 			this.downvoted = true;
 			this.downvotes++;
-			//TODO call client.submitVote(this,false);
+			Client.getInstance().submitVote(this,false);
 		}
 	}
 	
-	
-	public String getFortuneText()
+	/**
+	 * marked the current fortune as seen
+	 */
+	public void markSeen()
 	{
-		if (this.seen == null)
+		//update the date to the current time
+		this.seen = new Date();
+		Client.getInstance().submitView(this);
+	}
+	
+
+	/**
+	 * returns the fortune text
+	 * @param seen if true updated the last seen variable in the DB and server
+	 * @return the string of the fortune
+	 */
+	public String getFortuneText(boolean seen)
+	{
+		if (seen)
 		{
-			//update the date to the current time
-			this.seen = new Date();
-			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, 
-					FortuneDbAdapter.KEY_VIEWDATE, this.seen);
+			this.markSeen();
 		}
 		return this.fortuneText;
-	}
-	
-	public Date getDate()
-	{
-		if (this.seen == null) {
-			this.seen = new Date();
-			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, 
-					FortuneDbAdapter.KEY_VIEWDATE, this.seen);
-		}
-		return this.seen;
 	}
 
 	@Override

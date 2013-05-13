@@ -65,10 +65,10 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			}
 			FortuneDbAdapter.getInstance().updateFortuneCol(0, FortuneDbAdapter.KEY_TEXT, "HELLO");
 			FortuneDbAdapter.getInstance().updateFortuneCol(0, FortuneDbAdapter.KEY_VIEWDATE, "1368032681");
-			/ortune[] fortunes = new Fortune[2];
+			fortune[] fortunes = new Fortune[2];
 			for(int i = 0; i < 2; i++) fortunes[i] = FortuneDbAdapter.getInstance(null).fetchFortune(i);*/
 			
-			ArrayList<Fortune> list = FortuneDbAdapter.getInstance().fetchAllByUser();
+			ArrayList<Fortune> list = Client.getInstance().getSeenFortunes(); 
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
@@ -88,8 +88,8 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			        TextView timeText = (TextView) dialog.findViewById(R.id.dialogTime);
 			        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
 			        
-			        timeText.setText(fortune.getDate().toString());
-			        bodyText.setText(fortune.getFortuneText());
+			        timeText.setText(fortune.getSeen().toString());
+			        bodyText.setText(fortune.getFortuneText(false));
 			        
 			        dialog.show();
 				}
