@@ -114,7 +114,8 @@ public class Fortune implements Comparable<Fortune> {
 		{
 			//update the date to the current time
 			this.seen = new Date();
-			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, FortuneDbAdapter.KEY_VIEWDATE, this.seen);
+			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, 
+					FortuneDbAdapter.KEY_VIEWDATE, this.seen);
 		}
 		return this.fortuneText;
 	}
@@ -123,7 +124,8 @@ public class Fortune implements Comparable<Fortune> {
 	{
 		if (this.seen == null) {
 			this.seen = new Date();
-			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, FortuneDbAdapter.KEY_VIEWDATE, this.seen);
+			FortuneDbAdapter.getInstance().updateFortuneCol(fortuneID, 
+					FortuneDbAdapter.KEY_VIEWDATE, this.seen);
 		}
 		return this.seen;
 	}

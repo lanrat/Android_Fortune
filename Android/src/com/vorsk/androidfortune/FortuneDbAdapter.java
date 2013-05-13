@@ -132,7 +132,7 @@ public class FortuneDbAdapter {
 
 
 	/**
-	 * Create a new fortune
+	 * Create a new fortune from user
 	 * 
 	 * @param body the body of the fortune
 	 * @return rowId or -1 if failed
@@ -191,11 +191,17 @@ public class FortuneDbAdapter {
 			c.moveToFirst();
 		}
 		
-		String format = "{\"fortuneID\":%d,\"text\":%s,\"upvote\":%s,"+
-			"\"downvote\":%s,\"uploadDate\":%s,\"uploaders\":%s}";
+		JSONObject json = new JSONObject();
+		try {
+			json.put("fortuneID", c.getInt(c.getColumnIndexOrThrow(KEY_ID)));
+			json.put("text", c.getString(c.getColumnIndexOrThrow(KEY_TEXT)));
+			json.put("uploadDate", c.getInt(c.getColumnIndexOrThrow(KEY_SUBMITDATE)));
+		}
+		catch (Exception e) {
+			Log.v(TAG,e.getMessage());
+		}
 		
-		String s = String.format(format, c.getInt(c.getColumnIndexOrThrow(KEY_ID)));
-		//TODO
+		String s = json.toString();
 		return s;
 	}
 
@@ -235,17 +241,16 @@ public class FortuneDbAdapter {
 	 * 
 	 * @param fortuneId id of fortune to retrieve
 	 * @return Fortune object 
-	 * @throws SQLException if fortune could not be found/retrieved
 	 */
-	public Fortune fetchFortune(long fortuneId) throws SQLException {
+	public Fortune fetchFortune(long fortuneId) {
 
 		Cursor mCursor = 
 				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + fortuneId, null,
 						null, null, null, null);
-		if (mCursor != null) {
-			mCursor.moveToFirst();
-		}
+		if ( mCursor == null )
+			return null;
 		
+		mCursor.moveToFirst();
 		return new Fortune(mCursor);
 	}
 	
