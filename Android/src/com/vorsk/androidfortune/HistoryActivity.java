@@ -89,7 +89,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
 			        
 			        timeText.setText(fortune.getDate().toString());
-			        bodyText.setText(fortune.getFortune());
+			        bodyText.setText(fortune.getFortuneText());
 			        
 			        dialog.show();
 				}

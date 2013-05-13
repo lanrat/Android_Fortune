@@ -32,7 +32,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 		TextView bodyText = (TextView) rowView.findViewById(R.id.body);
 
 		timeText.setText(fortunes[position].getDate().toString());
-		bodyText.setText(fortunes[position].getFortune());
+		bodyText.setText(fortunes[position].getFortuneText());
 		
 		return rowView;
     	

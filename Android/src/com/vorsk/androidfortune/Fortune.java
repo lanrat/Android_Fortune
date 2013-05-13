@@ -52,6 +52,11 @@ public class Fortune implements Comparable<Fortune> {
 		owner = true;
 	}
 	
+	public boolean hasVoted()
+	{
+		return this.upvoted || this.downvoted;
+	}
+	
 	public void flag()
 	{
 		if (!this.flagged)
@@ -64,51 +69,26 @@ public class Fortune implements Comparable<Fortune> {
 	
 	public void upvote()
 	{
-		if (!this.upvoted)
+		if (!this.hasVoted())
 		{
 			this.upvoted = true;
 			this.upvotes++;
-			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-					FortuneDbAdapter.KEY_UPVOTED, getUpvoted());
-			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-					FortuneDbAdapter.KEY_UPVOTES, getUpvotes());
-			if (this.downvoted)
-			{
-				this.downvoted = false;
-				this.downvotes--;
-				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-						FortuneDbAdapter.KEY_DOWNVOTED, getDownvoted());
-				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-						FortuneDbAdapter.KEY_DOWNVOTES, getDownvotes());
-			}
-			//TODO inform the server of the change
+			//TODO call client.submitVote(this,true);
 		}
 	}
 	
 	public void downvote()
 	{
-		if (!this.downvoted)
+		if (!this.hasVoted())
 		{
 			this.downvoted = true;
 			this.downvotes++;
-			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-					FortuneDbAdapter.KEY_DOWNVOTED, getDownvoted());
-			FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-					FortuneDbAdapter.KEY_DOWNVOTES, getDownvotes());
-			if (this.upvoted)
-			{
-				this.upvoted = false;
-				this.upvotes--;
-				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-						FortuneDbAdapter.KEY_UPVOTED, getUpvoted());
-				FortuneDbAdapter.getInstance().updateFortuneCol(getFortuneID(), 
-						FortuneDbAdapter.KEY_UPVOTES, getUpvotes());
-			}
+			//TODO call client.submitVote(this,false);
 		}
 	}
 	
 	
-	public String getFortune()
+	public String getFortuneText()
 	{
 		if (this.seen == null)
 		{
@@ -145,7 +125,6 @@ public class Fortune implements Comparable<Fortune> {
 	
 	//Getters
 	public int getFortuneID() { return fortuneID; }
-	public String getFortuneText() { return fortuneText; }
 	public int getUpvotes() { return upvotes; }
 	public boolean getUpvoted() { return upvoted; }
 	public int getDownvotes() { return downvotes; }

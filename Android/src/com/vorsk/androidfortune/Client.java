@@ -38,22 +38,74 @@ public class Client
 		this.userID = userID;
 		this.database = FortuneDbAdapter.getInstance();
 	}
-
-	public enum Action
+	
+	public void submitView(Fortune fortune)
 	{
-		getFortunesSubmitted, submitVote,
-		submitFortune, submitFlag, submitView 
+		//TODO
+	}
+	
+	public void submitFlag(Fortune fortune)
+	{
+		//TODO
+	}
+	
+	/**
+	 * Submits a vote for a fortune
+	 * THIS SHOULD ONLY BE CALLED FROM WITHIN FORTUNE!
+	 * @param fortune the fortune
+	 * @param flag true if upvote, false otherwise
+	 */
+	public void submitVote(Fortune fortune, boolean flag)
+	{
+		if (!fortune.hasVoted())
+		{
+			JSONObject obj = getRequestJSON();
+			try {
+				obj.put("vote", flag);
+				String json = sendData("submitVote", obj);
+			} catch (JSONException e) {
+				Log.e(TAG,"JSONException");
+			}
+			if (flag){
+				//upvote
+				database.updateFortuneCol(fortune.getFortuneID(), 
+						FortuneDbAdapter.KEY_UPVOTED, fortune.getUpvoted());
+				database.updateFortuneCol(fortune.getFortuneID(), 
+						FortuneDbAdapter.KEY_UPVOTES, fortune.getUpvotes());
+			}else{
+				//downvote
+				database.updateFortuneCol(fortune.getFortuneID(), 
+						FortuneDbAdapter.KEY_DOWNVOTED, fortune.getDownvoted());
+				database.updateFortuneCol(fortune.getFortuneID(), 
+						FortuneDbAdapter.KEY_DOWNVOTES, fortune.getDownvotes());
+			}
+		}
+	}
+	
+	/**
+	 * Submit a fortune to the server and add it to the local database
+	 * @param text the message for the fortune
+	 */
+	public void submitFortune(String text)
+	{
+		JSONObject obj = getRequestJSON();
+		try {
+			obj.put("fortune_text", text);
+			String json = sendData("getFortuneByID", obj);
+			database.createFortuneFromJson(sendData("submitFortune", obj));
+		} catch (JSONException e) {
+			Log.e(TAG,"JSONException");
+		}
 	}
 	
 	/**
 	 * get a list of all fortunes the user has created
 	 * @return an arraylist of the fortunes
 	 */
-	/*public ArrayList<Fortune> getFortunesSubmitted()
+	public ArrayList<Fortune> getFortunesSubmitted()
 	{
-		//TODO
-		//return database.
-	}*/
+		return database.fetchAllByUser();
+	}
 	
 	
 	/**
