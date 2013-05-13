@@ -127,11 +127,6 @@ public class Fortune implements Comparable<Fortune> {
 		}
 		return this.seen;
 	}
-	
-	public boolean owner()
-	{
-		return this.owner;
-	}
 
 	@Override
 	public int compareTo(Fortune another) {

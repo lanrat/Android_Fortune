@@ -29,6 +29,10 @@ public class Client
 	private String userID;
 	FortuneDbAdapter database;
 
+	/**
+	 * ctor for fortune client
+	 * @param userID the id of the current user
+	 */
 	public Client(String userID)
 	{
 		this.userID = userID;
@@ -37,10 +41,25 @@ public class Client
 
 	public enum Action
 	{
-		getFortunesSubmitted, getFortune, getFortuneByID, submitVote,
+		getFortunesSubmitted, submitVote,
 		submitFortune, submitFlag, submitView 
 	}
 	
+	/**
+	 * get a list of all fortunes the user has created
+	 * @return an arraylist of the fortunes
+	 */
+	/*public ArrayList<Fortune> getFortunesSubmitted()
+	{
+		//TODO
+		//return database.
+	}*/
+	
+	
+	/**
+	 * gets a new fortune from the database and adds it to the database
+	 * @return the new fortune
+	 */
 	public Fortune getFortune()
 	{
 		JSONObject obj = getRequestJSON();
@@ -48,45 +67,39 @@ public class Client
 		try {
 			return database.fetchFortune(database.createFortuneFromJson(json));
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG,"JSONException");
 			return null;
 		}
 	}
 	
+	/**
+	 * return a fortune given a particular ID
+	 * first the local DB is checked, then the remote database
+	 * @param id the id of the fortune
+	 * @return the fortune if found or null
+	 */
 	public Fortune getFortuneByID(long id)
 	{
-		//TODO handle fortune not in DB
-		//fetchFortune does not do anything if fortune not found in local DB
-		return database.fetchFortune(id);
-	}
-	
-	public ArrayList<Fortune> getFortunesSubmitted()
-	{
-		//TODO handle DB
-		JSONObject obj = getRequestJSON();
-		String json = sendData("getFortunesSubmitted", obj);
-		JSONArray a; 
-		try {
-			JSONObject response = new JSONObject(json);
-			a = response.getJSONArray("fortunes");
-		} catch (JSONException e) {
-			//TODO log or something
-			return null;
-		}
-		ArrayList<Fortune> result = new ArrayList<Fortune>(a.length());
-		for (int i = 0; i < a.length(); i++)
+		Fortune ret = database.fetchFortune(id);
+		if (ret == null)
 		{
-			//TODO run this through the DB
-			//result.add(new Fortune(a.get(i)));
+			JSONObject obj = getRequestJSON();
+			try {
+				obj.put("fortune_id",id );
+				String json = sendData("getFortuneByID", obj);
+				return database.fetchFortune(database.createFortuneFromJson(json));
+			} catch (JSONException e) {
+				Log.e(TAG,"JSONException");
+			}
+			
 		}
-		return result;
-		
-
-		
+		return ret;
 	}
 	
-	
-	
+	/**
+	 * getRequestJSON
+	 * @return JSONObject to be sent to the server
+	 */
 	private JSONObject getRequestJSON()
 	{
 		JSONObject obj = new JSONObject();
@@ -98,7 +111,12 @@ public class Client
 		return obj;
 	}
 	
-	
+	/**
+	 * Sends the data to the server and returns the response
+	 * @param action the string action to pass
+	 * @param obj the JSON data to post
+	 * @return string of html response or null if error
+	 */
 	private String sendData(String action,JSONObject obj)
 	{
 		HttpClient client = new DefaultHttpClient(); 
@@ -121,9 +139,9 @@ public class Client
 	    try {
 			responseString = EntityUtils.toString(responseEntity);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG,"ParseException");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.e(TAG,"IOException");
 		}
 	    return responseString;
 	}
