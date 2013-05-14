@@ -33,6 +33,7 @@ public class Client
 	private static String userID;
 	private static FortuneDbAdapter database;
 	private static Client instance; //used to access this class as a static singleton
+	private static boolean enableServerCommunication = false;
 
 	/**
 	 * constructor for fortune client
@@ -252,6 +253,10 @@ public class Client
 	 */
 	private String sendData(String action,JSONObject obj)
 	{
+		if (!enableServerCommunication)
+		{
+			return null;
+		}
 		HttpClient client = new DefaultHttpClient(); 
 		HttpPost post = new HttpPost(SERVER+"?action="+action);
 		post.setHeader("Content-type", "application/json");
