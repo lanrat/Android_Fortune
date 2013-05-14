@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -123,5 +124,17 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			mIntervalPreference.setSummary(sharedPreferences.getString(
 					KEY_INTERVAL, ""));
 		}
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 }

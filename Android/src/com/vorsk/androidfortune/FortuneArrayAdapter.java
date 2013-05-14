@@ -65,8 +65,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			
 		});
 
-		timeText.setText(fortunes[position].getDate().toString());
-		bodyText.setText(fortunes[position].getFortuneText());
+		timeText.setText(fortunes[position].getSeen().toString());
+		bodyText.setText(fortunes[position].getFortuneText(false));
 		
 		return rowView;
     	

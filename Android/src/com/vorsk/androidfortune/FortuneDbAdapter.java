@@ -281,7 +281,7 @@ public class FortuneDbAdapter {
 	 */
 	public boolean updateFortune(Fortune f) {
 		ContentValues args = new ContentValues();
-		args.put(KEY_TEXT, f.getFortuneText());
+		args.put(KEY_TEXT, f.getFortuneText(false));
 		args.put(KEY_UPVOTES, f.getUpvotes());
 		args.put(KEY_DOWNVOTES, f.getDownvotes());
 		args.put(KEY_UPVOTED, f.getUpvoted() ? 1 : 0);
