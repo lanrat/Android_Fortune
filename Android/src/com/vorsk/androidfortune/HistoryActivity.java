@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -73,6 +74,9 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
+			
+				
+			
 			lv.setOnItemClickListener(new OnItemClickListener(){
 
 				@Override
@@ -94,6 +98,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			        dialog.show();
 				}
 			});
+			
 			lv.setAdapter(adapter);	
 			
 		}
