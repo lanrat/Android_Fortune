@@ -36,15 +36,15 @@ public class TabsFragment extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//create the client TODO update the singleton instance ctor to model the DB
-		this.client = new Client(Client.getUniqueDeviceID(this));
-
+		
 		setContentView(R.layout.fragment_tabs_pager);
-
-		mViewPager = (ViewPager) findViewById(R.id.pager);
 
 		//create instance and open
 		FortuneDbAdapter.getInstance(this).open();
+		//create the client TODO update the singleton instance ctor to model the DB
+		this.client = new Client(Client.getUniqueDeviceID(this));
+		
+		mViewPager = (ViewPager) findViewById(R.id.pager);
 		
 		// This block thanks to http://stackoverflow.com/q/9790279/517561
 		ActionBar bar = getSupportActionBar();

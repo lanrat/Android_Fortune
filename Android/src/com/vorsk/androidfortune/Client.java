@@ -31,7 +31,7 @@ public class Client
 	private static String TAG = "ServerTask";
 	private static final String SERVER = "http://cse-190-fortune.herokuapp.com/server.php";
 	private static String userID;
-	private static FortuneDbAdapter database = FortuneDbAdapter.getInstance();
+	private static FortuneDbAdapter database;
 	private static Client instance; //used to access this class as a static singleton
 
 	/**
@@ -42,6 +42,7 @@ public class Client
 	{
 		Client.userID = userID;
 		Client.instance = this;
+		Client.database = FortuneDbAdapter.getInstance();
 	}
 
 	/**
@@ -223,7 +224,9 @@ public class Client
 	    androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-	    return deviceUuid.toString();
+	    String id = deviceUuid.toString();
+	    Log.v(TAG,"Got Device ID: "+id);
+	    return id;
 	}
 	
 	/**
