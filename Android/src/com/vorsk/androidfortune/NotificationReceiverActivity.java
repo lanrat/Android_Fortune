@@ -1,6 +1,7 @@
 package com.vorsk.androidfortune;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,5 +19,17 @@ public class NotificationReceiverActivity extends SherlockActivity {
 		TextView text = (TextView) findViewById(R.id.textView2);
 
 		text.setText(getIntent().getExtras().getString("action"));
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 }
