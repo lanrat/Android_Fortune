@@ -31,17 +31,20 @@ import com.actionbarsherlock.view.MenuItem;
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
+	Client client;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.fragment_tabs_pager);
-
-		mViewPager = (ViewPager) findViewById(R.id.pager);
 
 		//create instance and open
 		FortuneDbAdapter.getInstance(this).open();
+		//create the client TODO update the singleton instance ctor to model the DB
+		this.client = new Client(Client.getUniqueDeviceID(this));
+		
+		mViewPager = (ViewPager) findViewById(R.id.pager);
 		
 		// This block thanks to http://stackoverflow.com/q/9790279/517561
 		ActionBar bar = getSupportActionBar();

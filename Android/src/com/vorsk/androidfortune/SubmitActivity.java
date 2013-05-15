@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,18 @@ public class SubmitActivity extends SherlockFragmentActivity {
 			fm.beginTransaction().add(android.R.id.content, fragment).commit();
 		}
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
 
 	public static class SubmitFragment extends SherlockFragment {
 
@@ -41,7 +55,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 
 	            @Override
 	            public void onClick(View v) {
-	            	FortuneDbAdapter.getInstance().createFortune(
+	            	Client.getInstance().submitFortune(
 	            			((EditText)layout.findViewById(R.id.editText1)).getText().toString());
 	            }
 			});
