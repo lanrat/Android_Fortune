@@ -99,6 +99,10 @@ public class TabsFragment extends SherlockFragmentActivity {
 		}
 	}	
 
+	public void updateFortune(View view){
+		new UpdateFortuneReceiver().onReceive(this, null);
+	}
+
 	// Everything below this line is part of the tabs view pager api.
 	// It should not be modified.
 

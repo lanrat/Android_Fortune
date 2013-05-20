@@ -18,6 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -35,6 +38,7 @@ public class Client
 	private static Client instance; //used to access this class as a static singleton
 	private static boolean enableServerCommunication = true;
 	private final Context mContext;
+	private static String PREF_CURR_FORTUNE = "currentFortuneID";
 
 	/**
 	 * constructor for fortune client
@@ -178,7 +182,7 @@ public class Client
 	public ArrayList<Fortune> getSeenFortunes()
 	{
 		//TODO filter only seen fortunes
-		return database.fetchAllFortunes();
+		return database.fetchAllBy(FortuneDbAdapter.KEY_VIEWDATE+"!=" + "-1");
 	}
 	
 	/**
@@ -254,6 +258,31 @@ public class Client
 	}
 	
 	/**
+	 * Update current fortune by requesting an unseen fortune and then setting 
+	 * the id of the fortune into a hidden SharedPref
+	 */
+	public Fortune updateCurrentFortune() {
+		Fortune f = getInstance().getFortune();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		Editor editor = prefs.edit();
+		editor.putLong(PREF_CURR_FORTUNE, f.getFortuneID());
+		editor.commit();
+		
+		return f;
+	}
+	
+	/*
+	 * Get current Fortune
+	 * @return Fortune current fortune object
+	 */
+	public static Fortune getCurrentFortune(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
+		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
+		Fortune fortune = getInstance().getFortuneByID(id);
+		return fortune;
+	}
+	
+	/**
 	 * getRequestJSON
 	 * @return JSONObject to be sent to the server
 	 */
@@ -306,4 +335,5 @@ public class Client
 		}
 	    return responseString;
 	}
+	
 }

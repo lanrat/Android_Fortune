@@ -66,6 +66,7 @@ public class FortuneDbAdapter {
 	    // See this article for more information: http://bit.ly/6LRzfx
 	    if (mInstance == null) {
 	      mInstance = new FortuneDbAdapter(ctx.getApplicationContext());
+	      Log.v(TAG,"FortuneDbAdapter instance has been instantialized.");
 	    }
 	    return mInstance;
 	}
@@ -228,6 +229,7 @@ public class FortuneDbAdapter {
 		if (c == null) {
 			return null;
 		}
+		
 		c.moveToFirst();
 		while ( !c.isAfterLast() ) {
 			fortunes.add(new Fortune(c));
