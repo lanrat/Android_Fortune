@@ -26,7 +26,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
     }
 
     @Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
     	LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -34,11 +34,17 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 		TextView timeText = (TextView) rowView.findViewById(R.id.time);
 		TextView bodyText = (TextView) rowView.findViewById(R.id.body);
+		TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
+		TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
 		rowView.findViewById(R.id.up_row).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
+				
+				fortunes[position].upvote();
+				
+				// create dialog 
 				final Dialog dialog = new Dialog(getContext());
 				dialog.setContentView(R.layout.history_vote_dialog);
 				dialog.setTitle("Up Vote");
@@ -54,6 +60,10 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
+				
+				fortunes[position].downvote();
+				
+				// create dialog
 				final Dialog dialog = new Dialog(getContext());
 				dialog.setContentView(R.layout.history_vote_dialog);
 				dialog.setTitle("Down Vote");
@@ -67,6 +77,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 		timeText.setText(fortunes[position].getSeen().toString());
 		bodyText.setText(fortunes[position].getFortuneText(false));
+		upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));
+		downvoteCountText.setText(Integer.toString(fortunes[position].getDownvotes()));
 		
 		return rowView;
     	
