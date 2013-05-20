@@ -106,7 +106,7 @@ public class Client
 			    public void run() {
 					JSONObject obj = getRequestJSON();
 					try {
-						obj.put("fortune_id", fortune.getFortuneID());
+						obj.put("fortuneid", fortune.getFortuneID());
 						sendData("submitFlag", obj);
 					} catch (JSONException e) {
 						Log.e(TAG,"JSONException");
@@ -166,7 +166,7 @@ public class Client
 		    public void run() {
 				JSONObject obj = getRequestJSON();
 				try {
-					obj.put("fortune_text", text);
+					obj.put("text", text);
 					database.createFortuneFromJson(sendData("submitFortune", obj));
 				} catch (JSONException e) {
 					Log.e(TAG,"JSONException");
@@ -226,7 +226,7 @@ public class Client
 		{
 			JSONObject obj = getRequestJSON();
 			try {
-				obj.put("fortune_id",id );
+				obj.put("fortuneid",id );
 				String json = sendData("getFortuneByID", obj);
 				return database.fetchFortune(database.createFortuneFromJson(json));
 			} catch (JSONException e) {
