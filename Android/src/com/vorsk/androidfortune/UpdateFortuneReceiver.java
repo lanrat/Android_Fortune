@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 
 
 public class UpdateFortuneReceiver extends BroadcastReceiver {
@@ -15,6 +16,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.v(TAG, "onReceive Called");
-		//Client.getInstance().updateCurrentFortune(context);
+		//Client.getInstance().updateCurrentFortune();
 	}
+	
 }

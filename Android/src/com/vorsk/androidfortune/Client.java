@@ -247,9 +247,10 @@ public class Client
 	 * Update current fortune by requesting an unseen fortune and then setting 
 	 * the id of the fortune into a hidden SharedPref
 	 */
-	public void updateCurrentFortune(Context context) {
+	public void updateCurrentFortune() {
 		long id = getFortune().getFortuneID();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);	
+		//do error checking
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		Editor editor = prefs.edit();
 		editor.putLong(PREF_CURR_FORTUNE, id);
 		editor.commit();
@@ -260,7 +261,7 @@ public class Client
 	 * @return Fortune current fortune object
 	 */
 	public static Fortune getCurrentFortune(Context context) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);	
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
 		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
 		Fortune fortune = database.getInstance().fetchFortune(id);
 		return fortune;
