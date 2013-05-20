@@ -97,51 +97,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
 		       AlarmManager.INTERVAL_DAY, pendingIntent);
 		}
-	}
-
-	// TODO move this function
-	public void createNotification(View view) {
-
-		Log.v("TAG", "Button pressed");
-
-		// Prepare intent which is triggered if the
-		// notification is selected
-		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
-		int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-
-		Intent intent = new Intent(this, NotificationReceiverActivity.class);
-		intent.setFlags(intentFlag);
-		intent.putExtra("action", "Click");
-		Intent intentUp = new Intent(this, NotificationReceiverActivity.class);
-		intent.setFlags(intentFlag);
-		intentUp.putExtra("action", "Upvote");
-		Intent intentDown = new Intent(this, NotificationReceiverActivity.class);
-		intent.setFlags(intentFlag);
-		intentDown.putExtra("action", "Downvote");
-		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent,
-				pendingFlag);
-		PendingIntent pIntentUp = PendingIntent.getActivity(this, 1, intentUp,
-				pendingFlag);
-		PendingIntent pIntentDown = PendingIntent.getActivity(this, 2,
-				intentDown, pendingFlag);
-
-		// Build notification
-		// Actions are just fake
-		Notification noti = new NotificationCompat.Builder(this)
-				.setContentTitle(
-						getResources().getString(R.string.notification_title))
-				.setContentText(getResources().getString(R.string.fortune))
-				.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
-				.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
-				.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
-				.build();
-		NotificationManager notificationManager = (NotificationManager) this
-				.getSystemService(NOTIFICATION_SERVICE);
-		// Hide the notification after its selected
-		noti.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(0, noti);
-	}
-	
+	}	
 
 	// Everything below this line is part of the tabs view pager api.
 	// It should not be modified.

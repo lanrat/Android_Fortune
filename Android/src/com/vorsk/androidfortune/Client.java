@@ -33,7 +33,7 @@ public class Client
 	private static String userID;
 	private static FortuneDbAdapter database;
 	private static Client instance; //used to access this class as a static singleton
-	private static boolean enableServerCommunication = false;
+	private static boolean enableServerCommunication = true;
 	private final Context mContext;
 
 	/**
@@ -193,8 +193,8 @@ public class Client
 	
 	/**
 	 * gets a new fortune from the database and adds it to the database
+	 * THIS METHOS MUST BE CALLED FROM AN ASYNCTASK OR OTHER THREAD OR IT WILL FAIL!
 	 * @return the new fortune
-	 * TODO task
 	 */
 	public Fortune getFortune()
 	{
@@ -211,9 +211,9 @@ public class Client
 	/**
 	 * return a fortune given a particular ID
 	 * first the local DB is checked, then the remote database
+	 * THIS METHOS MUST BE CALLED FROM AN ASYNCTASK OR OTHER THREAD OR IT WILL FAIL!
 	 * @param id the id of the fortune
 	 * @return the fortune if found or null
-	 * TODO Task
 	 */
 	public Fortune getFortuneByID(long id)
 	{
@@ -272,7 +272,7 @@ public class Client
 	 * Sends the data to the server and returns the response
 	 * @param action the string action to pass
 	 * @param obj the JSON data to post
-	 * @return string of html response or null if error
+	 * @return string of response or null if error
 	 */
 	private String sendData(String action,JSONObject obj)
 	{

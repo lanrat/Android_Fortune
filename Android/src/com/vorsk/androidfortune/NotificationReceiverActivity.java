@@ -8,17 +8,49 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class NotificationReceiverActivity extends SherlockActivity {
+	public static final String INTENT_ACTION = "action";
+	public static final String INTENT_FORTUNE_ID = "fortuneID";
+	public static final int INTENT_ACTION_CLICK = 1;
+	public static final int INTENT_ACTION_UPVOTE = 2;
+	public static final int INTENT_ACTION_DOWNVOTE = 3;
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.v("TAG", "Got notification activity");
 		setContentView(R.layout.notification_result);
 
-		Log.v("TAG", "Got new intent");
 
 		TextView text = (TextView) findViewById(R.id.textView2);
+		
+		int action = getIntent().getExtras().getInt(INTENT_ACTION);
+		
+		//get the fortune object
+		Client client = Client.getInstance(getApplicationContext());
+		Fortune f = client.getFortuneByID(getIntent().getExtras().getLong(INTENT_FORTUNE_ID));
+		
+		f.markSeen();
+		
+		String result_text;
+		switch (action) {
+		case INTENT_ACTION_CLICK:
+			result_text = "Clicked";
+			break;
+		case INTENT_ACTION_UPVOTE:
+			result_text = "Upvote";
+			f.upvote();
+			break;
+		case INTENT_ACTION_DOWNVOTE:
+			result_text = "Downvote";
+			f.downvote();
+			break;
+		default:
+			result_text = "Unknown";
+			break;
+		}
 
-		text.setText(getIntent().getExtras().getString("action"));
+		text.setText(result_text+" Fortune: "+f.getFortuneText(true));
 	}
 	
 	@Override
