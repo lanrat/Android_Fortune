@@ -38,7 +38,7 @@ public class Client
 
 	/**
 	 * constructor for fortune client
-	 * @param userID the id of the current user
+	 * @param ctx the context of the application
 	 */
 	private Client(Context ctx)
 	{
@@ -61,6 +61,11 @@ public class Client
 	    return instance;
 	}
 	
+	/**
+	 * Instantiates the class if null and returns a new instance
+	 * @param ctx the context to use for the instantiation
+	 * @return an instance of the class
+	 */
 	public static Client getInstance(Context ctx) {
 		// Use the application context, which will ensure that you 
 	    // don't accidentally leak an Activity's context.
@@ -88,22 +93,25 @@ public class Client
 	 * Sets the fortune as flagged in the database
 	 * Should only be called by Fortune object
 	 * @param fortune the fortune to flag
-	 * TODO TASK
 	 */
-	public void submitFlag(Fortune fortune)
+	public void submitFlag(final Fortune fortune)
 	{
 		if (!fortune.getFlagged())
 		{
-			JSONObject obj = getRequestJSON();
-			try {
-				obj.put("fortune_id", fortune.getFortuneID());
-				sendData("submitFlag", obj);
-			} catch (JSONException e) {
-				Log.e(TAG,"JSONException");
-				return;
-			}
-			database.updateFortuneCol(fortune.getFortuneID(),
-					FortuneDbAdapter.KEY_FLAG, fortune.getFlagged());
+			new Thread(new Runnable() {
+			    public void run() {
+					JSONObject obj = getRequestJSON();
+					try {
+						obj.put("fortune_id", fortune.getFortuneID());
+						sendData("submitFlag", obj);
+					} catch (JSONException e) {
+						Log.e(TAG,"JSONException");
+						return;
+					}
+					database.updateFortuneCol(fortune.getFortuneID(),
+							FortuneDbAdapter.KEY_FLAG, fortune.getFlagged());
+			    }
+			  }).start();
 		}
 	}
 	
@@ -112,49 +120,55 @@ public class Client
 	 * THIS SHOULD ONLY BE CALLED FROM WITHIN FORTUNE!
 	 * @param fortune the fortune
 	 * @param flag true if upvote, otherwise downvote
-	 * TODO TASK
 	 */
-	public void submitVote(Fortune fortune, boolean flag)
+	public void submitVote(final Fortune fortune, final boolean flag)
 	{
 		if (!fortune.hasVoted())
 		{
-			JSONObject obj = getRequestJSON();
-			try {
-				obj.put("vote", flag);
-				sendData("submitVote", obj);
-			} catch (JSONException e) {
-				Log.e(TAG,"JSONException");
-			}
-			if (flag){
-				//upvote
-				database.updateFortuneCol(fortune.getFortuneID(), 
-						FortuneDbAdapter.KEY_UPVOTED, fortune.getUpvoted());
-				database.updateFortuneCol(fortune.getFortuneID(), 
-						FortuneDbAdapter.KEY_UPVOTES, fortune.getUpvotes());
-			}else{
-				//downvote
-				database.updateFortuneCol(fortune.getFortuneID(), 
-						FortuneDbAdapter.KEY_DOWNVOTED, fortune.getDownvoted());
-				database.updateFortuneCol(fortune.getFortuneID(), 
-						FortuneDbAdapter.KEY_DOWNVOTES, fortune.getDownvotes());
-			}
+			new Thread(new Runnable() {
+			    public void run() {
+					JSONObject obj = getRequestJSON();
+					try {
+						obj.put("vote", flag);
+						sendData("submitVote", obj);
+					} catch (JSONException e) {
+						Log.e(TAG,"JSONException");
+					}
+					if (flag){
+						//upvote
+						database.updateFortuneCol(fortune.getFortuneID(), 
+								FortuneDbAdapter.KEY_UPVOTED, fortune.getUpvoted());
+						database.updateFortuneCol(fortune.getFortuneID(), 
+								FortuneDbAdapter.KEY_UPVOTES, fortune.getUpvotes());
+					}else{
+						//downvote
+						database.updateFortuneCol(fortune.getFortuneID(), 
+								FortuneDbAdapter.KEY_DOWNVOTED, fortune.getDownvoted());
+						database.updateFortuneCol(fortune.getFortuneID(), 
+								FortuneDbAdapter.KEY_DOWNVOTES, fortune.getDownvotes());
+					}
+			    }
+			}).start();
 		}
 	}
 	
 	/**
 	 * Submit a fortune to the server and add it to the local database
 	 * @param text the message for the fortune
-	 * TODO Task
 	 */
-	public void submitFortune(String text)
+	public void submitFortune(final String text)
 	{
-		JSONObject obj = getRequestJSON();
-		try {
-			obj.put("fortune_text", text);
-			database.createFortuneFromJson(sendData("submitFortune", obj));
-		} catch (JSONException e) {
-			Log.e(TAG,"JSONException");
-		}
+		new Thread(new Runnable() {
+		    public void run() {
+				JSONObject obj = getRequestJSON();
+				try {
+					obj.put("fortune_text", text);
+					database.createFortuneFromJson(sendData("submitFortune", obj));
+				} catch (JSONException e) {
+					Log.e(TAG,"JSONException");
+				}
+		    }
+		}).start();
 	}
 	
 	/**
