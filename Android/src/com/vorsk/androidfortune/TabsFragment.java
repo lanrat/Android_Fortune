@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -99,6 +100,30 @@ public class TabsFragment extends SherlockFragmentActivity {
 		}
 	}	
 
+	/**
+	 * Temporary method used for testing notifications
+	 * @param view the button pressed
+	 */
+	public void createNotification(View view) {
+		//get fortune
+		final long id = 1; //TODO this is for testing
+		class GetTestFortune extends AsyncTask<Void, Void, Fortune>{
+
+			@Override
+			protected Fortune doInBackground(Void... params) {
+				return Client.getInstance().getFortuneByID(id);
+			}
+			 protected void onPostExecute(Fortune f) {
+				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);
+			 }
+		}
+		
+		// Build notification
+		GetTestFortune test = new GetTestFortune();
+		test.execute();
+		//createNotificationFromFortune(f);
+	}
+	
 	public void updateFortune(View view){
 		new UpdateFortuneReceiver().onReceive(this, null);
 	}
