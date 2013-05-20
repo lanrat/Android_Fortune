@@ -39,10 +39,8 @@ public class TabsFragment extends SherlockFragmentActivity {
 		
 		setContentView(R.layout.fragment_tabs_pager);
 
-		//create instance and open
-		FortuneDbAdapter.getInstance(this).open();
 		//create the client TODO update the singleton instance ctor to model the DB
-		this.client = new Client(Client.getUniqueDeviceID(this));
+		this.client = Client.getInstance(getApplicationContext());
 		
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		
