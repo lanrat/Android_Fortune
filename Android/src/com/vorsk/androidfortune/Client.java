@@ -37,17 +37,20 @@ public class Client
 	private static FortuneDbAdapter database;
 	private static Client instance; //used to access this class as a static singleton
 	private static boolean enableServerCommunication = false;
+	private final Context mContext;
 	private static String PREF_CURR_FORTUNE = "currentFortuneID";
 
 	/**
 	 * constructor for fortune client
 	 * @param userID the id of the current user
 	 */
-	public Client(String userID)
+	private Client(Context ctx)
 	{
-		Client.userID = userID;
+		this.mContext = ctx;
+		Client.userID = getUniqueDeviceID(ctx);
 		Client.instance = this;
-		Client.database = FortuneDbAdapter.getInstance();
+		//create instance and open
+		Client.database = FortuneDbAdapter.getInstance(ctx).open();
 	}
 
 	/**
@@ -62,6 +65,16 @@ public class Client
 	    return instance;
 	}
 	
+	public static Client getInstance(Context ctx) {
+		// Use the application context, which will ensure that you 
+	    // don't accidentally leak an Activity's context.
+	    // See this article for more information: http://bit.ly/6LRzfx
+	    if (instance == null) {
+	    	instance = new Client(ctx);
+	    }
+	    return instance;
+	}
+	
 	/**
 	 * logs a fortune as seen by a user
 	 * @param fortune the fortune to mark
@@ -70,14 +83,6 @@ public class Client
 	{
 		if (fortune.getSeen() != null)
 		{
-			/*JSONObject obj = getRequestJSON();
-			try {
-				obj.put("fortune_id", fortune.getFortuneID());
-				sendData("submitView", obj);
-			} catch (JSONException e) {
-				Log.e(TAG,"JSONException");
-				return;
-			}*/
 			database.updateFortuneCol(fortune.getFortuneID(), 
 					FortuneDbAdapter.KEY_VIEWDATE, fortune.getSeen());
 		}
@@ -87,6 +92,7 @@ public class Client
 	 * Sets the fortune as flagged in the database
 	 * Should only be called by Fortune object
 	 * @param fortune the fortune to flag
+	 * TODO TASK
 	 */
 	public void submitFlag(Fortune fortune)
 	{
@@ -110,6 +116,7 @@ public class Client
 	 * THIS SHOULD ONLY BE CALLED FROM WITHIN FORTUNE!
 	 * @param fortune the fortune
 	 * @param flag true if upvote, otherwise downvote
+	 * TODO TASK
 	 */
 	public void submitVote(Fortune fortune, boolean flag)
 	{
@@ -141,13 +148,13 @@ public class Client
 	/**
 	 * Submit a fortune to the server and add it to the local database
 	 * @param text the message for the fortune
+	 * TODO Task
 	 */
 	public void submitFortune(String text)
 	{
 		JSONObject obj = getRequestJSON();
 		try {
 			obj.put("fortune_text", text);
-			sendData("getFortuneByID", obj);
 			database.createFortuneFromJson(sendData("submitFortune", obj));
 		} catch (JSONException e) {
 			Log.e(TAG,"JSONException");
@@ -177,6 +184,7 @@ public class Client
 	/**
 	 * gets a new fortune from the database and adds it to the database
 	 * @return the new fortune
+	 * TODO task
 	 */
 	public Fortune getFortune()
 	{
@@ -195,6 +203,7 @@ public class Client
 	 * first the local DB is checked, then the remote database
 	 * @param id the id of the fortune
 	 * @return the fortune if found or null
+	 * TODO Task
 	 */
 	public Fortune getFortuneByID(long id)
 	{

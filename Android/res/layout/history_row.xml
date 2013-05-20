@@ -13,22 +13,50 @@
 	    android:id="@+id/body"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content" />
-	
-	<ImageButton
-	    android:id="@+id/up_row"
-	    android:background="@null"
-	    android:layout_width="wrap_content"
-	    android:layout_height="fill_parent"
-	    android:clickable="true"
-	    android:src="@drawable/arrow_up"
-	    android:contentDescription="up arrow" />
+		
+	<LinearLayout
+        android:id="@+id/upvote_info"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal" >
+		
+	    <ImageButton
+			    android:id="@+id/up_row"
+			    android:background="@null"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:clickable="true"
+			    android:src="@drawable/arrow_up"
+			    android:contentDescription="up arrow" />
 	    
-	<ImageButton
-	    android:id="@+id/down_row"
-	    android:background="@null"
-	    android:layout_width="wrap_content"
-	    android:layout_height="fill_parent"
-	    android:clickable="true"
-	    android:src="@drawable/arrow_down"
-	    android:contentDescription="down arrow" />
+	    <TextView 
+	        	android:id="@+id/upvote_count"
+	        	android:layout_height="wrap_content"
+	        	android:layout_width="wrap_content"
+	        	android:gravity="center" />"
+    
+    </LinearLayout>
+    
+	<LinearLayout
+        android:id="@+id/downvote_info"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal" >
+	    
+		<ImageButton
+		    android:id="@+id/down_row"
+		    android:background="@null"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:clickable="true"
+		    android:src="@drawable/arrow_down"
+		    android:contentDescription="down arrow" />
+		
+		<TextView 
+	        	android:id="@+id/downvote_count"
+	        	android:layout_height="wrap_content"
+	        	android:layout_width="wrap_content"
+	        	android:gravity="center" />
+		
+	</LinearLayout>
 </LinearLayout>
