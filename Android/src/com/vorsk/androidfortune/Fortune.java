@@ -54,6 +54,9 @@ public class Fortune implements Comparable<Fortune> {
 		owner = true;
 	}
 	
+	
+	
+	
 	/**
 	 * returns true if the user has voted on the fortune
 	 * @return
@@ -124,6 +127,8 @@ public class Fortune implements Comparable<Fortune> {
 			this.markSeen();
 		}
 		return this.fortuneText;
+
+		//return "Would you like to see Fast Six with me today";
 	}
 
 	@Override

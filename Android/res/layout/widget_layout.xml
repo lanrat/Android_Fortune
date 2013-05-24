@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/dis_fortune"
+        android:id="@+id/fortune_view"
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:background="@drawable/box1"
@@ -17,26 +17,32 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:orientation="horizontal" >
+        
+        <ImageButton
+			android:id="@+id/up_button"
+		    android:background="@null"
+			android:layout_width="wrap_content"
+      	    android:layout_height="fill_parent"
+		    android:layout_weight="35"
+		    android:clickable="true"
+		    android:src="@drawable/arrow_up"
+		    android:gravity="center"
+		    android:text="Up"
+		    android:textSize="8dp"
+			android:contentDescription="up arrow" />
 
-        <Button
-            android:id="@+id/up_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="35"
-            android:background="@drawable/arrow_up"
-            android:gravity="center"
-            android:text="Up"
-            android:textSize="8dp" />
-
-        <Button
-            android:id="@+id/down_button1"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="35"
-            android:background="@drawable/arrow_down"
-            android:gravity="center"
-            android:text="Down"
-            android:textSize="8dp" />
+        <ImageButton
+		    android:id="@+id/down_button"
+		    android:background="@null"
+		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="35"
+		    android:clickable="true"
+		    android:src="@drawable/arrow_down"
+		    android:gravity="center"
+		    android:text="Down"
+            android:textSize="8dp"
+		    android:contentDescription="down arrow" />
         
     </LinearLayout>
 </LinearLayout>
