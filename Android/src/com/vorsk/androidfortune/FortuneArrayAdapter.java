@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -34,15 +35,46 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 		TextView timeText = (TextView) rowView.findViewById(R.id.time);
 		TextView bodyText = (TextView) rowView.findViewById(R.id.body);
+		
 		TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
 		TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
+		
+		rowView.findViewById(R.id.row_text).setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Fortune fortune = fortunes[position];
+				
+				final Dialog dialog = new Dialog(getContext());
+		        dialog.setContentView(R.layout.history_info_dialog);
+		        dialog.setTitle("Fortune Information");
+		        dialog.setCancelable(true);
+		        //set up text
+		        TextView timeText = (TextView) dialog.findViewById(R.id.dialogTime);
+		        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
+		        
+		        timeText.setText(fortune.getSeen().toString());
+		        bodyText.setText(fortune.getFortuneText(false));
+		        
+		        dialog.show();
+			}
+			
+		});
+		
 		rowView.findViewById(R.id.up_row).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
-				// TODO Auto-generated method stub
-				
 				fortunes[position].upvote();
+				
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+				View rowView = inflater.inflate(R.layout.history_row, null);
+				
+				TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
+				upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));
 				
 				// create dialog 
 				final Dialog dialog = new Dialog(getContext());
@@ -59,9 +91,19 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 			@Override
 			public void onClick(View view) {
-				// TODO Auto-generated method stub
-				
 				fortunes[position].downvote();
+				
+				// TODO need to get downvote_count text view from here to update count
+				LayoutInflater inflater = (LayoutInflater) context
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+				View rowView = inflater.inflate(R.layout.history_row, null);
+				
+				TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
+				if(downvoteCountText != null)
+					downvoteCountText.setText(Integer.toString(fortunes[position].getDownvotes()));
+				
+					
 				
 				// create dialog
 				final Dialog dialog = new Dialog(getContext());

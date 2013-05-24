@@ -1,5 +1,6 @@
 package com.vorsk.androidfortune;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -57,6 +59,18 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	            public void onClick(View v) {
 	            	Client.getInstance().submitFortune(
 	            			((EditText)layout.findViewById(R.id.editText1)).getText().toString());
+	            	
+	            	// reset edit text
+	            	EditText editText = (EditText)layout.findViewById(R.id.editText1);
+	            	editText.setText(null);
+	            	
+	            	// hide keyboard
+	            	InputMethodManager inputManager = 
+	            	        (InputMethodManager) getSherlockActivity().
+	            	            getSystemService(Context.INPUT_METHOD_SERVICE); 
+	            	inputManager.hideSoftInputFromWindow(
+	            	        getSherlockActivity().getCurrentFocus().getWindowToken(),
+	            	        InputMethodManager.HIDE_NOT_ALWAYS); 
 	            }
 			});
 			return layout;
