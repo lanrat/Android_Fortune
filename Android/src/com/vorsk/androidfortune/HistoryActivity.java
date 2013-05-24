@@ -68,7 +68,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			
 				
-			
+			/*
 			lv.setOnItemClickListener(new OnItemClickListener(){
 
 				@Override
@@ -90,7 +90,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			        dialog.show();
 				}
 			});
-			
+			*/
 			lv.setAdapter(adapter);	
 			
 		}
