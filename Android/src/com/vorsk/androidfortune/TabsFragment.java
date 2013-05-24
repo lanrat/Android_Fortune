@@ -89,7 +89,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		Log.v("NotificationService","setting alarm");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		Intent intent = new Intent(this, NotificationReceiver.class);
+		Intent intent = new Intent(this, UpdateFortuneReceiver.class);
 	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
 	        intent, PendingIntent.FLAG_CANCEL_CURRENT);
 	    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

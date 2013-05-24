@@ -1,5 +1,6 @@
 package com.vorsk.androidfortune;
 
+import java.util.Date;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -7,6 +8,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
@@ -21,6 +26,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	OnSharedPreferenceChangeListener  {
 
 	public static final String KEY_INTERVAL = "pref_notification_interval";
+	public static final String KEY_TIME_PREF = "pref_notification_time";
 	private ListPreference mIntervalPreference;
 	private SharedPreferences prefs;
 	
@@ -118,11 +124,23 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		prefs.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
-	public void onSharedPreferenceChanged(
-			SharedPreferences sharedPreferences, String key) {
+	public void onSharedPreferenceChanged( SharedPreferences prefs, String key) {
 		if (key.equals(KEY_INTERVAL)) {
-			mIntervalPreference.setSummary(sharedPreferences.getString(
-					KEY_INTERVAL, ""));
+			mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
+			
+		}
+		
+		//Update Alarm
+		if ( prefs.getBoolean("pref_enable_notification",false) ) {
+			long time = prefs.getLong(KEY_TIME_PREF, 0);
+			Log.v("Settings", "Alarm set to " + new Date(time).toString() );
+			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
+		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		    am.cancel(pendingIntent);	
+		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time,
+		       AlarmManager.INTERVAL_DAY, pendingIntent);
 		}
 	}
 	

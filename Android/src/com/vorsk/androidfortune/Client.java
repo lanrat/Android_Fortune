@@ -262,6 +262,7 @@ public class Client
 	 * the id of the fortune into a hidden SharedPref
 	 */
 	public Fortune updateCurrentFortune() {
+		Log.v(TAG, "Updating current fortune");
 		Fortune f = getInstance().getFortune();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		Editor editor = prefs.edit();
@@ -275,7 +276,7 @@ public class Client
 	 * Get current Fortune
 	 * @return Fortune current fortune object
 	 */
-	public static Fortune getCurrentFortune(Context context) {
+	public Fortune getCurrentFortune(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
 		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
 		Fortune fortune = getInstance().getFortuneByID(id);
