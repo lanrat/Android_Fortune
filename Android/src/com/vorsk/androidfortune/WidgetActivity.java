@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class WidgetActivity extends Activity {
 	
-	private Fortune fortune;
+	private static Fortune fortune;
 	
 	/**
 	 * Default constructor 
@@ -23,13 +23,13 @@ public class WidgetActivity extends Activity {
 		fortune = f;
 	}
     
-	/** Constructor where fortune must be passed in 
+	/** Method where fortune must be passed in 
 	 *  so it can be displayed on to the widget. 
 	 * @param f fortune to be passed in
 	 */
-    public WidgetActivity(Fortune ft){
+    public static void displayFortune(Fortune ft){
     	
-    	//fortune = ft;
+    	fortune = ft;
     }
     
     /**method to set upVoted to true if the 
