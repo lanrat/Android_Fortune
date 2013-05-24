@@ -63,7 +63,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 				.getSystemService(android.content.Context.NOTIFICATION_SERVICE);
 		// Hide the notification after its selected
 		noti.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(0, noti); */
+		notificationManager.notify(0, noti);*/
 	}
 	
 }

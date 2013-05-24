@@ -162,18 +162,24 @@ public class FortuneDbAdapter {
 	 * @throws JSONException 
 	 */
 	public long createFortuneFromJson(String json) throws JSONException {
-		JSONObject data = new JSONObject(json);
+
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_ID, data.getInt("fortuneID"));
-		initialValues.put(KEY_TEXT, data.getString("text"));
-		initialValues.put(KEY_UPVOTES, data.getInt("upvote"));
-		initialValues.put(KEY_DOWNVOTES, data.getInt("downvote"));
-		initialValues.put(KEY_UPVOTED, 0);
-		initialValues.put(KEY_DOWNVOTED, 0);
-		initialValues.put(KEY_SUBMITDATE, data.getInt("uploadDate"));
-		initialValues.put(KEY_VIEWDATE, -1);
-		initialValues.put(KEY_FLAG, 0);
-		initialValues.put(KEY_OWNER, data.getInt("uploaders"));
+		try { 
+			JSONObject data = new JSONObject(json);
+			Log.v(TAG, "Adding into database fortuneID:" + data.getInt("fortuneID"));
+			initialValues.put(KEY_ID, data.getInt("fortuneID"));
+			initialValues.put(KEY_TEXT, data.getString("text"));
+			initialValues.put(KEY_UPVOTES, data.getInt("upvote"));
+			initialValues.put(KEY_DOWNVOTES, data.getInt("downvote"));
+			initialValues.put(KEY_UPVOTED, 0);
+			initialValues.put(KEY_DOWNVOTED, 0);
+			initialValues.put(KEY_SUBMITDATE, data.getInt("uploadDate"));
+			initialValues.put(KEY_VIEWDATE, -1);
+			initialValues.put(KEY_FLAG, 0);
+			initialValues.put(KEY_OWNER, data.getInt("uploaders"));
+		} catch ( JSONException e) {
+			Log.v(TAG, "Failed to parse: " + json);
+		}
 		
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
@@ -263,15 +269,40 @@ public class FortuneDbAdapter {
 	 * @return Fortune object 
 	 */
 	public Fortune fetchFortune(long fortuneId) {
-
 		Cursor mCursor = 
 				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + fortuneId, null,
 						null, null, null, null);
-		if ( mCursor == null )
+		if ( mCursor == null || mCursor.getCount() == 0 ) {
 			return null;
+		}
 		
 		mCursor.moveToFirst();
 		return new Fortune(mCursor);
+	}
+	
+	/**
+	 * Add Fortune object into local database.
+	 * 
+	 * @param f fortune object to put into database.
+	 * @return rowId of new entry
+	 */
+	public long insertFortune(Fortune f) {
+
+		ContentValues initialValues = new ContentValues();
+
+		initialValues.put(KEY_ID, f.getFortuneID());
+		initialValues.put(KEY_TEXT, f.getFortuneText(false));
+		initialValues.put(KEY_UPVOTES, f.getUpvotes());
+		initialValues.put(KEY_DOWNVOTES, f.getDownvotes());
+		initialValues.put(KEY_UPVOTED, f.getUpvoted() ? 1 : 0);
+		initialValues.put(KEY_DOWNVOTED, f.getDownvoted() ? 1 : 0);
+		initialValues.put(KEY_SUBMITDATE, f.getSubmitted().getTime()/1000);
+		if ( f.getSeen()!= null )
+			initialValues.put(KEY_VIEWDATE, f.getSeen().getTime()/1000);
+		initialValues.put(KEY_FLAG, f.getFlagged() ? 1 : 0);
+		initialValues.put(KEY_OWNER, f.getOwner()? 1 : 0 );
+		
+		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
 	
 	

@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
-
+//Custom Preference class that lets you use TimePicker to select a time.
 //from this stackoverflow post: http://stackoverflow.com/questions/5533078/timepicker-in-preferencescreen
 public class TimePreference extends DialogPreference {
 
@@ -47,7 +47,8 @@ public class TimePreference extends DialogPreference {
         if (positiveResult) {
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-
+            calendar.set(Calendar.SECOND, 0);
+            
             setSummary(getSummary());
             if (callChangeListener(calendar.getTimeInMillis())) {
                 persistLong(calendar.getTimeInMillis());
