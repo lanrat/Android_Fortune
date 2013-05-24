@@ -14,6 +14,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -167,7 +168,7 @@ public class Client
 				JSONObject obj = getRequestJSON();
 				try {
 					obj.put("text", text);
-					database.createFortuneFromJson(sendData("submitFortune", obj));
+					database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj))));
 				} catch (JSONException e) {
 					Log.e(TAG,"JSONException");
 				}
@@ -203,13 +204,10 @@ public class Client
 	public Fortune getFortune()
 	{
 		JSONObject obj = getRequestJSON();
-		String json = sendData("getFortune", obj);
-		try {
-			return database.fetchFortune(database.createFortuneFromJson(json));
-		} catch (JSONException e) {
-			Log.e(TAG,"JSONException");
-			return null;
-		}
+		JSONObject json = sendData("getFortune", obj);
+		Fortune ret = Fortune.createFromJSON(json);
+		database.insertFortune(ret);
+		return ret;
 	}
 	
 	/**
@@ -229,8 +227,9 @@ public class Client
 			JSONObject obj = getRequestJSON();
 			try {
 				obj.put("fortuneid",id );
-				String json = sendData("getFortuneByID", obj);
-				return database.fetchFortune(database.createFortuneFromJson(json));
+				JSONObject json = sendData("getFortuneByID", obj);
+				ret = Fortune.createFromJSON(json);
+				database.insertFortune(ret);
 			} catch (JSONException e) {
 				Log.e(TAG,"JSONException");
 			}
@@ -306,8 +305,10 @@ public class Client
 	 * @param obj the JSON data to post
 	 * @return string of response or null if error
 	 */
-	private String sendData(String action,JSONObject obj)
+	private JSONObject sendData(String action,JSONObject obj)
 	{
+		final String ERROR_FLAG = "accepted";
+		final String SERVER_DATA = "result";
 		if (!enableServerCommunication)
 		{
 			return null;
@@ -336,7 +337,24 @@ public class Client
 		} catch (IOException e) {
 			Log.e(TAG,"IOException");
 		}
-	    return responseString;
+	    try {
+			JSONObject responseObj = new JSONObject(responseString);
+			boolean valid = responseObj.getBoolean(ERROR_FLAG);
+			if (!valid)
+			{
+				Log.e("Client","Server error");
+				return null;
+			}
+			if (responseObj.has(SERVER_DATA))
+			{
+				return responseObj.getJSONObject(SERVER_DATA);
+			}else{
+				return null; //TODO this may want do be something different
+			}
+		} catch (JSONException e) {
+			Log.e("Client","Unable to parse resposne json for accepted");
+			return null;
+		}
 	}
 	
 }

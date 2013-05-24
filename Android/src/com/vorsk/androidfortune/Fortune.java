@@ -5,7 +5,6 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.database.Cursor;
 import android.util.Log;
 
 public class Fortune implements Comparable<Fortune> {
@@ -50,7 +49,7 @@ public class Fortune implements Comparable<Fortune> {
 	 * @param json the json to parse
 	 * @return a new fortune object or NULL if unable to parse
 	 */
-	public Fortune createFromJSON(String json){
+	public static Fortune createFromJSON(JSONObject json){
 		try {
 			return new Fortune(json);
 		} catch (JSONException e) {
@@ -65,9 +64,8 @@ public class Fortune implements Comparable<Fortune> {
 	 * @param json the json to parse
 	 * @throws JSONException if we are missing required fields to parse
 	 */
-	private Fortune(String json) throws JSONException
+	private Fortune(JSONObject data) throws JSONException
 	{
-		JSONObject data = new JSONObject(json);
 		this.fortuneID = data.getInt("fortuneID");
 		this.fortuneText = data.getString("text");
 		this.upvotes = data.getInt("upvote");
@@ -91,8 +89,6 @@ public class Fortune implements Comparable<Fortune> {
 		seen = submitted = date; // current time when created
 		owner = true;
 	}
-	
-	
 	
 	
 	/**

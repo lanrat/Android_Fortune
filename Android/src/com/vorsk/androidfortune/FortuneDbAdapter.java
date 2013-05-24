@@ -3,8 +3,8 @@ package com.vorsk.androidfortune;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+//import org.json.JSONException;
+//import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -161,7 +161,7 @@ public class FortuneDbAdapter {
 	 * @return id or -1 if failed
 	 * @throws JSONException 
 	 */
-	public long createFortuneFromJson(String json) throws JSONException {
+	/*public long createFortuneFromJson(String json) throws JSONException {
 
 		ContentValues initialValues = new ContentValues();
 		try { 
@@ -182,7 +182,7 @@ public class FortuneDbAdapter {
 		}
 		
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
-	}
+	}*/
 	
 	/**
 	 * Returns the JSON string representation of row
@@ -190,7 +190,7 @@ public class FortuneDbAdapter {
 	 * @param id row to create Json of
 	 * @return String JSON string
 	 */
-	public String createFortuneJson(int id) {
+	/*public String createFortuneJson(int id) {
 		Cursor c = 
 				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + id, null,
 						null, null, null, null);
@@ -210,7 +210,7 @@ public class FortuneDbAdapter {
 		
 		String s = json.toString();
 		return s;
-	}
+	}*/
 
 	/**
 	 * Delete the fortune with the given rowId
