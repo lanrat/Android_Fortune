@@ -163,6 +163,8 @@ public class FortuneDbAdapter {
 	 */
 	public long createFortuneFromJson(String json) throws JSONException {
 		JSONObject data = new JSONObject(json);
+		Log.v(TAG, "Adding into database fortuneID:" + data.getInt("fortuneID"));
+		
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_ID, data.getInt("fortuneID"));
 		initialValues.put(KEY_TEXT, data.getString("text"));
@@ -263,12 +265,12 @@ public class FortuneDbAdapter {
 	 * @return Fortune object 
 	 */
 	public Fortune fetchFortune(long fortuneId) {
-
 		Cursor mCursor = 
 				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + fortuneId, null,
 						null, null, null, null);
-		if ( mCursor == null )
+		if ( mCursor == null || mCursor.getCount() == 0 ) {
 			return null;
+		}
 		
 		mCursor.moveToFirst();
 		return new Fortune(mCursor);

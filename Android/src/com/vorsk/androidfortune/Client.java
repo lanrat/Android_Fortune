@@ -221,9 +221,11 @@ public class Client
 	 */
 	public Fortune getFortuneByID(long id)
 	{
+		Log.v(TAG, "Looking for fortuneID:" + id + " in local database");
 		Fortune ret = database.fetchFortune(id);
 		if (ret == null)
 		{
+			Log.v(TAG, "Looking for fortuneID:" + id + " in remote database");
 			JSONObject obj = getRequestJSON();
 			try {
 				obj.put("fortuneid",id );

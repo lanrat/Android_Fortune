@@ -86,18 +86,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 	
 	public void onResume() {
 		super.onResume();
-		Log.v("NotificationService","setting alarm");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		Intent intent = new Intent(this, UpdateFortuneReceiver.class);
-	    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-	        intent, PendingIntent.FLAG_CANCEL_CURRENT);
-	    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-	    am.cancel(pendingIntent);
-		if ( prefs.getBoolean("pref_enable_notification",false) ) {
-		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-		       AlarmManager.INTERVAL_DAY, pendingIntent);
-		}
 	}	
 
 	/**
