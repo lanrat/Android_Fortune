@@ -238,10 +238,46 @@ public class FortuneDbAdapter {
 		
 		c.moveToFirst();
 		while ( !c.isAfterLast() ) {
-			fortunes.add(new Fortune(c));
+			fortunes.add(createFortuneFromCursor(c));
 			c.moveToNext();
 		}
 		return fortunes;
+	}
+	
+	/**
+	 * Creates a Fortune from a Cursor by calling Fortune ctor
+	 * @param c query result
+	 * @return Fortune object version of row
+	 */
+	public Fortune createFortuneFromCursor(Cursor c) {
+		int id, upvotes, downvotes;
+		String text;
+		boolean upvoted,downvoted,flag,owner;
+		Date seen, submitted;
+		try {
+			id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+			text = c.getString(c.getColumnIndexOrThrow(KEY_TEXT));
+			upvotes = c.getInt(c.getColumnIndexOrThrow(KEY_UPVOTES));
+		    downvotes = c.getInt(c.getColumnIndexOrThrow(KEY_DOWNVOTES));
+			upvoted = c.getInt(c.getColumnIndexOrThrow(KEY_UPVOTED))!=0;
+			downvoted = c.getInt(c.getColumnIndexOrThrow(KEY_DOWNVOTED))!=0;
+			flag = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_FLAG))!=0;
+			owner =c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_OWNER))!=0;
+			seen = null;
+			long tempTime = c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_VIEWDATE));
+			if ( tempTime > 0 ) {
+				seen = new Date(tempTime*1000);
+			}	
+		    submitted = new Date( c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
+		} catch ( IllegalStateException e) {
+			Log.v(TAG, e.getMessage());
+			return null;
+		} catch ( Exception e ) {
+			Log.v(TAG, "Unable to create Fortune object from local db");
+			return null;
+		}
+					
+		return new Fortune(id,text,upvotes,downvotes,upvoted,downvoted,flag,owner,seen,submitted);
 	}
 	
 	/**
@@ -277,7 +313,7 @@ public class FortuneDbAdapter {
 		}
 		
 		mCursor.moveToFirst();
-		return new Fortune(mCursor);
+		return createFortuneFromCursor(mCursor);
 	}
 	
 	/**

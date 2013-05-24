@@ -80,32 +80,6 @@ public class Fortune implements Comparable<Fortune> {
 		//this.flagged = data.getBoolean("flagged"); //TODO use this
 	}
 	
-	///TODO remove this
-	public Fortune(Cursor c)
-	{
-		try {
-			fortuneID = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_ID));
-			fortuneText = c.getString(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_TEXT));
-			upvotes = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_UPVOTES));
-			upvoted = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_UPVOTED))!=0;
-			downvotes = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_DOWNVOTES));
-			downvoted = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_DOWNVOTED))!=0;
-			flagged = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_FLAG))!=0 ;
-			owner = c.getInt(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_OWNER))!=0 ;
-			
-			long tempTime = c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_VIEWDATE));
-			if ( tempTime > 0 ) {
-				seen = new Date(tempTime*1000);
-			}
-			submitted = new Date( c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
-		} catch ( IllegalArgumentException e ) {
-			Log.v("InitFortune", e.getMessage());
-		} catch ( Exception e ) {
-			//uh oh
-		}
-		
-	}
-	
 	/**
 	 * User submitted fortune
 	 * @param fortune string of text
