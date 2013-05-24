@@ -2,6 +2,9 @@ package com.vorsk.androidfortune;
 
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.database.Cursor;
 import android.util.Log;
 
@@ -14,16 +17,70 @@ public class Fortune implements Comparable<Fortune> {
 	private boolean downvoted = false;
 	private int downvotes = 0;
 	private boolean flagged = false;
-	private boolean owner; //true if the user created the fortune
+	private boolean owner = false; //true if the user created the fortune
 	private Date seen;
 	private Date submitted;
+	private int views = 0; //TODO these are not stored in the DB, may not be an issue
 	
-
-	public Fortune(String json)
-	{
-		//TODO construct from json from server
+	public Fortune(int id,
+					String text,
+					int upvotes,
+					int downvotes,
+					boolean upvoted,
+					boolean downvoted,
+					boolean flagged,
+					boolean owner,
+					Date seen,
+					Date submitted
+			){
+		this.fortuneID = id;
+		this.fortuneText = text;
+		this.upvotes = upvotes;
+		this.downvotes = downvotes;
+		this.downvoted = downvoted;
+		this.upvoted = upvoted;
+		this.flagged = flagged;
+		this.seen = seen;
+		this.submitted = submitted;
 	}
 	
+	
+	/**
+	 * Factory method to create a fortune from a json string
+	 * @param json the json to parse
+	 * @return a new fortune object or NULL if unable to parse
+	 */
+	public Fortune createFromJSON(String json){
+		try {
+			return new Fortune(json);
+		} catch (JSONException e) {
+			Log.e("Fortune","Could not parse JSON to Fortune");
+			return null;
+		}
+	}
+	
+
+	/**
+	 * Private constructor to create a fortune from json
+	 * @param json the json to parse
+	 * @throws JSONException if we are missing required fields to parse
+	 */
+	private Fortune(String json) throws JSONException
+	{
+		JSONObject data = new JSONObject(json);
+		this.fortuneID = data.getInt("fortuneID");
+		this.fortuneText = data.getString("text");
+		this.upvotes = data.getInt("upvote");
+		this.downvotes =  data.getInt("downvote");
+		this.upvoted = false;	//TODO check for the real value
+		this.downvoted = false; //TODO check for the real value
+		this.submitted = new Date(data.getInt("uploadDate")*1000);
+		this.seen = null; //TODO check for the real value
+		this.views = data.getInt("views");
+		//this.flagged = data.getBoolean("flagged"); //TODO use this
+	}
+	
+	///TODO remove this
 	public Fortune(Cursor c)
 	{
 		try {
@@ -114,6 +171,7 @@ public class Fortune implements Comparable<Fortune> {
 	public void markSeen()
 	{
 		//update the date to the current time
+		this.views++;
 		this.seen = new Date();
 		Client.getInstance().submitView(this);
 	}
@@ -156,5 +214,6 @@ public class Fortune implements Comparable<Fortune> {
 	public boolean getOwner() { return owner; }
 	public Date getSeen() { return seen; }
 	public Date getSubmitted() { return submitted; }
+	public int getViews() {return views; }
 	
 }
