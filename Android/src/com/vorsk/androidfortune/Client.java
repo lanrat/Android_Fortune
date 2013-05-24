@@ -171,7 +171,7 @@ public class Client
 				JSONObject obj = getRequestJSON();
 				try {
 					obj.put("text", text);
-					database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj))));
+					database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj).getJSONObject(0))));
 				} catch (JSONException e) {
 					Log.e(TAG,"JSONException");
 				}
@@ -202,12 +202,17 @@ public class Client
 	/**
 	 * gets a new fortune from the database and adds it to the database
 	 * THIS METHOS MUST BE CALLED FROM AN ASYNCTASK OR OTHER THREAD OR IT WILL FAIL!
-	 * @return the new fortune
+	 * @return the new fortune, or null if error
 	 */
 	public Fortune getFortune()
 	{
 		JSONObject obj = getRequestJSON();
-		JSONObject json = sendData("getFortune", obj);
+		JSONObject json;
+		try {
+			json = sendData("getFortune", obj).getJSONObject(0);
+		} catch (JSONException e) {
+			return null;
+		}
 		Fortune ret = Fortune.createFromJSON(json);
 		database.insertFortune(ret);
 		return ret;
@@ -230,7 +235,7 @@ public class Client
 			JSONObject obj = getRequestJSON();
 			try {
 				obj.put("fortuneid",id );
-				JSONObject json = sendData("getFortuneByID", obj);
+				JSONObject json = sendData("getFortuneByID", obj).getJSONObject(0);
 				ret = Fortune.createFromJSON(json);
 				if (ret != null) {
 					database.insertFortune(ret);
@@ -310,7 +315,7 @@ public class Client
 	 * @param obj the JSON data to post
 	 * @return string of response or null if error
 	 */
-	private JSONObject sendData(String action,JSONObject obj)
+	private JSONArray sendData(String action,JSONObject obj)
 	{
 		Log.v("Client","Sending data to server");
 		final String ERROR_FLAG = "accepted";
@@ -352,6 +357,8 @@ public class Client
 		}
 	    try {
 			JSONObject responseObj = new JSONObject(responseString);
+			Log.v("Client","JSON OBJ: "+responseObj.toString());
+			Log.v("Client","JSON ACC: "+responseObj.has(ERROR_FLAG));
 			boolean valid = responseObj.getBoolean(ERROR_FLAG);
 			if (!valid)
 			{
@@ -360,7 +367,7 @@ public class Client
 			}
 			if (responseObj.has(SERVER_DATA))
 			{
-				return responseObj.getJSONObject(SERVER_DATA);
+				return responseObj.getJSONArray(SERVER_DATA);
 			}else{
 				return null; //TODO this may want do be something different
 			}

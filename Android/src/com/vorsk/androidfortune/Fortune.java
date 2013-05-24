@@ -21,6 +21,19 @@ public class Fortune implements Comparable<Fortune> {
 	private Date submitted;
 	private int views = 0; //TODO these are not stored in the DB, may not be an issue
 	
+	/**
+	 * Very general constructor that will allow us to build a fortune from any source
+	 * @param id
+	 * @param text
+	 * @param upvotes
+	 * @param downvotes
+	 * @param upvoted
+	 * @param downvoted
+	 * @param flagged
+	 * @param owner
+	 * @param seen
+	 * @param submitted
+	 */
 	public Fortune(int id,
 					String text,
 					int upvotes,
@@ -70,13 +83,13 @@ public class Fortune implements Comparable<Fortune> {
 	 */
 	private Fortune(JSONObject data) throws JSONException
 	{
-		this.fortuneID = data.getInt("fortuneID");
+		this.fortuneID = data.getInt("fortuneid");
 		this.fortuneText = data.getString("text");
 		this.upvotes = data.getInt("upvote");
 		this.downvotes =  data.getInt("downvote");
 		this.upvoted = false;	//TODO check for the real value
 		this.downvoted = false; //TODO check for the real value
-		this.submitted = new Date(data.getInt("uploadDate")*1000);
+		this.submitted = new Date(); //(data.getInt("uploaddate")*1000); //TODO need to make the server return 0 not null on unknown
 		this.seen = null; //TODO check for the real value
 		this.views = data.getInt("views");
 		//this.flagged = data.getBoolean("flagged"); //TODO use this
