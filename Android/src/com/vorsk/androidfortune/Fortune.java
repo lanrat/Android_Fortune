@@ -50,6 +50,10 @@ public class Fortune implements Comparable<Fortune> {
 	 * @return a new fortune object or NULL if unable to parse
 	 */
 	public static Fortune createFromJSON(JSONObject json){
+		if (json == null)
+		{
+			return null;
+		}
 		try {
 			return new Fortune(json);
 		} catch (JSONException e) {

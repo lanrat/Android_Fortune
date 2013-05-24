@@ -6,12 +6,15 @@ import java.util.UUID;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -229,7 +232,9 @@ public class Client
 				obj.put("fortuneid",id );
 				JSONObject json = sendData("getFortuneByID", obj);
 				ret = Fortune.createFromJSON(json);
-				database.insertFortune(ret);
+				if (ret != null) {
+					database.insertFortune(ret);
+				}
 			} catch (JSONException e) {
 				Log.e(TAG,"JSONException");
 			}
@@ -307,6 +312,7 @@ public class Client
 	 */
 	private JSONObject sendData(String action,JSONObject obj)
 	{
+		Log.v("Client","Sending data to server");
 		final String ERROR_FLAG = "accepted";
 		final String SERVER_DATA = "result";
 		if (!enableServerCommunication)
@@ -314,12 +320,19 @@ public class Client
 			return null;
 		}
 		HttpClient client = new DefaultHttpClient(); 
-		HttpPost post = new HttpPost(SERVER+"?action="+action);
-		post.setHeader("Content-type", "application/json");
+		String url = SERVER+"?action="+action;
+		Log.v("Client","URL: "+url);
+		HttpPost post = new HttpPost(url);
+		//post.setHeader("Content-type", "application/json");
+		post.setHeader("Content-type", "application/x-www-form-urlencoded");
         HttpResponse response = null;
         String responseString = null;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		try {
-	        post.setEntity(new StringEntity(obj.toString(), "UTF-8"));
+			Log.v("Client","POSTING: "+obj.toString());
+	        //post.setEntity(new StringEntity(obj.toString(), "UTF-8"));
+	        nameValuePairs.add(new BasicNameValuePair("json", obj.toString())); 
+	        post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			response = client.execute(post,new BasicHttpContext());
 		} catch (ClientProtocolException e) {
 			Log.e(TAG,"ClientProtocolException");
@@ -353,6 +366,7 @@ public class Client
 			}
 		} catch (JSONException e) {
 			Log.e("Client","Unable to parse resposne json for accepted");
+			Log.e("Client","RESPONSE: "+responseString);
 			return null;
 		}
 	}

@@ -68,6 +68,11 @@ public class FortuneActivity extends SherlockFragmentActivity {
 	public static void createNotificationFromFortune(Context ctx, Fortune f){
 		// Prepare intent which is triggered if the
 		// notification is selected
+		if (f == null)
+		{
+			Log.e("fortune Activity","Atempting to display NULL Fortune");
+			return;
+		}
 		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
 		int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
