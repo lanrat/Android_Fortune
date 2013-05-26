@@ -99,7 +99,8 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 			@Override
 			protected Fortune doInBackground(Void... params) {
-				return Client.getInstance().getFortuneByID(id);
+				//return Client.getInstance().getFortuneByID(id);
+				return Client.getInstance().getFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
 				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);

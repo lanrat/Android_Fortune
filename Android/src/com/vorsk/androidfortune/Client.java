@@ -209,7 +209,12 @@ public class Client
 		JSONObject obj = getRequestJSON();
 		JSONObject json;
 		try {
-			json = sendData("getFortune", obj).getJSONObject(0);
+			JSONArray jsonArr = sendData("getFortune", obj);
+			//TODO these check should be everywhere sendData is located
+			if (jsonArr == null || jsonArr.length() == 0){
+				return null;
+			}
+			json = jsonArr. getJSONObject(0);
 		} catch (JSONException e) {
 			return null;
 		}
@@ -235,8 +240,11 @@ public class Client
 			JSONObject obj = getRequestJSON();
 			try {
 				obj.put("fortuneid",id );
-				JSONObject json = sendData("getFortuneByID", obj).getJSONObject(0);
-				ret = Fortune.createFromJSON(json);
+				JSONArray jsonArr = sendData("getFortuneByID", obj);
+				if (jsonArr == null || jsonArr.length() < 1){
+					return null;
+				}
+				ret = Fortune.createFromJSON(jsonArr.getJSONObject(0));
 				if (ret != null) {
 					database.insertFortune(ret);
 				}
