@@ -28,8 +28,10 @@ public class NotificationReceiverActivity extends SherlockActivity {
 		
 		//get the fortune object
 		Client client = Client.getInstance(getApplicationContext());
-		Fortune f = client.getFortuneByID(getIntent().getExtras().getLong(INTENT_FORTUNE_ID));
-		
+		int num = getIntent().getExtras().getInt(INTENT_FORTUNE_ID);
+		Log.v("Notification Reviever","looking for fortune with id: "+num);
+		Fortune f = client.getFortuneByID(num);
+		Log.v("Notification Reviever","Got Fortune wth id: "+f.getFortuneID());
 		f.markSeen();
 		
 		String result_text;

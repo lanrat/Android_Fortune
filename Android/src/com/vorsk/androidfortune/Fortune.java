@@ -136,6 +136,7 @@ public class Fortune implements Comparable<Fortune> {
 	{
 		if (!this.hasVoted())
 		{
+			Log.v("Fortune","Upvote");
 			this.upvoted = true;
 			this.upvotes++;
 			Client.getInstance().submitVote(this,true);
@@ -149,6 +150,7 @@ public class Fortune implements Comparable<Fortune> {
 	{
 		if (!this.hasVoted())
 		{
+			Log.v("Fortune","Downvote");
 			this.downvoted = true;
 			this.downvotes++;
 			Client.getInstance().submitVote(this,false);

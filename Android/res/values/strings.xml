@@ -3,7 +3,8 @@
 
     <string name="app_name">Android Fortune</string>
     <string name="action_settings">Settings</string>
-    <string name="create_notification">Create Notification!</string>
+    <string name="create_notification">Get New Notification!</string>
+    <string name="create_notification_id">Get Notification by ID</string>
     <string name="fortune">Danger looms in your future</string>
     <string name="notification_title">New Fortune</string>
     <string name="result_text">You clicked on a fortune!</string>
