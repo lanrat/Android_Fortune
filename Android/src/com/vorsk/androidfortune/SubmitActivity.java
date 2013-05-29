@@ -1,6 +1,7 @@
 package com.vorsk.androidfortune;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -8,6 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,10 +59,27 @@ public class SubmitActivity extends SherlockFragmentActivity {
 
 	            @Override
 	            public void onClick(View v) {
-	            	Client.getInstance().submitFortune(
-	            			((EditText)layout.findViewById(R.id.editText1)).getText().toString());
-	            	
-	            	// reset edit text
+	            	Log.v("SubmitActivity", "Attempting to submit fortune");
+	            	class SubmitFortuneTask extends AsyncTask<Void, Void, Void>{
+	            		private String mText;
+	            		public SubmitFortuneTask (String text) {
+	            			super();
+	            			mText = text;
+	            		}
+	            		
+	        			@Override
+	        			protected Void doInBackground(Void... params) {
+	        				Client.getInstance().submitFortune(mText);
+	        				//mark fortune as viewed
+	        				return null; //TODO what to return	
+	        			}
+	        		}
+	        		
+	        		// Build notification
+	        		SubmitFortuneTask task = new 
+	        				SubmitFortuneTask( ((EditText)layout.findViewById(R.id.editText1)).getText().toString());
+	        		task.execute();
+	        		// reset edit text
 	            	EditText editText = (EditText)layout.findViewById(R.id.editText1);
 	            	editText.setText(null);
 	            	
@@ -70,7 +89,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	            	            getSystemService(Context.INPUT_METHOD_SERVICE); 
 	            	inputManager.hideSoftInputFromWindow(
 	            	        getSherlockActivity().getCurrentFocus().getWindowToken(),
-	            	        InputMethodManager.HIDE_NOT_ALWAYS); 
+	            	        InputMethodManager.HIDE_NOT_ALWAYS);
 	            }
 			});
 			return layout;
