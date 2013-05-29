@@ -35,7 +35,7 @@ import android.util.Log;
  */
 public class Client
 {
-	private static String TAG = "ServerTask";
+	private static String TAG = "Client";
 	private static final String SERVER = "http://cse-190-fortune.herokuapp.com/server.php";
 	private static String userID;
 	private static FortuneDbAdapter database;
@@ -79,8 +79,10 @@ public class Client
 	    // don't accidentally leak an Activity's context.
 	    // See this article for more information: http://bit.ly/6LRzfx
 	    if (instance == null) {
+	    	Log.v("Client","New Client instanct is being created");
 	    	instance = new Client(ctx);
 	    }
+	    Log.v("Client","Old client isntance being returned");
 	    return instance;
 	}
 	
@@ -131,33 +133,36 @@ public class Client
 	 */
 	public void submitVote(final Fortune fortune, final boolean flag)
 	{
-		if (!fortune.hasVoted())
-		{
-			new Thread(new Runnable() {
-			    public void run() {
-					JSONObject obj = getRequestJSON();
-					try {
-						obj.put("vote", flag);
-						sendData("submitVote", obj);
-					} catch (JSONException e) {
-						Log.e(TAG,"JSONException");
-					}
-					if (flag){
-						//upvote
-						database.updateFortuneCol(fortune.getFortuneID(), 
-								FortuneDbAdapter.KEY_UPVOTED, fortune.getUpvoted());
-						database.updateFortuneCol(fortune.getFortuneID(), 
-								FortuneDbAdapter.KEY_UPVOTES, fortune.getUpvotes());
-					}else{
-						//downvote
-						database.updateFortuneCol(fortune.getFortuneID(), 
-								FortuneDbAdapter.KEY_DOWNVOTED, fortune.getDownvoted());
-						database.updateFortuneCol(fortune.getFortuneID(), 
-								FortuneDbAdapter.KEY_DOWNVOTES, fortune.getDownvotes());
-					}
-			    }
-			}).start();
-		}
+		Log.v(TAG,"SubmitVote: "+flag);
+
+		new Thread(new Runnable() {
+		    public void run() {
+				JSONObject obj = getRequestJSON();
+				try {
+					obj.put("fortuneid", fortune.getFortuneID());
+					sendData("submitVote", obj);
+					Log.v(TAG,"SubmitVote-send");
+				} catch (JSONException e) {
+					Log.e(TAG,"JSONException");
+				}
+				if (flag){
+					//upvote
+					Log.v(TAG,"SubmitVote-upvote-local");
+					database.updateFortuneCol(fortune.getFortuneID(), 
+							FortuneDbAdapter.KEY_UPVOTED, fortune.getUpvoted());
+					database.updateFortuneCol(fortune.getFortuneID(), 
+							FortuneDbAdapter.KEY_UPVOTES, fortune.getUpvotes());
+				}else{
+					Log.v(TAG,"SubmitVote-downvote-local");
+					//downvote
+					database.updateFortuneCol(fortune.getFortuneID(), 
+							FortuneDbAdapter.KEY_DOWNVOTED, fortune.getDownvoted());
+					database.updateFortuneCol(fortune.getFortuneID(), 
+							FortuneDbAdapter.KEY_DOWNVOTES, fortune.getDownvotes());
+				}
+		    }
+		}).start();
+
 	}
 	
 	/**

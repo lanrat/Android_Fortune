@@ -94,13 +94,35 @@ public class TabsFragment extends SherlockFragmentActivity {
 	 */
 	public void createNotification(View view) {
 		//get fortune
-		final long id = 1; //TODO this is for testing
 		class GetTestFortune extends AsyncTask<Void, Void, Fortune>{
 
 			@Override
 			protected Fortune doInBackground(Void... params) {
-				//return Client.getInstance().getFortuneByID(id);
 				return Client.getInstance().getFortune();
+			}
+			 protected void onPostExecute(Fortune f) {
+				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);
+			 }
+		}
+		
+		// Build notification
+		GetTestFortune test = new GetTestFortune();
+		test.execute();
+		//createNotificationFromFortune(f);
+	}
+	
+	/**
+	 * Temporary method used for testing notifications
+	 * @param view the button pressed
+	 */
+	public void createNotification_id(View view) {
+		//get fortune
+		final long id = 22; //TODO this is for testing
+		class GetTestFortune extends AsyncTask<Void, Void, Fortune>{
+
+			@Override
+			protected Fortune doInBackground(Void... params) {
+				return Client.getInstance().getFortuneByID(id);
 			}
 			 protected void onPostExecute(Fortune f) {
 				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);
