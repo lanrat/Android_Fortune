@@ -140,7 +140,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		    am.cancel(pendingIntent);	
 		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time,
-		       AlarmManager.INTERVAL_DAY, pendingIntent);
+		       AlarmManager.INTERVAL_DAY, pendingIntent); //TODO change to vary by interval preference
 		}
 	}
 	
