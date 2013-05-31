@@ -301,7 +301,7 @@ public class Client
 	 * Get current Fortune
 	 * @return Fortune current fortune object
 	 */
-	public Fortune getCurrentFortune(Context context) {
+	public Fortune getCurrentFortune() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
 		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
 		Fortune fortune = getInstance().getFortuneByID(id);
