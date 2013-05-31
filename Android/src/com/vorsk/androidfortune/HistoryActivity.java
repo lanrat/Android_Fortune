@@ -1,6 +1,7 @@
 package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.os.Bundle;
 
@@ -56,35 +57,11 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			
 		
 			ArrayList<Fortune> list = Client.getInstance().getSeenFortunes(); 
+			Collections.reverse(list); // reverse chronological order
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
-			
-				
-			/*
-			lv.setOnItemClickListener(new OnItemClickListener(){
-
-				@Override
-				public void onItemClick(AdapterView<?> list, View view, int position, long id) {
-					// TODO Auto-generated method stub
-					Fortune fortune = (Fortune)list.getAdapter().getItem(position);
-					
-					final Dialog dialog = new Dialog(getActivity());
-			        dialog.setContentView(R.layout.history_info_dialog);
-			        dialog.setTitle("Fortune Information");
-			        dialog.setCancelable(true);
-			        //set up text
-			        TextView timeText = (TextView) dialog.findViewById(R.id.dialogTime);
-			        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
-			        
-			        timeText.setText(fortune.getSeen().toString());
-			        bodyText.setText(fortune.getFortuneText(false));
-			        
-			        dialog.show();
-				}
-			});
-			*/
 			lv.setAdapter(adapter);	
 			
 		}

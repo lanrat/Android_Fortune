@@ -25,9 +25,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 	
     public FortuneArrayAdapter(Context context, Fortune[] fortunes) {
         super(context, R.layout.history_row, fortunes);
-        List<Fortune> list = Arrays.asList(fortunes);
-        Collections.reverse(list);
-        this.fortunes = list.toArray(new Fortune[fortunes.length]);
+        
+        this.fortunes = fortunes;
         this.context = context;
     }
 
