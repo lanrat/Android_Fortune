@@ -27,7 +27,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 			}
 			 protected void onPostExecute(Fortune f) {
 				 FortuneActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);
-				 WidgetActivity.displayFortune(f);
+				 WidgetActivity.displayFortune(mContext, f);
 			 }
 		}
 		

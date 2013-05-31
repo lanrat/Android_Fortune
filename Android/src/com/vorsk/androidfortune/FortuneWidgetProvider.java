@@ -14,7 +14,7 @@ import java.util.Date;
 public class FortuneWidgetProvider extends AppWidgetProvider {
 	
 	/**** Testing out Methods Creating a new Widget Activity*****/
-	WidgetActivity wv = new WidgetActivity();
+	WidgetActivity widgetActivity = new WidgetActivity();
 	
 	//private String fortuneText = WidgetActivity.getFortuneText(true);
 	
@@ -26,8 +26,9 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 	
 		// New RemoteView
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+		//remoteViews.setTextViewText(R.id.fortune_view, wv.fText(true));
 		
-		remoteViews.setTextViewText(R.id.fortune_view, wv.fText(true));
+		widgetActivity.displayFortune(context, Client.getInstance(context).getCurrentFortune());
 		remoteViews.setOnClickPendingIntent(R.id.up_button, buildUpButtonPendingIntent(context));
 		remoteViews.setOnClickPendingIntent(R.id.down_button, buildDownButtonPendingIntent(context));
 		

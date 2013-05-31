@@ -5,9 +5,11 @@ package com.vorsk.androidfortune;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 public class WidgetActivity extends Activity {
@@ -18,19 +20,27 @@ public class WidgetActivity extends Activity {
 	 * Default constructor 
 	 */
 	public WidgetActivity(){
-		//TODO remove this
-		Date newDate = new Date();
-		Fortune f = new Fortune("Good luck today", newDate);
-		fortune = f;
+	
 	}
     
 	/** Method where fortune must be passed in 
 	 *  so it can be displayed on to the widget. 
 	 * @param f fortune to be passed in
 	 */
-    public static void displayFortune(Fortune ft){
+    public static void displayFortune(Context context, Fortune f){
     	
-    	fortune = ft;
+    	String fortuneText;
+    	if(f == null ){
+    		
+    		fortuneText = "updating...";
+    	}
+    	else{
+    		fortuneText  = f.getFortuneText(true);
+    	}
+    	
+    	fortune = f;
+    	RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+		remoteViews.setTextViewText(R.id.fortune_view, fortuneText);
     }
     
     /**method to set upVoted to true if the 
