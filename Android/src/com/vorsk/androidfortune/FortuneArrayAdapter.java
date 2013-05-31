@@ -1,7 +1,12 @@
 package com.vorsk.androidfortune;
 
+import java.text.SimpleDateFormat;
+
+import com.vorsk.androidfortune.R.id;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,19 +48,39 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 			@Override
 			public void onClick(View view) {
-				// TODO Auto-generated method stub
 				Fortune fortune = fortunes[position];
 				
 				final Dialog dialog = new Dialog(getContext());
 		        dialog.setContentView(R.layout.history_info_dialog);
 		        dialog.setTitle("Fortune Information");
 		        dialog.setCancelable(true);
-		        //set up text
+		        
+		        // Get views
 		        TextView timeText = (TextView) dialog.findViewById(R.id.dialogTime);
 		        TextView bodyText = (TextView) dialog.findViewById(R.id.dialogBody);
+		        TextView voteText = (TextView) dialog.findViewById(R.id.dialogVote);
+		        TextView upvotesText = (TextView) dialog.findViewById(R.id.dialogUpvotes);
+		        TextView downvotesText = (TextView) dialog.findViewById(R.id.dialogDownvotes);
 		        
+		        
+		        //SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm yyyy");
+		        
+		        // Set fortune information
 		        timeText.setText(fortune.getSeen().toString());
 		        bodyText.setText(fortune.getFortuneText(false));
+		        if(fortune.getUpvoted()) {
+		        	voteText.setText("Upvoted");
+		        	voteText.setTextColor(Color.parseColor("#f46b27"));
+		        }
+		        else if (fortune.getDownvoted()) {
+		        	voteText.setText("Downvoted");	
+		        	voteText.setTextColor(Color.parseColor("#0075cd"));
+		        }
+		        else
+		        	voteText.setText("You have not voted on this fortune");
+		        upvotesText.setText("Upvotes: " + fortune.getUpvotes());
+		        downvotesText.setText("Downvotes: " + fortune.getDownvotes());
+		        
 		        
 		        dialog.show();
 			}
@@ -116,8 +141,10 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			}
 			
 		});
-
-		timeText.setText(fortunes[position].getSeen().toString());
+		
+		// SimpleDateFormat => Wed May 30 10:24 PM 2013
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy");
+		timeText.setText(formatter.format(fortunes[position].getSeen()));
 		bodyText.setText(fortunes[position].getFortuneText(false));
 		upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));
 		downvoteCountText.setText(Integer.toString(fortunes[position].getDownvotes()));
