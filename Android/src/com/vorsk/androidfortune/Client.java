@@ -299,11 +299,14 @@ public class Client
 	
 	/*
 	 * Get current Fortune
-	 * @return Fortune current fortune object
+	 * @return Fortune current fortune object or null if there is none
 	 */
 	public Fortune getCurrentFortune() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
 		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
+		if (id < 0) {
+			return null;
+		}
 		Fortune fortune = getInstance().getFortuneByID(id);
 		return fortune;
 	}
