@@ -9,37 +9,40 @@
         android:id="@+id/dialogTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp"
+        android:layout_marginTop="@dimen/view_margin"
+        android:textSize="@dimen/small_text"
         android:textStyle="italic"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textIsSelectable="false" />
         
     <TextView
         android:id="@+id/dialogBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize = "16sp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textSize="@dimen/medium_text"
+        android:textIsSelectable="false" />
     
     <TextView
         android:id="@+id/dialogVote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        android:textSize="@dimen/medium_text"
+        android:textIsSelectable="false" />
     
     <TextView
         android:id="@+id/dialogUpvotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#f46b27" />
+        android:textSize="@dimen/medium_text"
+        android:textColor="@color/upvote_color"
+        android:textIsSelectable="false" />
     
     <TextView
         android:id="@+id/dialogDownvotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#0075cd" />
+        android:textSize="@dimen/medium_text"
+        android:textColor="@color/downvote_color"
+        android:textIsSelectable="false" />
     
         
 

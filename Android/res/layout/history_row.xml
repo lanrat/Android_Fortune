@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
@@ -9,25 +10,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.8"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_marginTop="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
         android:orientation="vertical" >
         
 		<TextView
 		    android:id="@+id/time"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:textSize="14sp"
+		    android:textSize="@dimen/small_text"
 		    android:textStyle="italic"
-		    android:textAppearance="?android:attr/textAppearanceSmall" />
+		    android:textIsSelectable="false" />
 		
 		<TextView
 		    android:id="@+id/body"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:textSize="16sp"
-		    android:textAppearance="?android:attr/textAppearanceSmall" />
+		    android:textSize="@dimen/medium_text"
+			android:textIsSelectable="false" />
 		
 	</LinearLayout>
 	
@@ -36,9 +37,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginTop="@dimen/view_margin"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 		
 		<LinearLayout
@@ -48,22 +50,24 @@
 	    	android:orientation="horizontal" >
 			
 		    <ImageButton
-				    android:id="@+id/up_row"
-				    android:background="@null"
-				    android:layout_width="32dp"
-				    android:layout_height="32dp"
-				    android:scaleType="fitCenter"
-				    android:clickable="true"
-				    android:src="@drawable/arrow_up"
-				    android:contentDescription="up arrow" />
-		    
-		    <TextView 
-		        	android:id="@+id/upvote_count"
-		        	android:layout_height="wrap_content"
-		        	android:layout_width="wrap_content"
-		        	android:gravity="center"
-		        	android:textColor="#f46b27"
-		        	android:textAppearance="?android:attr/textAppearanceLarge" />"
+			    android:id="@+id/up_row"
+			    android:background="@null"
+			    android:layout_width="@dimen/arrow_size"
+			    android:layout_height="@dimen/arrow_size"
+			    android:gravity="center_vertical"
+			    android:scaleType="fitCenter"
+			    android:clickable="true"
+			    android:src="@drawable/arrow_up"
+			    android:contentDescription="@string/upvote_description" />
+	    
+	    	<TextView 
+	        	android:id="@+id/upvote_count"
+	        	android:layout_height="wrap_content"
+	        	android:layout_width="wrap_content"
+	        	android:gravity="center_vertical"
+	        	android:textColor="@color/upvote_color"
+	        	android:textAppearance="?android:attr/textAppearanceLarge"
+	        	android:textIsSelectable="false" />
 	    
 	    </LinearLayout>
 	    
@@ -76,20 +80,22 @@
 			<ImageButton
 			    android:id="@+id/down_row"
 			    android:background="@null"
-			    android:layout_width="32dp"
-			    android:layout_height="32dp"
+			    android:layout_width="@dimen/arrow_size"
+			    android:layout_height="@dimen/arrow_size"
+			    android:gravity="center_vertical"
 			    android:scaleType="fitCenter"
 			    android:clickable="true"
 			    android:src="@drawable/arrow_down"
-			    android:contentDescription="down arrow" />
+			    android:contentDescription="@string/downvote_description" />
 			
 			<TextView 
-		        	android:id="@+id/downvote_count"
-		        	android:layout_height="wrap_content"
-		        	android:layout_width="wrap_content"
-		        	android:gravity="center"
-		        	android:textColor="#0075cd"
-		        	android:textAppearance="?android:attr/textAppearanceLarge" />
+	        	android:id="@+id/downvote_count"
+	        	android:layout_height="wrap_content"
+	        	android:layout_width="wrap_content"
+	        	android:gravity="center_vertical"
+	        	android:textColor="@color/downvote_color"
+	        	android:textAppearance="?android:attr/textAppearanceLarge"
+	        	android:textIsSelectable="false" />
 			
 		</LinearLayout>
 	</LinearLayout>

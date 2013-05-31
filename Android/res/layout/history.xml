@@ -15,14 +15,14 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="2dp"
         android:layout_marginTop="2dp"
-        android:text="History"
+        android:text="@string/history_title"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <ListView
         android:id="@+id/history_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/view_margin"
         android:layout_below="@id/history_title" />
 
 </RelativeLayout>

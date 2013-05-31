@@ -16,5 +16,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <color name="upvote_color">#f46b27</color>
+    <color name="downvote_color">#0075cd</color>
 
 </resources>

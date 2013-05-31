@@ -1,8 +1,9 @@
 package com.vorsk.androidfortune;
 
 import java.text.SimpleDateFormat;
-
-import com.vorsk.androidfortune.R.id;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,11 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /*
  * Adapted from http://stackoverflow.com/questions/2109271/can-any-one-provide-me-example-of-two-line-list-item-in-android
@@ -27,7 +25,9 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 	
     public FortuneArrayAdapter(Context context, Fortune[] fortunes) {
         super(context, R.layout.history_row, fortunes);
-        this.fortunes = fortunes;
+        List<Fortune> list = Arrays.asList(fortunes);
+        Collections.reverse(list);
+        this.fortunes = list.toArray(new Fortune[fortunes.length]);
         this.context = context;
     }
 
@@ -78,6 +78,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 		        }
 		        else
 		        	voteText.setText("You have not voted on this fortune");
+		        
 		        upvotesText.setText("Upvotes: " + fortune.getUpvotes());
 		        downvotesText.setText("Downvotes: " + fortune.getDownvotes());
 		        
