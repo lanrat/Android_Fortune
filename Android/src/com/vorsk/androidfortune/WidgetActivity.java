@@ -18,6 +18,7 @@ public class WidgetActivity extends Activity {
 	 * Default constructor 
 	 */
 	public WidgetActivity(){
+		//TODO remove this
 		Date newDate = new Date();
 		Fortune f = new Fortune("Good luck today", newDate);
 		fortune = f;

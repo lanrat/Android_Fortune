@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Android Fortune</string>
+    <string name="app_name">Get Fortune</string>
     <string name="action_settings">Settings</string>
     <string name="create_notification">Get New Notification!</string>
     <string name="create_notification_id">Get Notification by ID</string>

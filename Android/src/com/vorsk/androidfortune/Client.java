@@ -140,6 +140,7 @@ public class Client
 				JSONObject obj = getRequestJSON();
 				try {
 					obj.put("fortuneid", fortune.getFortuneID());
+					obj.put("vote", flag);
 					sendData("submitVote", obj);
 					Log.v(TAG,"SubmitVote-send");
 				} catch (JSONException e) {
@@ -219,7 +220,7 @@ public class Client
 			if (jsonArr == null || jsonArr.length() == 0){
 				return null;
 			}
-			json = jsonArr. getJSONObject(0);
+			json = jsonArr.getJSONObject(0);
 		} catch (JSONException e) {
 			return null;
 		}
