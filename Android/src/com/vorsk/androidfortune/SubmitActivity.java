@@ -1,5 +1,8 @@
 package com.vorsk.androidfortune;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class SubmitActivity extends SherlockFragmentActivity {
@@ -53,6 +57,14 @@ public class SubmitActivity extends SherlockFragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			layout = (RelativeLayout)inflater.inflate(R.layout.submit, null);
+			
+			ArrayList<Fortune> list = Client.getInstance().getFortunesSubmitted();
+			Collections.reverse(list); // reverse chronological order
+			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
+			
+			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
+			ListView lv = (ListView) layout.findViewById(R.id.submit_list);
+			lv.setAdapter(adapter);
 	
 			View submitButton = layout.findViewById(R.id.button1);
 			((Button)submitButton).setOnClickListener(new OnClickListener() {
@@ -79,6 +91,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	        		SubmitFortuneTask task = new 
 	        				SubmitFortuneTask( ((EditText)layout.findViewById(R.id.editText1)).getText().toString());
 	        		task.execute();
+	        		
 	        		// reset edit text
 	            	EditText editText = (EditText)layout.findViewById(R.id.editText1);
 	            	editText.setText(null);
