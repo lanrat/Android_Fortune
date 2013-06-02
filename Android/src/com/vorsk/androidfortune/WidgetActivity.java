@@ -35,7 +35,6 @@ public class WidgetActivity extends Activity {
 	 * @param f fortune to be passed in
 	 */
     public static void displayFortune(Context context, Fortune f){
-    	
     	if(f == null ){
     		
     		Log.v("WidgetActivity", " Widget Activity is called");
