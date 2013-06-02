@@ -1,15 +1,12 @@
 package com.vorsk.androidfortune;
 
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
-import java.util.Date;
 
 public class FortuneWidgetProvider extends AppWidgetProvider {
 	
@@ -18,7 +15,7 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 	
-		// geting widget id
+		// getting widget id
 		final int widgetIds = appWidgetIds.length;
 		
 		// updating the widget

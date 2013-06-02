@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 	
@@ -17,43 +16,39 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		
-		if(intent.getAction().equals("up_button.intent.action.UP_VOTE")){
-			updateWidgetUpButtonListener(context, "Up Vote Clicked :-D");
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+		final Fortune current_fortune = Client.getInstance(context).getCurrentFortune();
+		String vote_message = null;
+		
+		if (current_fortune != null)
+		{
+		
+			if(intent.getAction().equals("up_button.intent.action.UP_VOTE")){
+				vote_message = "Up Vote Clicked :-D";
+				WidgetActivity.countUpVote();
+			}
+			else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
+				vote_message = "Down Vote Clicked :-(";
+				WidgetActivity.countDownVote();
+			}
 			
-			// creating a timer thread to set text view back to the fortune String
-			Thread timer = new Thread(){
-				public void run(){
-					try{
-						sleep(600);
-					} catch(InterruptedException e){
-						e.printStackTrace();
-					} finally{
-						updateWidgetUpButtonListener(context, WidgetActivity.fortuneText);
+			if (vote_message != null)
+			{
+				remoteViews.setTextViewText(R.id.fortune_view, vote_message);
+				// creating a timer thread to set text view back to the fortune String
+				Thread timer = new Thread(){
+					public void run(){
+						try{
+							sleep(600);
+						} catch(InterruptedException e){
+							e.printStackTrace();
+						} finally{
+							remoteViews.setTextViewText(R.id.fortune_view, current_fortune.getFortuneText(true));
+						}
 					}
-				}
-			};
-			timer.start();
-			
-
-		}
-		else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
-			updateWidgetDownButtonListener(context, "Down Vote Clicked :-( ");
-			
-			// creating a timer thread to set text view back to the fortune String
-			Thread timer = new Thread(){
-				public void run(){
-					try{
-						sleep(600);
-					} catch(InterruptedException e){
-						e.printStackTrace();
-					} finally{
-						updateWidgetDownButtonListener(context, WidgetActivity.fortuneText);
-					}
-				}
-			};
-			timer.start();
-			
-
+				};
+				timer.start();
+			}
 		}
 	}// end method
 	
@@ -72,8 +67,8 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 		//WidgetActivity.countUpVote(true);
 		
 		//Refreshing Button Listener
-		remoteViews.setOnClickPendingIntent(R.id.up_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
-		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
+		//remoteViews.setOnClickPendingIntent(R.id.up_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
+		//FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 	
 	}// end method
 	
@@ -92,8 +87,8 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 	
 		
 		//Refreshing Button Listener
-		remoteViews.setOnClickPendingIntent(R.id.down_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
-		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
+		//remoteViews.setOnClickPendingIntent(R.id.down_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
+		//FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 	
 	}// end method
 

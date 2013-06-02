@@ -24,5 +24,9 @@
 	
 	<string name="upvote_description">up arrow</string>
 	<string name="downvote_description">down arrow</string>
+	
+	<string name="up_button">Upvote Button</string>
+	<string name="down_button">Downvote Button</string>
+	
 
 </resources>

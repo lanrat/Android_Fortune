@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
-    android:layout_height="100dp"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     android:background="@drawable/box1"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/fortune_view"
         android:layout_width="fill_parent"
-        android:layout_height="55dp"
+        android:layout_height="fill_parent"
         android:background="@drawable/box1"
         android:gravity="center"
-        android:text="Fortune App" />
+        android:layout_weight="10"
+        android:text="@string/app_name" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
+        android:layout_weight="5"
+        android:gravity="center_horizontal"
         android:orientation="horizontal" >
         
         <ImageButton
-			android:id="@+id/up_button"
-		    android:background="@null"
-			android:layout_width="wrap_content"
-      	    android:layout_height="fill_parent"
-		    android:layout_weight="35"
-		    android:clickable="true"
-		    android:src="@drawable/arrow_up"
-		    android:gravity="center"
-		    android:text="Up"
-		    android:textSize="8dp"
-			android:contentDescription="up arrow" />
+            android:id="@+id/up_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:clickable="true"
+            android:contentDescription="@string/up_button"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_up" />
 
         <ImageButton
-		    android:id="@+id/down_button"
-		    android:background="@null"
-		    android:layout_width="wrap_content"
-		    android:layout_height="fill_parent"
-		    android:layout_weight="35"
-		    android:clickable="true"
-		    android:src="@drawable/arrow_down"
-		    android:gravity="center"
-		    android:text="Down"
-            android:textSize="8dp"
-		    android:contentDescription="down arrow" />
+            android:id="@+id/down_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:clickable="true"
+            android:contentDescription="@string/down_button"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_down" />
         
     </LinearLayout>
 </LinearLayout>
