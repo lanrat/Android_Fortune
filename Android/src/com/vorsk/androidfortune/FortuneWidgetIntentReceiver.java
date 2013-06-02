@@ -25,26 +25,29 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 		
 		if (current_fortune != null)
 		{
-			Log.v(TAG,"fortune not null");
 			if(intent.getAction().equals("up_button.intent.action.UP_VOTE")){
-				vote_message = "Up Vote Clicked :-D";
-				WidgetActivity.countUpVote();
+				if (WidgetActivity.countUpVote()) {
+					vote_message = context.getResources().getString(R.string.up_vote);
+				}else {
+					vote_message = context.getResources().getString(R.string.already_voted);
+				}
 				remoteViews.setOnClickPendingIntent(R.id.up_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
 			}
 			else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
-				vote_message = "Down Vote Clicked :-(";
+				if (WidgetActivity.countDownVote()) {
+					vote_message = context.getResources().getString(R.string.down_vote);
+				}else {
+					vote_message = context.getResources().getString(R.string.already_voted);
+				}
 				remoteViews.setOnClickPendingIntent(R.id.down_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
-				WidgetActivity.countDownVote();
 			}
 			
 			if (vote_message != null)
 			{
-				Log.v(TAG,"message not null");
 				remoteViews.setTextViewText(R.id.fortune_view, vote_message);
 				// creating a timer thread to set text view back to the fortune String
 				Thread timer = new Thread(){
 					public void run(){
-						Log.v(TAG,"sarting thread");
 						try{
 							sleep(600);
 						} catch(InterruptedException e){
@@ -57,7 +60,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 				};
 				timer.start();
 			}else{
-				Log.e(TAG, "vote message is null!");
+				Log.v(TAG, "vote message is null!");
 			}
 		}
 		

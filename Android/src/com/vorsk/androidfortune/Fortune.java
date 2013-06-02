@@ -131,8 +131,9 @@ public class Fortune implements Comparable<Fortune> {
 	
 	/**
 	 * upvotes the current function if the user has not already voted
+	 * @return true if successful, false otherwise
 	 */
-	public void upvote()
+	public boolean upvote()
 	{
 		if (!this.hasVoted())
 		{
@@ -140,13 +141,16 @@ public class Fortune implements Comparable<Fortune> {
 			this.upvoted = true;
 			this.upvotes++;
 			Client.getInstance().submitVote(this,true);
+			return true;
 		}
+		return false;
 	}
 	
 	/**
 	 * downvotes the current function if it has not already been voted on
+	 * @return true if successful, false otherwise
 	 */
-	public void downvote()
+	public boolean downvote()
 	{
 		if (!this.hasVoted())
 		{
@@ -154,7 +158,9 @@ public class Fortune implements Comparable<Fortune> {
 			this.downvoted = true;
 			this.downvotes++;
 			Client.getInstance().submitVote(this,false);
+			return true;
 		}
+		return false;
 	}
 	
 	/**

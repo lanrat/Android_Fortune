@@ -41,21 +41,25 @@ public class WidgetActivity extends Activity {
     /**method to set upVoted to true if the 
      * user has made a up vote.
      * @param upV true if user made an up Voted
+	 * @return true if successful, false otherwise
      */
-    public static void countUpVote(){
+    public static boolean countUpVote(){
     	if (fortune != null) {
-    		fortune.upvote();
+    		return fortune.upvote();
     	}
+    	return false;
     }
     
     /**Method to set DownVoted to true if the 
      * user has made a down vote.
      * @param downV true if user made an down Voted
+  	 * @return true if successful, false otherwise
      */
-    public static void countDownVote(){
+    public static boolean countDownVote(){
     	if (fortune != null) {
-    		fortune.downvote();
+    		return fortune.downvote();
     	}
+    	return false;
     }
 }
        
