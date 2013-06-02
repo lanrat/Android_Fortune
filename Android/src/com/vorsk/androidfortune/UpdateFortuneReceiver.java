@@ -1,5 +1,9 @@
 package com.vorsk.androidfortune; 
 
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
+import com.vorsk.androidfortune.widget.WidgetActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +30,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 				return Client.getInstance().updateCurrentFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
-				 FortuneActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);
+				 HomeActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);
 				 WidgetActivity.displayFortune(mContext, f);
 			 }
 		}

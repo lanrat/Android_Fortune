@@ -1,4 +1,4 @@
-package com.vorsk.androidfortune;
+package com.vorsk.androidfortune.data;
 
 import java.util.Date;
 

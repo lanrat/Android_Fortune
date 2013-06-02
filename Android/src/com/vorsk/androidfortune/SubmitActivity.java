@@ -10,6 +10,8 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 import android.support.v4.app.FragmentManager;
 import android.util.Log;

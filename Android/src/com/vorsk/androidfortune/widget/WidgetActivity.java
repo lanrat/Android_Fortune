@@ -1,4 +1,8 @@
-package com.vorsk.androidfortune;
+package com.vorsk.androidfortune.widget;
+
+import com.vorsk.androidfortune.R;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +13,7 @@ import android.widget.RemoteViews;
 public class WidgetActivity extends Activity {
 	
 	private static Fortune fortune;
+	private static final String TAG = "WidgetActivity";
 	
 	/**
 	 * Default constructor 
@@ -21,6 +26,9 @@ public class WidgetActivity extends Activity {
 	 */
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		displayFortune(getApplicationContext(),
+				Client.getInstance(getApplicationContext()).getCurrentFortune());
+		
 	}
 
 	/** Method where fortune must be passed in 
@@ -30,6 +38,11 @@ public class WidgetActivity extends Activity {
     public static void displayFortune(Context context, Fortune f){
     	Log.v("WidgetActivity", " Widget Activity is udating");
     	fortune = f;
+    	if (f == null) {
+    		Log.e(TAG,"displaying null fortune");
+    	}else {
+    		Log.v(TAG,"displaying fortune: +"+f.getFortuneText(false));
+    	}
 		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
     	WidgetActivity.displayFortuneToText(context, remoteViews);
 		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);

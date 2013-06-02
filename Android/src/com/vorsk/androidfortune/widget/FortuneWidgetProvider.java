@@ -1,4 +1,8 @@
-package com.vorsk.androidfortune;
+package com.vorsk.androidfortune.widget;
+
+import com.vorsk.androidfortune.R;
+import com.vorsk.androidfortune.TabsFragment;
+import com.vorsk.androidfortune.data.Client;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -15,7 +19,7 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 	
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-		Log.v(TAG,"opUpdate");
+		Log.v(TAG,"onUpdate");
 	
 		// getting widget id
 		final int widgetIds = appWidgetIds.length;

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Fortune;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -19,7 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FortuneActivity extends SherlockFragmentActivity {
+public class HomeActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

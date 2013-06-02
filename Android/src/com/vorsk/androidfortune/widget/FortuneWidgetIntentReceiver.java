@@ -1,4 +1,8 @@
-package com.vorsk.androidfortune;
+package com.vorsk.androidfortune.widget;
+
+import com.vorsk.androidfortune.R;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

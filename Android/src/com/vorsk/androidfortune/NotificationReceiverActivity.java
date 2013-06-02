@@ -2,6 +2,8 @@ package com.vorsk.androidfortune;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 import android.os.Bundle;
 import android.util.Log;
