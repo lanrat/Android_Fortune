@@ -30,6 +30,9 @@ public class WidgetActivity extends Activity {
     public static void displayFortune(Context context, Fortune f){
     	Log.v("WidgetActivity", " Widget Activity is udating");
     	fortune = f;
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+    	WidgetActivity.displayFortuneToText(context, remoteViews);
+		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
     }
     
     public static void displayFortuneToText(Context ctx, RemoteViews remoteViews){

@@ -6,14 +6,16 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 public class FortuneWidgetProvider extends AppWidgetProvider {
 	
+	private static final String TAG = "FortuneWidgetProvider";
 	
 	@Override
-	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-			int[] appWidgetIds) {
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		Log.v(TAG,"opUpdate");
 	
 		// getting widget id
 		final int widgetIds = appWidgetIds.length;
@@ -28,9 +30,20 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 			WidgetActivity.displayFortuneToText(context, remoteViews);
 			remoteViews.setOnClickPendingIntent(R.id.up_button, buildUpButtonPendingIntent(context));
 			remoteViews.setOnClickPendingIntent(R.id.down_button, buildDownButtonPendingIntent(context));
+			remoteViews.setOnClickPendingIntent(R.id.fortune_view, buildClickPendingIntent(context));
 			pushWidgetUpdate(context, remoteViews);
 		}
 		
+	}
+	
+	/**Method called when the user clicks the fortune
+	 * It creates a new intent and sets its action, the action
+	 * is received in FortuneWidgetIntentReceiver class.
+	 * @param context
+	 */
+	public static PendingIntent buildClickPendingIntent(Context context){
+		Intent intent = new Intent(context, TabsFragment.class);
+		return PendingIntent.getActivity(context, 0, intent, 0);
 	}
 	
 	/**Method called when the user clicks up button. 

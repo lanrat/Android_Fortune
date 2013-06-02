@@ -21,6 +21,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 		Log.v(TAG,"onRecieve");
 		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 		final Fortune current_fortune = Client.getInstance(context).getCurrentFortune();
+
 		String vote_message = null;
 		
 		if (current_fortune != null)
