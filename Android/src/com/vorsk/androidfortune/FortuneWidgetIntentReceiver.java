@@ -67,45 +67,5 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 		
 	}// end method
-	
-	/** Counts up vote as user presses up button and notify's
-	 * the user on text view that they have selected up vote.
-	 * @param context state of the application
-	 * 		  textViewString string displayed to the user after selecting down vote
-	 */
-	private void updateWidgetUpButtonListener(Context context, String textViewString){
-		
-		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-		remoteViews.setTextViewText(R.id.fortune_view, textViewString);
-		
-		
-		// Calling countUpVote to count users up vote
-		//WidgetActivity.countUpVote(true);
-		
-		//Refreshing Button Listener
-		//remoteViews.setOnClickPendingIntent(R.id.up_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
-		//FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
-	
-	}// end method
-	
-	/** Counts down vote as user press down button and notify's
-	 * the user on text view that they have selected up vote.
-	 * @param context state of the application
-	 * 		  textViewString string displayed to the user after selecting down vote 
-	 */
-	private void updateWidgetDownButtonListener(Context context, String textViewString){
-		
-		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);	
-		remoteViews.setTextViewText(R.id.fortune_view, textViewString);
-		
-		// calling countDownVote to count users down vote
-		//WidgetActivity.countDownVote(true);
-	
-		
-		//Refreshing Button Listener
-		//remoteViews.setOnClickPendingIntent(R.id.down_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
-		//FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
-	
-	}// end method
 
 }// end class
