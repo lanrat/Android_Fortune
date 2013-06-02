@@ -103,7 +103,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 				return Client.getInstance().getFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
-				 HomeActivity.createNotificationFromFortune(getApplicationContext(),f);
+				 if (f != null) {
+					 f.displayNotification(getApplicationContext());
+				 }
 			 }
 		}
 		
@@ -127,7 +129,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 				return Client.getInstance().getFortuneByID(id);
 			}
 			 protected void onPostExecute(Fortune f) {
-				 HomeActivity.createNotificationFromFortune(getApplicationContext(),f);
+				 if (f != null){
+					 f.displayNotification(getApplicationContext());
+				 }
 			 }
 		}
 		

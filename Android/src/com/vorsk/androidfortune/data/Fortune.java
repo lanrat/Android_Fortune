@@ -5,6 +5,15 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vorsk.androidfortune.NotificationActivity;
+import com.vorsk.androidfortune.R;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 public class Fortune implements Comparable<Fortune> {
@@ -202,6 +211,58 @@ public class Fortune implements Comparable<Fortune> {
 			return 1;
 		}
 		return this.seen.compareTo(another.seen);
+	}
+	
+	
+	/**
+	 * creates and displays a notification from a fortune
+	 * @param ctx the context to display the notification on
+	 */
+	public void displayNotification(Context ctx){
+		// Prepare intent which is triggered if the
+		// notification is selected
+
+		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
+		int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
+		//click action
+		Intent intent = new Intent(ctx, NotificationActivity.class);
+		intent.setFlags(intentFlag);
+		intent.putExtra(NotificationActivity.INTENT_FORTUNE_ID, getFortuneID());
+		intent.putExtra(NotificationActivity.INTENT_ACTION, NotificationActivity.INTENT_ACTION_CLICK);
+		
+		//upvote action
+		Intent intentUp = new Intent(ctx, NotificationActivity.class);
+		intentUp.setFlags(intentFlag);
+		intentUp.putExtra(NotificationActivity.INTENT_FORTUNE_ID, getFortuneID());
+		intentUp.putExtra(NotificationActivity.INTENT_ACTION, NotificationActivity.INTENT_ACTION_UPVOTE);
+		
+		//downvote action
+		Intent intentDown = new Intent(ctx, NotificationActivity.class);
+		intentDown.setFlags(intentFlag);
+		intentDown.putExtra(NotificationActivity.INTENT_FORTUNE_ID, getFortuneID());
+		intentDown.putExtra(NotificationActivity.INTENT_ACTION, NotificationActivity.INTENT_ACTION_DOWNVOTE);
+		
+		PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent,
+				pendingFlag);
+		PendingIntent pIntentUp = PendingIntent.getActivity(ctx, 1, intentUp,
+				pendingFlag);
+		PendingIntent pIntentDown = PendingIntent.getActivity(ctx, 2,
+				intentDown, pendingFlag);
+		
+		//notification
+		Notification noti = new NotificationCompat.Builder(ctx)
+		.setContentTitle(ctx.getResources().getString(R.string.notification_title))
+		.setContentText(getFortuneText(false))
+		.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
+		.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
+		.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
+		.build();
+		NotificationManager notificationManager = (NotificationManager) ctx
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		// Hide the notification after its selected
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(0, noti);
 	}
 	
 	//Getters

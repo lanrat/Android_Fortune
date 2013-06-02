@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class NotificationReceiverActivity extends SherlockActivity {
+public class NotificationActivity extends SherlockActivity {
 	public static final String INTENT_ACTION = "action";
 	public static final String INTENT_FORTUNE_ID = "fortuneID";
 	public static final int INTENT_ACTION_CLICK = 1;

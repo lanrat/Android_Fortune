@@ -30,8 +30,10 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 				return Client.getInstance(mContext.getApplicationContext()).updateCurrentFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
-				 HomeActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);
-				 WidgetActivity.displayFortune(mContext, f);
+				 if ( f != null) {
+					 f.displayNotification(mContext);
+					 WidgetActivity.displayFortune(mContext, f);
+				 }
 			 }
 		}
 		

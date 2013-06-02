@@ -59,58 +59,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 		}
-
 	}
 
-	/**
-	 * creates and displays a notification from a fortune
-	 * @param f the fortune to display
-	 */
-	public static void createNotificationFromFortune(Context ctx, Fortune f){
-		// Prepare intent which is triggered if the
-		// notification is selected
-		if (f == null)
-		{
-			Log.e("fortune Activity","Atempting to display NULL Fortune");
-			return;
-		}
-		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
-		int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
-
-		Intent intent = new Intent(ctx, NotificationReceiverActivity.class);
-		intent.setFlags(intentFlag);
-		intent.putExtra(NotificationReceiverActivity.INTENT_FORTUNE_ID, f.getFortuneID());
-		intent.putExtra(NotificationReceiverActivity.INTENT_ACTION, NotificationReceiverActivity.INTENT_ACTION_CLICK);
-		
-		Intent intentUp = new Intent(ctx, NotificationReceiverActivity.class);
-		intentUp.setFlags(intentFlag);
-		intentUp.putExtra(NotificationReceiverActivity.INTENT_FORTUNE_ID, f.getFortuneID());
-		intentUp.putExtra(NotificationReceiverActivity.INTENT_ACTION, NotificationReceiverActivity.INTENT_ACTION_UPVOTE);
-		
-		Intent intentDown = new Intent(ctx, NotificationReceiverActivity.class);
-		intentDown.setFlags(intentFlag);
-		intentDown.putExtra(NotificationReceiverActivity.INTENT_FORTUNE_ID, f.getFortuneID());
-		intentDown.putExtra(NotificationReceiverActivity.INTENT_ACTION, NotificationReceiverActivity.INTENT_ACTION_DOWNVOTE);
-		
-		PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent,
-				pendingFlag);
-		PendingIntent pIntentUp = PendingIntent.getActivity(ctx, 1, intentUp,
-				pendingFlag);
-		PendingIntent pIntentDown = PendingIntent.getActivity(ctx, 2,
-				intentDown, pendingFlag);
-		
-		//notification
-		Notification noti = new NotificationCompat.Builder(ctx)
-		.setContentTitle(ctx.getResources().getString(R.string.notification_title))
-		.setContentText(f.getFortuneText(false))
-		.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
-		.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
-		.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
-		.build();
-		NotificationManager notificationManager = (NotificationManager) ctx
-				.getSystemService(NOTIFICATION_SERVICE);
-		// Hide the notification after its selected
-		noti.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(0, noti);
-	}
 }
