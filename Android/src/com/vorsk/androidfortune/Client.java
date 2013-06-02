@@ -42,7 +42,7 @@ public class Client
 	private static Client instance; //used to access this class as a static singleton
 	private static boolean enableServerCommunication = true;
 	private final Context mContext;
-	private static String PREF_CURR_FORTUNE = "currentFortuneID";
+	public static String PREF_CURR_FORTUNE = "currentFortuneID";
 
 	/**
 	 * constructor for fortune client
