@@ -294,6 +294,8 @@ public class Client
 		editor.putLong(PREF_CURR_FORTUNE, f.getFortuneID());
 		editor.commit();
 		
+		Log.v(TAG, "Current fortune id: " + f.getFortuneID());
+		
 		return f;
 	}
 	
@@ -304,6 +306,8 @@ public class Client
 	public Fortune getCurrentFortune() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
 		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
+		Log.v(TAG, "Current fortune has id of : " + id);
+		
 		if (id < 0) {
 			return null;
 		}

@@ -30,7 +30,6 @@ public class WidgetActivity extends Activity {
     public static void displayFortune(Context context, Fortune f){
     	Log.v("WidgetActivity", " Widget Activity is udating");
     	fortune = f;
-    	//TODO update widget text
     }
     
     public static void displayFortuneToText(Context ctx, RemoteViews remoteViews){

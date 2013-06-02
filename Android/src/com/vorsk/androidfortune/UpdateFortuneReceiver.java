@@ -23,7 +23,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 			}
 			@Override
 			protected Fortune doInBackground(Void... params) {
-				return Client.getInstance().getFortune();
+				return Client.getInstance().updateCurrentFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
 				 FortuneActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);
@@ -33,6 +33,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 		
 		// Build notification
 		GetFortuneTask task = new GetFortuneTask(context);
+		Log.v(TAG, "Alarm triggered");
 		task.execute();
 	}
 	
