@@ -27,7 +27,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 			}
 			@Override
 			protected Fortune doInBackground(Void... params) {
-				return Client.getInstance().updateCurrentFortune();
+				return Client.getInstance(mContext.getApplicationContext()).updateCurrentFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
 				 HomeActivity.createNotificationFromFortune(mContext.getApplicationContext(),f);

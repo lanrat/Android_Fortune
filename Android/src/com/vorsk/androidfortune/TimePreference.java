@@ -45,6 +45,10 @@ public class TimePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
+            Calendar currTime = new GregorianCalendar();
+            calendar.set(Calendar.DATE, currTime.get(Calendar.DATE));
+            calendar.set(Calendar.MONTH, currTime.get(Calendar.MONTH));
+            calendar.set(Calendar.YEAR, currTime.get(Calendar.YEAR));
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
             calendar.set(Calendar.SECOND, 0);

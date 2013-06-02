@@ -1,6 +1,8 @@
 package com.vorsk.androidfortune;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -14,6 +16,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
@@ -131,17 +134,27 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			
 		}
 		
-		//Update Alarm
-		if ( prefs.getBoolean("pref_enable_notification",false) ) {
-			long time = prefs.getLong(KEY_TIME_PREF, 0);
-			Log.v("Settings", "Alarm set to " + new Date(time).toString() );
-			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
-		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		    am.cancel(pendingIntent);	
-		    am.setInexactRepeating(AlarmManager.RTC_WAKEUP, time,
-		       AlarmManager.INTERVAL_DAY, pendingIntent); //TODO change to vary by interval preference
+		if ( !key.equals(Client.PREF_CURR_FORTUNE)) {
+			//Update Alarm
+			if ( prefs.getBoolean("pref_enable_notification",false) ) {
+				long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
+				long time = prefs.getLong(KEY_TIME_PREF, 0);
+				
+				while ( time < System.currentTimeMillis() )
+					time += interval;
+				
+				Log.v("Settings", "Alarm set to " + new Date(time).toString() );
+				Intent intent = new Intent(this, UpdateFortuneReceiver.class);
+			    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+			        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+			    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			    am.cancel(pendingIntent);	
+			    am.setRepeating(AlarmManager.RTC_WAKEUP, time, interval, pendingIntent);
+			    
+			    Editor editor = prefs.edit();
+				editor.putLong(KEY_TIME_PREF, time);
+				editor.commit();
+			}
 		}
 	}
 	
