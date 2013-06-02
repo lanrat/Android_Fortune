@@ -63,7 +63,7 @@
         </receiver>
         
         <receiver
-            android:name="com.vorsk.androidfortune.widget.FortuneWidgetProviderrovider"
+            android:name="com.vorsk.androidfortune.widget.FortuneWidgetProvider"
             android:icon="@drawable/ic_launcher"
             android:label="Fortune Widget" >
             <meta-data
