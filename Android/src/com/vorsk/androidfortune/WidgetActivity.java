@@ -2,44 +2,52 @@ package com.vorsk.androidfortune;
 
 //import com.javapapers.android.form.R;
 
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
 public class WidgetActivity extends Activity {
 	
+
 	private static Fortune fortune;
+	public static String fortuneText;
 	
 	/**
 	 * Default constructor 
 	 */
 	public WidgetActivity(){
-	
 	}
-    
+	
+	/** 
+	 * 
+	 */
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+	}
+
 	/** Method where fortune must be passed in 
 	 *  so it can be displayed on to the widget. 
 	 * @param f fortune to be passed in
 	 */
     public static void displayFortune(Context context, Fortune f){
     	
-    	String fortuneText;
     	if(f == null ){
     		
+    		Log.v("WidgetActivity", " Widget Activity is called");
     		fortuneText = "updating...";
     	}
     	else{
     		fortuneText  = f.getFortuneText(true);
     	}
+    }
+    
+    public static void displayFortuneToText(Context ctx, RemoteViews remoteViews){
     	
-    	fortune = f;
-    	RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 		remoteViews.setTextViewText(R.id.fortune_view, fortuneText);
     }
     
@@ -57,16 +65,6 @@ public class WidgetActivity extends Activity {
      */
     public void countDownVote(){
     	fortune.downvote();
-    }
-    
-    /**Getter method to get the fortune text so it can 
-     * be displayed on the widget
-     * @param none
-     * @return String returns the fortune text. 
-     */
-    public String fText(boolean seen){
-    	String s = fortune.getFortuneText(seen);
-    	return s;
     }
 }
        

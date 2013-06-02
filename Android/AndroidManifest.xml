@@ -16,6 +16,52 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/Theme.Sherlock" >
+        <activity
+            android:name="com.vorsk.androidfortune.TabsFragment"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateUnchanged" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.vorsk.androidfortune.NotificationReceiverActivity" >
+        </activity>
+        <activity
+            android:name="com.vorsk.androidfortune.SettingsActivity"
+            android:label="@string/action_settings" >
+        </activity>
+        
+        <activity
+            android:name="com.vorsk.androidfortune.WidgetActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.vorsk.androidfortune.WIDGETACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <receiver
+            android:name="com.vorsk.androidfortune.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+        <receiver
+            android:name="com.vorsk.androidfortune.UpdateFortuneReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+        
         <receiver
             android:name="com.vorsk.androidfortune.FortuneWidgetProvider"
             android:icon="@drawable/ic_launcher"
@@ -41,34 +87,6 @@
 		        android:name="android.appwidget.provider"
 		        android:resource="@xml/fortune_widget_info" />
 		</receiver>
-
-        <activity
-            android:name="com.vorsk.androidfortune.TabsFragment"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateUnchanged" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.vorsk.androidfortune.NotificationReceiverActivity" >
-        </activity>
-        <activity
-            android:name="com.vorsk.androidfortune.SettingsActivity"
-            android:label="@string/action_settings" >
-        </activity>
-
-        <receiver
-            android:name="com.vorsk.androidfortune.NotificationReceiver"
-            android:enabled="true"
-            android:exported="true" >
-        </receiver>
-        <receiver
-            android:name="com.vorsk.androidfortune.UpdateFortuneReceiver"
-            android:enabled="true"
-            android:exported="true" >
-        </receiver>
     </application>
 
 </manifest>
