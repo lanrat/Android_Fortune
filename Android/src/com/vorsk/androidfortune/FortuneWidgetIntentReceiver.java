@@ -21,7 +21,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 			updateWidgetUpButtonListener(context, "Up Vote Clicked :-D");
 			
 			// creating a timer thread to set text view back to the fortune String
-/*			Thread timer = new Thread(){
+			Thread timer = new Thread(){
 				public void run(){
 					try{
 						sleep(600);
@@ -34,13 +34,13 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 			};
 			timer.start();
 			
-*/
+
 		}
 		else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
 			updateWidgetDownButtonListener(context, "Down Vote Clicked :-( ");
 			
 			// creating a timer thread to set text view back to the fortune String
-/*			Thread timer = new Thread(){
+			Thread timer = new Thread(){
 				public void run(){
 					try{
 						sleep(600);
@@ -53,7 +53,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 			};
 			timer.start();
 			
-*/
+
 		}
 	}// end method
 	
