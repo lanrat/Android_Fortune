@@ -8,6 +8,7 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.FortuneDbAdapter;
 
 import android.annotation.TargetApi;
