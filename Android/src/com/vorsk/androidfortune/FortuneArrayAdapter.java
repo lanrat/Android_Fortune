@@ -89,7 +89,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 			@Override
 			public void onClick(View view) {
-				fortunes[position].upvote();
+				Fortune fortune = fortunes[position];
+				fortune.upvote();
 				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -97,7 +98,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				View rowView = inflater.inflate(R.layout.history_row, null);
 				
 				TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
-				upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));
+				upvoteCountText.setText(Integer.toString(fortune.getUpvotes()));
 				
 				// create dialog 
 				final Dialog dialog = new Dialog(getContext());
@@ -114,7 +115,8 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 
 			@Override
 			public void onClick(View view) {
-				fortunes[position].downvote();
+				Fortune fortune = fortunes[position];
+				fortune.downvote();
 				
 				// TODO need to get downvote_count text view from here to update count
 				LayoutInflater inflater = (LayoutInflater) context
@@ -124,7 +126,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				
 				TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
 				if(downvoteCountText != null)
-					downvoteCountText.setText(Integer.toString(fortunes[position].getDownvotes()));
+					downvoteCountText.setText(Integer.toString(fortune.getDownvotes()));
 				
 					
 				
