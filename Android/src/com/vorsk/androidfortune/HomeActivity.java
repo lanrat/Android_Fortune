@@ -6,11 +6,14 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class HomeActivity extends SherlockFragmentActivity {
+	
+	public static final String FRAGMENT_NAME = "Home Screen";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,9 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		Log.e("AAA","onstart");
 		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().sendView(FRAGMENT_NAME);
 	}
 	
 	@Override

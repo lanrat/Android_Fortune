@@ -26,6 +26,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class SubmitActivity extends SherlockFragmentActivity {
+	
+	public static final String FRAGMENT_NAME = "Submit Activity";
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().sendView(FRAGMENT_NAME);
 	}
 	
 	@Override

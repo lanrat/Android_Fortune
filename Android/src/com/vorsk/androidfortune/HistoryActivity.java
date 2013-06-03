@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class HistoryActivity extends SherlockFragmentActivity {
+	
+	public static final String FRAGMENT_NAME = "History Activity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 	public void onStart() {
 		super.onStart();
 		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().sendView(FRAGMENT_NAME);
 	}
 	
 	@Override
