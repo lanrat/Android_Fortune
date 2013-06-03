@@ -9,8 +9,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -18,17 +20,26 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
 import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 	Client client;
+	private static TabsFragment mInst;
 	
 	private static final String TAB_ID_LEFT = "left";
 	private static final String TAB_ID_RIGHT = "right";
 	private static final String TAB_ID_HOME = "home";
+	
+	private final static String TAG = "Tabs Fragment";
+	
+	public static TabsFragment instance() {
+        return mInst;
+}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +94,25 @@ public class TabsFragment extends SherlockFragmentActivity {
 	public void onResume() {
 		super.onResume();
 	}	
+	
+	/**
+	 * called to update the fortune displayed on the home page
+	 * @param f the fortune to display
+	 */
+	public void displayFortune(Fortune f) {
+		if (f == null) {
+			Log.e(TAG,"Cannot display null fortune");
+			return;
+		}
+		TextView current_fortune = (TextView)findViewById(R.id.body);
+		current_fortune.setText(f.getFortuneText(true));
+		//TODO finish
+	}
+	
+	
 
 	/**
-	 * This is a temp function for out test button
+	 * Called by the manual refresh button
 	 * @param view
 	 */
 	public void updateFortune(View view){
@@ -100,6 +127,19 @@ public class TabsFragment extends SherlockFragmentActivity {
 			fragment.historyRefresh();
 	}
 	
+	@Override
+	public void onStart() {
+		super.onStart();
+		mInst = this;
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		mInst = null;
+		EasyTracker.getInstance().activityStop(this);
+	}
 
 	// Everything below this line is part of the tabs view pager api.
 	// It should not be modified.

@@ -36,5 +36,9 @@
 	
 	<string name="server_error">Server Communication Error</string>
 	
+	<string name="refresh_button">Get new Fortune</string>
+	
+	<string name="vote_default_count">0</string>
+	
 
 </resources>

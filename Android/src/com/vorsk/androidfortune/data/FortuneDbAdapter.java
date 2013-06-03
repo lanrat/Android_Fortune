@@ -140,7 +140,7 @@ public class FortuneDbAdapter {
 	 */
 	public long createFortune(String text) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_TEXT, text);
+		initialValues.put(KEY_TEXT, text.trim());
 		initialValues.put(KEY_SUBMITDATE, System.currentTimeMillis() );
 		
 		initialValues.put(KEY_UPVOTES, 0);

@@ -188,7 +188,7 @@ public class Fortune implements Comparable<Fortune> {
 		{
 			this.markSeen();
 		}
-		return this.fortuneText;
+		return this.fortuneText.trim();
 
 		//return "Would you like to see Fast Six with me today";
 	}
