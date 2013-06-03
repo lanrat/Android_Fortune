@@ -1,6 +1,5 @@
 package com.vorsk.androidfortune;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Log;
 import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.Fortune;
 

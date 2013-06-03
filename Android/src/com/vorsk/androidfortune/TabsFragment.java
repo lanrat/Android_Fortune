@@ -2,24 +2,13 @@ package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -31,12 +20,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
 import com.vorsk.androidfortune.data.Client;
-import com.vorsk.androidfortune.data.Fortune;
 
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 	Client client;
+	
+	private static final String TAB_ID_LEFT = "left";
+	private static final String TAB_ID_RIGHT = "right";
+	private static final String TAB_ID_HOME = "home";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +49,11 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 
-		mTabsAdapter.addTab("left", "History",
+		mTabsAdapter.addTab(TAB_ID_LEFT, "History",
 				HistoryActivity.HistoryFragment.class, null);
-		mTabsAdapter.addTab("home", "Fortune",
+		mTabsAdapter.addTab(TAB_ID_HOME, "Fortune",
 				HomeActivity.FortuneFragment.class, null);
-		mTabsAdapter.addTab("right", "Submit",
+		mTabsAdapter.addTab(TAB_ID_RIGHT, "Submit",
 				SubmitActivity.SubmitFragment.class, null);
 
 		// 0-based so 1 is the second tab
@@ -93,56 +85,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 	}	
 
 	/**
-	 * Temporary method used for testing notifications
-	 * @param view the button pressed
+	 * This is a temp function for out test button
+	 * @param view
 	 */
-	public void createNotification(View view) {
-		//get fortune
-		class GetTestFortune extends AsyncTask<Void, Void, Fortune>{
-
-			@Override
-			protected Fortune doInBackground(Void... params) {
-				return Client.getInstance().getFortune();
-			}
-			 protected void onPostExecute(Fortune f) {
-				 if (f != null) {
-					 f.displayNotification(getApplicationContext());
-				 }
-			 }
-		}
-		
-		// Build notification
-		GetTestFortune test = new GetTestFortune();
-		test.execute();
-		//createNotificationFromFortune(f);
-	}
-	
-	/**
-	 * Temporary method used for testing notifications
-	 * @param view the button pressed
-	 */
-	public void createNotification_id(View view) {
-		//get fortune
-		final long id = 22; //TODO this is for testing
-		class GetTestFortune extends AsyncTask<Void, Void, Fortune>{
-
-			@Override
-			protected Fortune doInBackground(Void... params) {
-				return Client.getInstance().getFortuneByID(id);
-			}
-			 protected void onPostExecute(Fortune f) {
-				 if (f != null){
-					 f.displayNotification(getApplicationContext());
-				 }
-			 }
-		}
-		
-		// Build notification
-		GetTestFortune test = new GetTestFortune();
-		test.execute();
-		//createNotificationFromFortune(f);
-	}
-	
 	public void updateFortune(View view){
 		new UpdateFortuneReceiver().onReceive(this, null);
 	}
@@ -178,6 +123,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 		static final class TabInfo {
 			// tags is not currently used
+			@SuppressWarnings("unused")
 			private final String tag;
 			private final Class<?> clss;
 			private final Bundle args;
