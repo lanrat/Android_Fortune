@@ -13,20 +13,6 @@
         android:layout_height="wrap_content"
         android:onClick="historyRefresh"
         android:text="Refresh" />
-    
-    <!-- 
-    <TextView
-        android:id="@+id/history_title"
-        android:layout_below="@id/refreshButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="2dp"
-        android:text="@string/history_title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-     -->
      
     <ListView
         android:id="@+id/history_list"

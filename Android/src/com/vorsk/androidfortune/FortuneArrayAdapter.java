@@ -85,7 +85,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			
 		});
 		
-		rowView.findViewById(R.id.up_row).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.up_button).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
@@ -111,7 +111,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			}
 			
 		});
-		rowView.findViewById(R.id.down_row).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.down_button).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {

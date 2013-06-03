@@ -1,47 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:baselineAligned="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
-    
-    <LinearLayout
-        android:id="@+id/row_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:layout_marginRight="@dimen/view_margin"
-        android:layout_marginTop="@dimen/view_margin"
-        android:layout_marginBottom="@dimen/view_margin"
-        android:orientation="vertical" >
-        
-        <TextView
-		    android:id="@+id/body"
-		    android:text="@string/null_fortune"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textSize="@dimen/medium_text"
-			android:textIsSelectable="false" />
-        
-		<TextView
-		    android:id="@+id/time"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:paddingLeft="10dp"
-		    android:textIsSelectable="false"
-		    android:textSize="@dimen/small_text"
-		    android:textStyle="italic" />
-		
-	</LinearLayout>
+    android:layout_height="match_parent">
 	
     <LinearLayout
         android:id="@+id/row_vote"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/view_margin"
         android:layout_marginLeft="@dimen/view_margin"
         android:layout_marginTop="@dimen/view_margin"
-        android:layout_marginBottom="@dimen/view_margin"
         android:gravity="center_vertical"
         android:orientation="vertical" >
 		
@@ -52,7 +22,7 @@
 	    	android:orientation="horizontal" >
 			
 		    <ImageButton
-			    android:id="@+id/up_row"
+			    android:id="@+id/up_button"
 			    android:background="@null"
 			    android:layout_width="@dimen/arrow_size"
 			    android:layout_height="@dimen/arrow_size"
@@ -81,7 +51,7 @@
 	    	android:orientation="horizontal" >
 		    
 			<ImageButton
-			    android:id="@+id/down_row"
+			    android:id="@+id/down_button"
 			    android:background="@null"
 			    android:layout_width="@dimen/arrow_size"
 			    android:layout_height="@dimen/arrow_size"
@@ -103,4 +73,36 @@
 			
 		</LinearLayout>
 	</LinearLayout>
-</LinearLayout>
+	
+    <LinearLayout
+        android:id="@+id/row_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@id/row_vote"
+        android:layout_marginBottom="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_marginTop="@dimen/view_margin"
+        android:layout_toLeftOf="@id/row_vote"
+        android:orientation="vertical" >
+        
+        <TextView
+		    android:id="@+id/body"
+		    android:text="@string/null_fortune"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textSize="@dimen/medium_text"
+			android:textIsSelectable="false" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:textIsSelectable="false"
+            android:textSize="@dimen/small_text"
+            android:textStyle="italic" />
+		
+	</LinearLayout>
+</RelativeLayout>
