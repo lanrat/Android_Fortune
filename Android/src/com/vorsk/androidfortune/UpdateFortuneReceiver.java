@@ -40,7 +40,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 				 if ( f != null) {
 					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 					
-					 if (prefs.getBoolean(SettingsActivity.KEY_NOTIFICATION_ENABLE,false)) {
+					 if (prefs.getBoolean(SettingsActivity.KEY_NOTIFICATION_ENABLE,true)) {
 						 f.displayNotification(mContext);
 					 }
 					 WidgetActivity.displayFortune(mContext, f);

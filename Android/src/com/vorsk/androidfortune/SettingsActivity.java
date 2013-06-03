@@ -139,7 +139,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			
 		}
 		
-		if ( prefs.getBoolean(KEY_UPDATE_ENABLE,false) ) {
+		if ( prefs.getBoolean(KEY_UPDATE_ENABLE,true) ) {
 			long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
 			long time = prefs.getLong(KEY_TIME_PREF, 0);
 			
