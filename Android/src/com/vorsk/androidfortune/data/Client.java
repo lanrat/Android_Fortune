@@ -177,7 +177,8 @@ public class Client
 				JSONObject obj = getRequestJSON();
 				try {
 					obj.put("text", text);
-					database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj).getJSONObject(0))));
+					int id = database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj).getJSONObject(0))));
+					database.updateFortuneCol(id,FortuneDbAdapter.KEY_OWNER, true);
 				} catch (JSONException e) {
 					Log.e(TAG,"JSONException");
 				}

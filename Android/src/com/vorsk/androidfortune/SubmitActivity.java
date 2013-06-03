@@ -3,7 +3,9 @@ package com.vorsk.androidfortune;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -57,7 +59,6 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	}
 
 	public static class SubmitFragment extends SherlockFragment {
-
 		private static RelativeLayout layout;
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,44 +73,69 @@ public class SubmitActivity extends SherlockFragmentActivity {
 			ListView lv = (ListView) layout.findViewById(R.id.submit_list);
 			lv.setAdapter(adapter);
 	
-			View submitButton = layout.findViewById(R.id.button1);
-			((Button)submitButton).setOnClickListener(new OnClickListener() {
+			View submitButton = layout.findViewById(R.id.submitButton);
+			((Button)submitButton).setOnClickListener( new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					LayoutInflater inf = LayoutInflater.from(getActivity().getApplicationContext());
+					View promptsView = inf.inflate(R.layout.submit_fortune_dialog, null);
+	 
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							getActivity() );
+	 
+					// set prompts.xml to alertdialog builder
+					alertDialogBuilder.setView(promptsView);
+					
+					final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialog);
 
-	            @Override
-	            public void onClick(View v) {
-	            	Log.v("SubmitActivity", "Attempting to submit fortune");
-	            	class SubmitFortuneTask extends AsyncTask<Void, Void, Void>{
-	            		private String mText;
-	            		public SubmitFortuneTask (String text) {
-	            			super();
-	            			mText = text;
-	            		}
-	            		
-	        			@Override
-	        			protected Void doInBackground(Void... params) {
-	        				Client.getInstance().submitFortune(mText);
-	        				//mark fortune as viewed
-	        				return null; //TODO what to return	
-	        			}
-	        		}
-	        		
-	        		// Build notification
-	        		SubmitFortuneTask task = new 
-	        				SubmitFortuneTask( ((EditText)layout.findViewById(R.id.editText1)).getText().toString());
-	        		task.execute();
-	        		
-	        		// reset edit text
-	            	EditText editText = (EditText)layout.findViewById(R.id.editText1);
-	            	editText.setText(null);
-	            	
-	            	// hide keyboard
-	            	InputMethodManager inputManager = 
-	            	        (InputMethodManager) getSherlockActivity().
-	            	            getSystemService(Context.INPUT_METHOD_SERVICE); 
-	            	inputManager.hideSoftInputFromWindow(
-	            	        getSherlockActivity().getCurrentFocus().getWindowToken(),
-	            	        InputMethodManager.HIDE_NOT_ALWAYS);
-	            }
+					
+					// set dialog message
+					alertDialogBuilder
+						.setCancelable(false)
+						.setPositiveButton("Submit",
+						  new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog,int id) {
+						    	Log.v("SubmitActivity", "Attempting to submit fortune");
+				            	class SubmitFortuneTask extends AsyncTask<Void, Void, Void>{
+				            		private String mText;
+				            		public SubmitFortuneTask (String text) {
+				            			super();
+				            			mText = text;
+				            		}
+				            		
+				        			@Override
+				        			protected Void doInBackground(Void... params) {
+				        				Client.getInstance().submitFortune(mText);
+				        				return null; //TODO what to return	
+				        			}
+				            	}
+				            	// Build notification
+				        		SubmitFortuneTask task = new SubmitFortuneTask(userInput.getText().toString());
+				        		task.execute();
+				            	userInput.setText(null);
+				            	
+				            	// hide keyboard
+				            	InputMethodManager inputManager = 
+				            	        (InputMethodManager) getSherlockActivity().
+				            	            getSystemService(Context.INPUT_METHOD_SERVICE);
+				            	inputManager.hideSoftInputFromWindow(userInput.getWindowToken(), 
+				            			InputMethodManager.HIDE_NOT_ALWAYS);
+						    }  
+						 })
+						.setNegativeButton("Cancel",
+						  new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+						    }
+						  });
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+				}
+				
 			});
 			return layout;
 		}

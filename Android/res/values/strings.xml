@@ -36,5 +36,7 @@
 	
 	<string name="server_error">Server Communication Error</string>
 	
+	<string name="submit_title">Submitted Fortunes</string>
+	<string name="submit_button_text">Submit New Fortune</string>
 
 </resources>

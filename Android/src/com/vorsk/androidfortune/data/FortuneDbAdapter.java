@@ -322,7 +322,7 @@ public class FortuneDbAdapter {
 	 * @param f fortune object to put into database.
 	 * @return rowId of new entry
 	 */
-	public long insertFortune(Fortune f) {
+	public int insertFortune(Fortune f) {
 
 		ContentValues initialValues = new ContentValues();
 
@@ -338,7 +338,7 @@ public class FortuneDbAdapter {
 		initialValues.put(KEY_FLAG, f.getFlagged() ? 1 : 0);
 		initialValues.put(KEY_OWNER, f.getOwner()? 1 : 0 );
 		
-		return mDb.insert(DATABASE_TABLE, null, initialValues);
+		return (int) mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
 	
 	
