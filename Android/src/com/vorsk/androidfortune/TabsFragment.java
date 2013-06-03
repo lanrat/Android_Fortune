@@ -30,6 +30,8 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
@@ -58,7 +60,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		mTabsAdapter.addTab("left", "History",
 				HistoryActivity.HistoryFragment.class, null);
 		mTabsAdapter.addTab("home", "Fortune",
-				FortuneActivity.FortuneFragment.class, null);
+				HomeActivity.FortuneFragment.class, null);
 		mTabsAdapter.addTab("right", "Submit",
 				SubmitActivity.SubmitFragment.class, null);
 
@@ -103,7 +105,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 				return Client.getInstance().getFortune();
 			}
 			 protected void onPostExecute(Fortune f) {
-				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);
+				 if (f != null) {
+					 f.displayNotification(getApplicationContext());
+				 }
 			 }
 		}
 		
@@ -127,7 +131,9 @@ public class TabsFragment extends SherlockFragmentActivity {
 				return Client.getInstance().getFortuneByID(id);
 			}
 			 protected void onPostExecute(Fortune f) {
-				 FortuneActivity.createNotificationFromFortune(getApplicationContext(),f);
+				 if (f != null){
+					 f.displayNotification(getApplicationContext());
+				 }
 			 }
 		}
 		

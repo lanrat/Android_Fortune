@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.vorsk.androidfortune.data.Fortune;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;

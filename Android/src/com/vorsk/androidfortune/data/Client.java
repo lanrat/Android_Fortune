@@ -1,4 +1,4 @@
-package com.vorsk.androidfortune;
+package com.vorsk.androidfortune.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
@@ -42,7 +41,7 @@ public class Client
 	private static Client instance; //used to access this class as a static singleton
 	private static boolean enableServerCommunication = true;
 	private final Context mContext;
-	private static String PREF_CURR_FORTUNE = "currentFortuneID";
+	public static String PREF_CURR_FORTUNE = "currentFortuneID";
 
 	/**
 	 * constructor for fortune client

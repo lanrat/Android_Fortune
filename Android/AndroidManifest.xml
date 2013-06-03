@@ -26,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.vorsk.androidfortune.NotificationReceiverActivity" >
+        <activity android:name="com.vorsk.androidfortune.NotificationActivity" >
         </activity>
         <activity
             android:name="com.vorsk.androidfortune.SettingsActivity"
@@ -34,7 +34,7 @@
         </activity>
         
         <activity
-            android:name="com.vorsk.androidfortune.WidgetActivity"
+            android:name="com.vorsk.androidfortune.widget.WidgetActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.vorsk.androidfortune.WIDGETACTIVITY" />
@@ -63,7 +63,7 @@
         </receiver>
         
         <receiver
-            android:name="com.vorsk.androidfortune.FortuneWidgetProvider"
+            android:name="com.vorsk.androidfortune.widget.FortuneWidgetProvider"
             android:icon="@drawable/ic_launcher"
             android:label="Fortune Widget" >
             <meta-data
@@ -76,7 +76,7 @@
         </receiver>
         
 	    <receiver
-		    android:name="com.vorsk.androidfortune.FortuneWidgetIntentReceiver"
+		    android:name="com.vorsk.androidfortune.widget.FortuneWidgetIntentReceiver"
 		    android:label="FortuneWidgetIntentReceiver" >
 			<intent-filter>
 			        <action android:name="up_button.intent.action.UP_VOTE" />

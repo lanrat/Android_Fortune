@@ -30,5 +30,7 @@
 	<string name="up_vote">Upvote Received</string>
 	<string name="down_vote">Downvote Received</string>
 	
+	<string name="null_fortune">No fortunes yet</string>
+	
 
 </resources>
