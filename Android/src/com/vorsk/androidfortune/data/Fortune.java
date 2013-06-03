@@ -223,7 +223,7 @@ public class Fortune implements Comparable<Fortune> {
 		// notification is selected
 
 		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
-		int intentFlag = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+		int intentFlag = Intent.FLAG_ACTIVITY_NEW_TASK;
 
 		//click action
 		Intent intent = new Intent(ctx, NotificationActivity.class);
@@ -243,12 +243,9 @@ public class Fortune implements Comparable<Fortune> {
 		intentDown.putExtra(NotificationActivity.INTENT_FORTUNE_ID, getFortuneID());
 		intentDown.putExtra(NotificationActivity.INTENT_ACTION, NotificationActivity.INTENT_ACTION_DOWNVOTE);
 		
-		PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent,
-				pendingFlag);
-		PendingIntent pIntentUp = PendingIntent.getActivity(ctx, 1, intentUp,
-				pendingFlag);
-		PendingIntent pIntentDown = PendingIntent.getActivity(ctx, 2,
-				intentDown, pendingFlag);
+		PendingIntent pIntent = PendingIntent.getActivity(ctx, NotificationActivity.ID_ACTION_CLICK, intent, pendingFlag);
+		PendingIntent pIntentUp = PendingIntent.getActivity(ctx, NotificationActivity.ID_ACTION_UPVOTE, intentUp, pendingFlag);
+		PendingIntent pIntentDown = PendingIntent.getActivity(ctx, NotificationActivity.ID_ACTION_DOWNVOTE, intentDown, pendingFlag);
 		
 		//notification
 		Notification noti = new NotificationCompat.Builder(ctx)
@@ -262,7 +259,7 @@ public class Fortune implements Comparable<Fortune> {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		// Hide the notification after its selected
 		noti.flags |= Notification.FLAG_AUTO_CANCEL;
-		notificationManager.notify(0, noti);
+		notificationManager.notify(NotificationActivity.ID_NOTIFICATION, noti);
 	}
 	
 	//Getters
