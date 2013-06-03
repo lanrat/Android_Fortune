@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="historyFragmentId" />
+    <item type="id" name="homeFragmentId" />
+    <item type="id" name="submitFragmentId" />
+</resources>

@@ -148,7 +148,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 	}
 	
 	public void historyRefresh(View view){
-		HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager().findFragmentById(android.R.id.content);
+		HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.historyFragmentId);
 		if(fragment == null)
 			Toast.makeText(getBaseContext(), "HistoryFragment null", Toast.LENGTH_SHORT).show();
 		else

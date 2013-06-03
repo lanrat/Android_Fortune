@@ -30,9 +30,9 @@ public class HistoryActivity extends SherlockFragmentActivity {
 		FragmentManager fm = getSupportFragmentManager();
 
 		// Create the list fragment and add it as our sole content.
-		if (fm.findFragmentById(android.R.id.content) == null) {
+		if (fm.findFragmentById(R.id.historyFragmentId) == null) {
 			HistoryFragment fragment = new HistoryFragment();
-			fm.beginTransaction().add(android.R.id.content, fragment).commit();
+			fm.beginTransaction().add(R.id.historyFragmentId, fragment).commit();
 		}
 		
 	}
