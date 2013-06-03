@@ -14,13 +14,13 @@
 	        android:dependency="pref_enable_update"
 	        android:summary="@string/pref_enable_notification_summ"
 	        android:defaultValue="true" />
-	    <ListPreference
+	    <!--<ListPreference
 	        android:key="pref_notification_interval"
 	        android:title="@string/pref_notification_interval"
 	        android:dependency="pref_enable_update"
 	        android:defaultValue="Daily"
            	android:entries="@array/time_intervals"
-           	android:entryValues="@array/time_intervals" />
+           	android:entryValues="@array/time_intervals"/> -->
 	    <com.vorsk.androidfortune.TimePreference
 	        android:key="pref_notification_time"
 	        android:title="@string/pref_notification_time"

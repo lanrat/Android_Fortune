@@ -45,8 +45,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		// Display fragment as main content
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			addPreferencesFromResource(R.xml.preferences);
-			 mIntervalPreference = (ListPreference) (ListPreference)getPreferenceScreen()
-		                .findPreference(KEY_INTERVAL);
+//			 mIntervalPreference = (ListPreference) (ListPreference)getPreferenceScreen()
+//		                .findPreference(KEY_INTERVAL);
 		} else {
 			getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, new Prefs1Fragment())
@@ -90,8 +90,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preferences);
-			mIntervalPreference = (ListPreference) getPreferenceScreen()
-					.findPreference(KEY_INTERVAL);
+//			mIntervalPreference = (ListPreference) getPreferenceScreen()
+//					.findPreference(KEY_INTERVAL);
 			
 			Preference button = (Preference)findPreference("pref_database_clear");
 			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -113,13 +113,15 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		/* slightly hacky way of getting the fragment's list preference.
 		  I tried to do it in onCreate, but the preference is still null at that point.
 		  this way, at least the deprecated code is kept together.*/
-		if ( mIntervalPreference == null )
-			mIntervalPreference = Prefs1Fragment.mIntervalPreference;
+//		if ( mIntervalPreference == null )
+//			mIntervalPreference = Prefs1Fragment.mIntervalPreference;
 		
 		// Setup the initial values
-		mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
+		//mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
 		// Set up a listener whenever a key changes
 		prefs.registerOnSharedPreferenceChangeListener(this);
+		
+		
 	}
 
 	@Override
@@ -134,10 +136,10 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		if ( key.equals(KEY_CURR_FORTUNE) ) return; 
 		
 		
-		if (key.equals(KEY_INTERVAL)) {
-			mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
+		//if (key.equals(KEY_INTERVAL)) {
+		//	mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
 			
-		}
+		//}
 		
 		if ( prefs.getBoolean(KEY_UPDATE_ENABLE,false) ) {
 			long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
