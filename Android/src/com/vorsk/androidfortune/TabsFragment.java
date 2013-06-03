@@ -104,7 +104,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 			Log.e(TAG,"Cannot display null fortune");
 			return;
 		}
-		TextView current_fortune = (TextView)findViewById(R.id.body);
+		TextView current_fortune = (TextView)findViewById(R.id.fortune_text);
 		current_fortune.setText(f.getFortuneText(true));
 		//TODO finish
 	}

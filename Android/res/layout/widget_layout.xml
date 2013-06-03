@@ -1,48 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<include xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/current_fortune"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/box1"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/fortune_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true"
-        android:background="@drawable/box1"
-        android:gravity="center"
-        android:layout_weight="10"
-        android:text="@string/null_fortune" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_weight="5"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
-        
-        <ImageButton
-            android:id="@+id/up_button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:background="@null"
-            android:clickable="true"
-            android:contentDescription="@string/up_button"
-            android:gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_up" />
-
-        <ImageButton
-            android:id="@+id/down_button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:background="@null"
-            android:clickable="true"
-            android:contentDescription="@string/down_button"
-            android:gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_down" />
-        
-    </LinearLayout>
-</LinearLayout>
+	android:layout_height="match_parent"
+	android:background="@drawable/box1"
+    layout="@layout/fortune_layout" />

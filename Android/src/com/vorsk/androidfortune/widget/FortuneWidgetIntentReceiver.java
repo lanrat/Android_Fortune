@@ -23,7 +23,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		Log.v(TAG,"onRecieve");
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
 		final Fortune current_fortune = Client.getInstance(context).getCurrentFortune();
 
 		String vote_message = null;
@@ -36,7 +36,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 				}else {
 					vote_message = context.getResources().getString(R.string.already_voted);
 				}
-				remoteViews.setOnClickPendingIntent(R.id.up_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
+				remoteViews.setOnClickPendingIntent(R.id.upvote_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
 			}
 			else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
 				if (WidgetActivity.countDownVote()) {
@@ -44,12 +44,12 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 				}else {
 					vote_message = context.getResources().getString(R.string.already_voted);
 				}
-				remoteViews.setOnClickPendingIntent(R.id.down_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
+				remoteViews.setOnClickPendingIntent(R.id.downvote_button, FortuneWidgetProvider.buildDownButtonPendingIntent(context));
 			}
 			
 			if (vote_message != null)
 			{
-				remoteViews.setTextViewText(R.id.fortune_view, vote_message);
+				remoteViews.setTextViewText(R.id.fortune_text, vote_message);
 				// creating a timer thread to set text view back to the fortune String
 				Thread timer = new Thread(){
 					public void run(){
@@ -58,7 +58,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 						} catch(InterruptedException e){
 							Log.e(TAG,"thread exception");
 						} finally{
-							remoteViews.setTextViewText(R.id.fortune_view, current_fortune.getFortuneText(true));
+							remoteViews.setTextViewText(R.id.fortune_text, current_fortune.getFortuneText(true));
 							FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 						}
 					}

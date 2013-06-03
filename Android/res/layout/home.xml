@@ -10,7 +10,7 @@
     <include android:id="@+id/current_fortune"
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-        layout="@layout/history_row" />
+        layout="@layout/fortune_layout" />
 
     <Button
         android:id="@+id/button2"

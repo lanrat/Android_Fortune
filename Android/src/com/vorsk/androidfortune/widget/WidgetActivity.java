@@ -43,14 +43,14 @@ public class WidgetActivity extends Activity {
     	}else {
     		Log.v(TAG,"displaying fortune: +"+f.getFortuneText(false));
     	}
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
     	WidgetActivity.displayFortuneToText(context, remoteViews);
 		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
     }
     
     public static void displayFortuneToText(Context ctx, RemoteViews remoteViews){
     	if (fortune != null) {
-    		remoteViews.setTextViewText(R.id.fortune_view, fortune.getFortuneText(true));
+    		remoteViews.setTextViewText(R.id.fortune_text, fortune.getFortuneText(true));
     	}
     }
     

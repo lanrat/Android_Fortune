@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 	
     <LinearLayout
-        android:id="@+id/row_vote"
+        android:id="@+id/fortune_vote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -22,7 +22,7 @@
 	    	android:orientation="horizontal" >
 			
 		    <ImageButton
-			    android:id="@+id/up_button"
+			    android:id="@+id/upvote_button"
 			    android:background="@null"
 			    android:layout_width="@dimen/arrow_size"
 			    android:layout_height="@dimen/arrow_size"
@@ -51,7 +51,7 @@
 	    	android:orientation="horizontal" >
 		    
 			<ImageButton
-			    android:id="@+id/down_button"
+			    android:id="@+id/downvote_button"
 			    android:background="@null"
 			    android:layout_width="@dimen/arrow_size"
 			    android:layout_height="@dimen/arrow_size"
@@ -75,20 +75,20 @@
 	</LinearLayout>
 	
     <LinearLayout
-        android:id="@+id/row_text"
+        android:id="@+id/fortune_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignTop="@id/row_vote"
+        android:layout_alignTop="@id/fortune_vote"
         android:layout_marginBottom="@dimen/view_margin"
         android:layout_marginRight="@dimen/view_margin"
         android:layout_marginTop="@dimen/view_margin"
-        android:layout_toLeftOf="@id/row_vote"
+        android:layout_toLeftOf="@id/fortune_vote"
         android:orientation="vertical" >
         
         <TextView
-		    android:id="@+id/body"
+		    android:id="@+id/fortune_text"
 		    android:text="@string/null_fortune"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 			android:textIsSelectable="false" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/fortune_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"

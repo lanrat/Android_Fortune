@@ -27,14 +27,14 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 		// updating the widget
 		for(int i =0; i<widgetIds; i++){
 			
-			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
 			WidgetActivity.displayFortune(context, Client.getInstance(context).getCurrentFortune());
 			
 			// displaying the fortune on to the textView
 			WidgetActivity.displayFortuneToText(context, remoteViews);
-			remoteViews.setOnClickPendingIntent(R.id.up_button, buildUpButtonPendingIntent(context));
-			remoteViews.setOnClickPendingIntent(R.id.down_button, buildDownButtonPendingIntent(context));
-			remoteViews.setOnClickPendingIntent(R.id.fortune_view, buildClickPendingIntent(context));
+			remoteViews.setOnClickPendingIntent(R.id.upvote_button, buildUpButtonPendingIntent(context));
+			remoteViews.setOnClickPendingIntent(R.id.downvote_button, buildDownButtonPendingIntent(context));
+			remoteViews.setOnClickPendingIntent(R.id.fortune_body, buildClickPendingIntent(context));
 			pushWidgetUpdate(context, remoteViews);
 		}
 		

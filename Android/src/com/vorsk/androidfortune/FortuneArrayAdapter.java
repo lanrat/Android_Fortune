@@ -22,7 +22,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 	private final Context context;
 	
     public FortuneArrayAdapter(Context context, Fortune[] fortunes) {
-        super(context, R.layout.history_row, fortunes);
+        super(context, R.layout.fortune_layout, fortunes);
         
         this.fortunes = fortunes;
         this.context = context;
@@ -33,15 +33,15 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
     	LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowView = inflater.inflate(R.layout.history_row, parent, false);
+		View rowView = inflater.inflate(R.layout.fortune_layout, parent, false);
 
-		TextView timeText = (TextView) rowView.findViewById(R.id.time);
-		TextView bodyText = (TextView) rowView.findViewById(R.id.body);
+		TextView timeText = (TextView) rowView.findViewById(R.id.fortune_time);
+		TextView bodyText = (TextView) rowView.findViewById(R.id.fortune_text);
 		
 		TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
 		TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
 		
-		rowView.findViewById(R.id.row_text).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.fortune_body).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
@@ -85,7 +85,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			
 		});
 		
-		rowView.findViewById(R.id.up_button).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.upvote_button).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
@@ -95,7 +95,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-				View rowView = inflater.inflate(R.layout.history_row, null);
+				View rowView = inflater.inflate(R.layout.fortune_layout, null);
 				
 				TextView upvoteCountText = (TextView) rowView.findViewById(R.id.upvote_count);
 				upvoteCountText.setText(Integer.toString(fortune.getUpvotes()));
@@ -111,7 +111,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			}
 			
 		});
-		rowView.findViewById(R.id.down_button).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.downvote_button).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
@@ -122,7 +122,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-				View rowView = inflater.inflate(R.layout.history_row, null);
+				View rowView = inflater.inflate(R.layout.fortune_layout, null);
 				
 				TextView downvoteCountText = (TextView) rowView.findViewById(R.id.downvote_count);
 				if(downvoteCountText != null)
