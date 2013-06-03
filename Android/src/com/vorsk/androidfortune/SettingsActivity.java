@@ -27,6 +27,7 @@ import android.util.Log;
 public class SettingsActivity extends SherlockPreferenceActivity implements
 	OnSharedPreferenceChangeListener  {
 
+	public static final String KEY_UPDATE_ENABLE = "pref_enable_update";
 	public static final String KEY_INTERVAL = "pref_notification_interval";
 	public static final String KEY_TIME_PREF = "pref_notification_time";
 	public static final String KEY_NOTIFICATION_ENABLE = "pref_enable_notification";
@@ -129,34 +130,43 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	}
 
 	public void onSharedPreferenceChanged( SharedPreferences prefs, String key) {
+		//do nothing because this is used to keep track of current fortune
+		if ( key.equals(KEY_CURR_FORTUNE) ) return; 
+		
+		
 		if (key.equals(KEY_INTERVAL)) {
 			mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
 			
 		}
 		
-		if ( !key.equals(KEY_CURR_FORTUNE)) {
-			//Update Alarm
-			//TODO run the alarm always!!!
-			if ( prefs.getBoolean(KEY_NOTIFICATION_ENABLE,false) ) {
-				long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
-				long time = prefs.getLong(KEY_TIME_PREF, 0);
-				
-				while ( time < System.currentTimeMillis() )
-					time += interval;
-				
-				Log.v("Settings", "Alarm set to " + new Date(time).toString() );
-				Intent intent = new Intent(this, UpdateFortuneReceiver.class);
-			    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-			        intent, PendingIntent.FLAG_CANCEL_CURRENT);
-			    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-			    am.cancel(pendingIntent);	
-			    am.setRepeating(AlarmManager.RTC_WAKEUP, time, interval, pendingIntent);
-			    
-			    Editor editor = prefs.edit();
-				editor.putLong(KEY_TIME_PREF, time);
-				editor.commit();
-			}
+		if ( prefs.getBoolean(KEY_UPDATE_ENABLE,false) ) {
+			long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
+			long time = prefs.getLong(KEY_TIME_PREF, 0);
+			
+			//adjust time so it occurs after current time
+			while ( time < System.currentTimeMillis() )
+				time += interval;
+			
+			Log.v("Settings", "Alarm set to " + new Date(time).toString() );
+			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
+		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		    am.cancel(pendingIntent);	
+		    am.setRepeating(AlarmManager.RTC_WAKEUP, time, interval, pendingIntent);
+		    
+		    Editor editor = prefs.edit();
+			editor.putLong(KEY_TIME_PREF, time);
+			editor.commit();
+		} else  { //cancel alarm
+			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
+		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		    am.cancel(pendingIntent);	
 		}
+			
+
 	}
 	
 	@Override

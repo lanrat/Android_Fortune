@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
      <PreferenceCategory 
-        android:title="@string/pref_notification"
-        android:key="pref_key_notification">
+        android:title="@string/pref_update"
+        android:key="pref_key_update">
+        <CheckBoxPreference
+	        android:key="pref_enable_update"
+	        android:title="@string/pref_enable_update"
+	        android:summary="@string/pref_enable_update_summ"
+	        android:defaultValue="true" />
 	    <CheckBoxPreference
 	        android:key="pref_enable_notification"
 	        android:title="@string/pref_enable_notification"
+	        android:dependency="pref_enable_update"
 	        android:summary="@string/pref_enable_notification_summ"
 	        android:defaultValue="true" />
 	    <ListPreference
 	        android:key="pref_notification_interval"
 	        android:title="@string/pref_notification_interval"
-	        android:dependency="pref_enable_notification"
+	        android:dependency="pref_enable_update"
 	        android:defaultValue="Daily"
            	android:entries="@array/time_intervals"
            	android:entryValues="@array/time_intervals" />
 	    <com.vorsk.androidfortune.TimePreference
 	        android:key="pref_notification_time"
 	        android:title="@string/pref_notification_time"
-	        android:dependency="pref_enable_notification" />
+	        android:dependency="pref_enable_update" />
 	</PreferenceCategory>
 	<PreferenceCategory 
         android:title="@string/pref_database"
