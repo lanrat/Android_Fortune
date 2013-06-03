@@ -22,12 +22,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
 
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
@@ -138,6 +140,15 @@ public class TabsFragment extends SherlockFragmentActivity {
 	public void updateFortune(View view){
 		new UpdateFortuneReceiver().onReceive(this, null);
 	}
+	
+	public void historyRefresh(View view){
+		HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager().findFragmentById(android.R.id.content);
+		if(fragment == null)
+			Toast.makeText(getBaseContext(), "HistoryFragment null", Toast.LENGTH_SHORT).show();
+		else
+			fragment.historyRefresh();
+	}
+	
 
 	// Everything below this line is part of the tabs view pager api.
 	// It should not be modified.

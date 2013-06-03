@@ -22,6 +22,8 @@
        android:onClick="createNotification"
        android:text="@string/create_notification" >
    	</Button>
+   	
+     
     
     <Button
         android:id="@+id/button2"
@@ -29,5 +31,7 @@
         android:layout_height="wrap_content"
         android:onClick="updateFortune"
         android:text="Update Current Notification"/>
-
+    
+    
+ 
 </LinearLayout>

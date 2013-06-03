@@ -1,6 +1,8 @@
 package com.vorsk.androidfortune;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import android.os.Bundle;
@@ -8,12 +10,14 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Log;
 
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class HistoryActivity extends SherlockFragmentActivity {
 
@@ -57,13 +61,21 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			
 		
 			ArrayList<Fortune> list = Client.getInstance().getSeenFortunes(); 
-			Collections.reverse(list); // reverse chronological order
-			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);			
+			//Collections.reverse(list); // reverse chronological order
+			
+			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);	
+			Arrays.sort(fortunes, Collections.reverseOrder());
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
 			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
 			lv.setAdapter(adapter);	
 			
+		}
+		
+		public void historyRefresh() {
+			getView().invalidate();
+			Toast toast = Toast.makeText(getActivity(), "Refreshing History", Toast.LENGTH_SHORT);
+			toast.show();
 		}
 	}
 }
