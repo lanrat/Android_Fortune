@@ -5,12 +5,14 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.Fortune;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.TextView;
 
 public class NotificationActivity extends SherlockActivity {
 	public static final String INTENT_ACTION = "action";
@@ -73,4 +75,56 @@ public class NotificationActivity extends SherlockActivity {
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this);
 	}
+	
+	/**
+	 * creates and displays a notification from a fortune
+	 * @param f the fortune to display
+	 * @param ctx the context to display the notification on
+	 */
+	public static void displayNotificationFromFortune(Context ctx,Fortune f){
+		if (f == null){
+			Log.e(TAG,"Trying ti create notification for null fortune");
+			return;
+		}
+		
+		int pendingFlag = PendingIntent.FLAG_ONE_SHOT;
+		int intentFlag = Intent.FLAG_ACTIVITY_NEW_TASK;
+
+		//click action
+		Intent intent = new Intent(ctx, NotificationActivity.class);
+		intent.setFlags(intentFlag);
+		intent.putExtra(INTENT_FORTUNE_ID, f.getFortuneID());
+		intent.putExtra(INTENT_ACTION, INTENT_ACTION_CLICK);
+		
+		//upvote action
+		Intent intentUp = new Intent(ctx, NotificationActivity.class);
+		intentUp.setFlags(intentFlag);
+		intentUp.putExtra(INTENT_FORTUNE_ID, f.getFortuneID());
+		intentUp.putExtra(INTENT_ACTION, INTENT_ACTION_UPVOTE);
+		
+		//downvote action
+		Intent intentDown = new Intent(ctx, NotificationActivity.class);
+		intentDown.setFlags(intentFlag);
+		intentDown.putExtra(INTENT_FORTUNE_ID, f.getFortuneID());
+		intentDown.putExtra(INTENT_ACTION, INTENT_ACTION_DOWNVOTE);
+		
+		PendingIntent pIntent = PendingIntent.getActivity(ctx, ID_ACTION_CLICK, intent, pendingFlag);
+		PendingIntent pIntentUp = PendingIntent.getActivity(ctx, ID_ACTION_UPVOTE, intentUp, pendingFlag);
+		PendingIntent pIntentDown = PendingIntent.getActivity(ctx, ID_ACTION_DOWNVOTE, intentDown, pendingFlag);
+		
+		//notification
+		Notification noti = new NotificationCompat.Builder(ctx)
+		.setContentTitle(ctx.getResources().getString(R.string.notification_title))
+		.setContentText(f.getFortuneText(false))
+		.setSmallIcon(R.drawable.ic_launcher).setContentIntent(pIntent)
+		.addAction(R.drawable.arrow_up, "Upvote", pIntentUp)
+		.addAction(R.drawable.arrow_down, "Downvote", pIntentDown)
+		.build();
+		NotificationManager notificationManager = (NotificationManager) ctx
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		// Hide the notification after its selected
+		noti.flags |= Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(ID_NOTIFICATION, noti);
+	}
+	
 }

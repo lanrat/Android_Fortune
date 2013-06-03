@@ -7,12 +7,19 @@ import com.vorsk.androidfortune.widget.WidgetActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class UpdateFortuneReceiver extends BroadcastReceiver {
 	private static String TAG = "UpdateFortuneReceiver";
+	
+	//we may want to change this to false for errors caused by the alarm
+	public static final boolean display_errors = true;
+	
 	public UpdateFortuneReceiver() {
 	}
 
@@ -31,8 +38,15 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 			}
 			 protected void onPostExecute(Fortune f) {
 				 if ( f != null) {
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+					
+					 if (prefs.getBoolean(SettingsActivity.KEY_NOTIFICATION_ENABLE,false)) {
 					 f.displayNotification(mContext);
+					 }
 					 WidgetActivity.displayFortune(mContext, f);
+					 //TODO update home screen with new fortune
+				 }else if(display_errors){
+						Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
 				 }
 			 }
 		}

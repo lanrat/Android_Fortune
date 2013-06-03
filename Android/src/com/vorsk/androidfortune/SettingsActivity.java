@@ -1,14 +1,11 @@
 package com.vorsk.androidfortune;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.FortuneDbAdapter;
 
 import android.annotation.TargetApi;
@@ -32,6 +29,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 
 	public static final String KEY_INTERVAL = "pref_notification_interval";
 	public static final String KEY_TIME_PREF = "pref_notification_time";
+	public static final String KEY_NOTIFICATION_ENABLE = "pref_enable_notification";
+	public static final String KEY_CURR_FORTUNE = "currentFortuneID";
 	private ListPreference mIntervalPreference;
 	private SharedPreferences prefs;
 	
@@ -135,9 +134,10 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			
 		}
 		
-		if ( !key.equals(Client.PREF_CURR_FORTUNE)) {
+		if ( !key.equals(KEY_CURR_FORTUNE)) {
 			//Update Alarm
-			if ( prefs.getBoolean("pref_enable_notification",false) ) {
+			//TODO run the alarm always!!!
+			if ( prefs.getBoolean(KEY_NOTIFICATION_ENABLE,false) ) {
 				long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
 				long time = prefs.getLong(KEY_TIME_PREF, 0);
 				

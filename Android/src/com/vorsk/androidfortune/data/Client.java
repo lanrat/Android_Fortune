@@ -20,6 +20,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vorsk.androidfortune.SettingsActivity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -34,14 +36,13 @@ import android.util.Log;
  */
 public class Client
 {
-	private static String TAG = "Client";
+	private static final String TAG = "Client";
 	private static final String SERVER = "http://cse-190-fortune.herokuapp.com/server.php";
 	private static String userID;
 	private static FortuneDbAdapter database;
 	private static Client instance; //used to access this class as a static singleton
 	private static boolean enableServerCommunication = true;
 	private final Context mContext;
-	public static String PREF_CURR_FORTUNE = "currentFortuneID";
 
 	/**
 	 * constructor for fortune client
@@ -78,10 +79,10 @@ public class Client
 	    // don't accidentally leak an Activity's context.
 	    // See this article for more information: http://bit.ly/6LRzfx
 	    if (instance == null) {
-	    	Log.v("Client","New Client instanct is being created");
+	    	Log.v(TAG,"New Client instanct is being created");
 	    	instance = new Client(ctx);
 	    }
-	    Log.v("Client","Old client isntance being returned");
+	    Log.v(TAG,"Old client isntance being returned");
 	    return instance;
 	}
 	
@@ -288,13 +289,14 @@ public class Client
 	public Fortune updateCurrentFortune() {
 		Log.v(TAG, "Updating current fortune");
 		Fortune f = getInstance().getFortune();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-		Editor editor = prefs.edit();
-		editor.putLong(PREF_CURR_FORTUNE, f.getFortuneID());
-		editor.commit();
-		
-		Log.v(TAG, "Current fortune id: " + f.getFortuneID());
-		
+		if (f != null) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+			Editor editor = prefs.edit();
+			editor.putLong(SettingsActivity.KEY_CURR_FORTUNE, f.getFortuneID());
+			editor.commit();
+			
+			Log.v(TAG, "Current fortune id: " + f.getFortuneID());
+		}
 		return f;
 	}
 	
@@ -304,7 +306,7 @@ public class Client
 	 */
 	public Fortune getCurrentFortune() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getInstance().mContext);	
-		long id = prefs.getLong(PREF_CURR_FORTUNE, -1); //do error checking??
+		long id = prefs.getLong(SettingsActivity.KEY_CURR_FORTUNE, -1); //do error checking??
 		Log.v(TAG, "Current fortune has id of : " + id);
 		
 		if (id < 0) {
@@ -337,7 +339,7 @@ public class Client
 	 */
 	private JSONArray sendData(String action,JSONObject obj)
 	{
-		Log.v("Client","Sending data to server");
+		Log.v(TAG,"Sending data to server");
 		final String ERROR_FLAG = "accepted";
 		final String SERVER_DATA = "result";
 		if (!enableServerCommunication)
@@ -346,7 +348,7 @@ public class Client
 		}
 		HttpClient client = new DefaultHttpClient(); 
 		String url = SERVER+"?action="+action;
-		Log.v("Client","URL: "+url);
+		Log.v(TAG,"URL: "+url);
 		HttpPost post = new HttpPost(url);
 		//post.setHeader("Content-type", "application/json");
 		post.setHeader("Content-type", "application/x-www-form-urlencoded");
@@ -354,7 +356,7 @@ public class Client
         String responseString = null;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		try {
-			Log.v("Client","POSTING: "+obj.toString());
+			Log.v(TAG,"POSTING: "+obj.toString());
 	        //post.setEntity(new StringEntity(obj.toString(), "UTF-8"));
 	        nameValuePairs.add(new BasicNameValuePair("json", obj.toString())); 
 	        post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -363,6 +365,10 @@ public class Client
 			Log.e(TAG,"ClientProtocolException");
 		} catch (IOException e) {
 			Log.e(TAG,"IOException");
+		}
+		if (response == null) {
+			Log.e(TAG,"Server Timeout");
+			return null;
 		}
 		HttpEntity responseEntity = response.getEntity();
 		if(responseEntity==null) {
@@ -377,12 +383,12 @@ public class Client
 		}
 	    try {
 			JSONObject responseObj = new JSONObject(responseString);
-			Log.v("Client","JSON OBJ: "+responseObj.toString());
-			Log.v("Client","JSON ACC: "+responseObj.has(ERROR_FLAG));
+			Log.v(TAG,"JSON OBJ: "+responseObj.toString());
+			Log.v(TAG,"JSON ACC: "+responseObj.has(ERROR_FLAG));
 			boolean valid = responseObj.getBoolean(ERROR_FLAG);
 			if (!valid)
 			{
-				Log.e("Client","Server error");
+				Log.e(TAG,"Server error");
 				return null;
 			}
 			if (responseObj.has(SERVER_DATA))
@@ -392,8 +398,8 @@ public class Client
 				return null; //TODO this may want do be something different
 			}
 		} catch (JSONException e) {
-			Log.e("Client","Unable to parse resposne json for accepted");
-			Log.e("Client","RESPONSE: "+responseString);
+			Log.e(TAG,"Unable to parse resposne json for accepted");
+			Log.e(TAG,"RESPONSE: "+responseString);
 			return null;
 		}
 	}
