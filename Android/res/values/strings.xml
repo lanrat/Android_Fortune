@@ -8,9 +8,11 @@
     <string name="notification_title">New Fortune</string>
     <string name="result_text">You clicked on a fortune!</string>
     
-    <string name="pref_notification">Notifications</string>
+    <string name="pref_update">Update Options</string>
+    <string name="pref_enable_update">Enable updates</string>
+	<string name="pref_enable_update_summ">Allow app to automatically update fortunes</string>
     <string name="pref_enable_notification">Enable notifications</string>
-	<string name="pref_enable_notification_summ">Allow app to show notifications</string>
+	<string name="pref_enable_notification_summ">Send notification when app updates</string>
 	<string name="pref_notification_interval">Send notifications</string>
 	<string name="pref_notification_time">Set time</string>
 	<string name="pref_database">Database</string>

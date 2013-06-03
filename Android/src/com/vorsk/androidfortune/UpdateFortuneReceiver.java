@@ -41,7 +41,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 					
 					 if (prefs.getBoolean(SettingsActivity.KEY_NOTIFICATION_ENABLE,false)) {
-					 f.displayNotification(mContext);
+						 f.displayNotification(mContext);
 					 }
 					 WidgetActivity.displayFortune(mContext, f);
 					 //TODO update home screen with new fortune
