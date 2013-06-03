@@ -15,20 +15,22 @@
         android:layout_marginBottom="@dimen/view_margin"
         android:orientation="vertical" >
         
-		<TextView
-		    android:id="@+id/time"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textSize="@dimen/small_text"
-		    android:textStyle="italic"
-		    android:textIsSelectable="false" />
-		
-		<TextView
+        <TextView
 		    android:id="@+id/body"
+		    android:text="@string/null_fortune"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:textSize="@dimen/medium_text"
 			android:textIsSelectable="false" />
+        
+		<TextView
+		    android:id="@+id/time"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingLeft="10dp"
+		    android:textIsSelectable="false"
+		    android:textSize="@dimen/small_text"
+		    android:textStyle="italic" />
 		
 	</LinearLayout>
 	
@@ -65,6 +67,7 @@
 	        	android:layout_height="wrap_content"
 	        	android:layout_width="wrap_content"
 	        	android:gravity="center_vertical"
+	        	android:text="@string/vote_default_count"
 	        	android:textColor="@color/upvote_color"
 	        	android:textAppearance="?android:attr/textAppearanceLarge"
 	        	android:textIsSelectable="false" />
@@ -88,14 +91,15 @@
 			    android:src="@drawable/arrow_down"
 			    android:contentDescription="@string/downvote_description" />
 			
-			<TextView 
-	        	android:id="@+id/downvote_count"
-	        	android:layout_height="wrap_content"
-	        	android:layout_width="wrap_content"
-	        	android:gravity="center_vertical"
-	        	android:textColor="@color/downvote_color"
-	        	android:textAppearance="?android:attr/textAppearanceLarge"
-	        	android:textIsSelectable="false" />
+			<TextView
+			    android:id="@+id/downvote_count"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:gravity="center_vertical"
+			    android:text="@string/vote_default_count"
+			    android:textAppearance="?android:attr/textAppearanceLarge"
+			    android:textColor="@color/downvote_color"
+			    android:textIsSelectable="false" />
 			
 		</LinearLayout>
 	</LinearLayout>

@@ -6,13 +6,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
+    
+    <include android:id="@+id/current_fortune"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+        layout="@layout/history_row" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="updateFortune"
-        android:text="Update Current Notification"/>
+        android:text="@string/refresh_button"/>
     
  
 </LinearLayout>
