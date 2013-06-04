@@ -20,7 +20,6 @@
 	        android:id="@+id/upvote_info"
 	        android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
-	    	android:onClick="updateFortune"
 	    	android:clickable="true"
 	    	android:orientation="horizontal" >
 			
