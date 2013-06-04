@@ -87,7 +87,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			
 		});
 		
-		rowView.findViewById(R.id.upvote_button).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.upvote_info).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
@@ -113,12 +113,13 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			}
 			
 		});
-		rowView.findViewById(R.id.downvote_button).setOnClickListener(new OnClickListener(){
+		rowView.findViewById(R.id.downvote_info).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View view) {
 				Fortune fortune = fortunes[position];
 				fortune.downvote();
+				//TODO check the return value of downvote to see if we need to refresh the list
 				
 				// TODO need to get downvote_count text view from here to update count
 				LayoutInflater inflater = (LayoutInflater) context

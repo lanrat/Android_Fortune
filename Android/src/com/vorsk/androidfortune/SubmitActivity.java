@@ -16,11 +16,13 @@ import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.Fortune;
 
 import android.support.v4.app.FragmentManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,10 +104,17 @@ public class SubmitActivity extends SherlockFragmentActivity {
 					
 					final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialog);
 
+					//use this bit of code to enable line wrapping
+					userInput.setInputType(
+						    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+					userInput.setSingleLine(true);
+					userInput.setLines(4); // desired number of lines
+					userInput.setHorizontallyScrolling(false);
+					userInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
 					
 					// set dialog message
 					alertDialogBuilder
-						.setCancelable(false)
+						.setCancelable(true)
 						.setPositiveButton("Submit",
 						  new DialogInterface.OnClickListener() {
 						    public void onClick(DialogInterface dialog,int id) {

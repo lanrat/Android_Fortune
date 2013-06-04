@@ -10,18 +10,17 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Fortune"
+        android:text="@string/submit_button_text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
  
     <EditText
         android:id="@+id/editTextDialog"
         android:ems="10"
-        android:hint="Your own fortune here"
-        android:inputType="textMultiLine"
+        android:hint="@string/submit_fortune_hint"
+        android:inputType="textCapSentences|text"
         android:layout_width="match_parent"
         android:layout_height="100dp" 
         android:gravity="top|left"
-        android:scrollHorizontally="false"
         android:imeOptions="actionDone" >
  
         <requestFocus />

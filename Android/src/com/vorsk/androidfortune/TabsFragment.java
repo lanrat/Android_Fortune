@@ -28,7 +28,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 	private static final String TAB_ID_RIGHT = "right";
 	private static final String TAB_ID_HOME = "home";
 	
-	private final static String TAG = "Tabs Fragment";
+	//private final static String TAG = "Tabs Fragment";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
