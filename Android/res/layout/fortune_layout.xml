@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fortune_body"
     android:baselineAligned="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 	
     <LinearLayout
         android:id="@+id/fortune_vote"
@@ -74,35 +75,27 @@
 		</LinearLayout>
 	</LinearLayout>
 	
-    <LinearLayout
-        android:id="@+id/fortune_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignTop="@id/fortune_vote"
-        android:layout_marginBottom="@dimen/view_margin"
-        android:layout_marginRight="@dimen/view_margin"
-        android:layout_marginTop="@dimen/view_margin"
-        android:layout_toLeftOf="@id/fortune_vote"
-        android:orientation="vertical" >
-        
         <TextView
-		    android:id="@+id/fortune_text"
-		    android:text="@string/null_fortune"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:textSize="@dimen/medium_text"
-			android:textIsSelectable="false" />
+            android:id="@+id/fortune_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fortune_time"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/fortune_vote"
+            android:ellipsize="marquee"
+            android:textIsSelectable="false"
+            android:textSize="@dimen/medium_text" />
 
         <TextView
             android:id="@+id/fortune_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fortune_vote"
+            android:layout_alignParentLeft="true"
             android:paddingLeft="10dp"
             android:textIsSelectable="false"
             android:textSize="@dimen/small_text"
             android:textStyle="italic" />
-		
-	</LinearLayout>
+
 </RelativeLayout>
