@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 public class HomeActivity extends SherlockFragmentActivity {
@@ -84,15 +85,28 @@ public class HomeActivity extends SherlockFragmentActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View HomeView = inflater.inflate(R.layout.home, container, false);
-			mView = HomeView;
+			mView = inflater.inflate(R.layout.home, container, false);
 			Fortune f = Client.getInstance(getActivity().getApplicationContext()).getCurrentFortune();
 			if (f != null) {
 				TextView current_fortune = (TextView)mView.findViewById(R.id.fortune_text);
 				current_fortune.setText(f.getFortuneText(true));
 			}
+			
+			mView.findViewById(R.id.upvote_info).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					Client.getInstance().getCurrentFortune().upvote();
+				}
+			});
+			
+			mView.findViewById(R.id.downvote_info).setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					Client.getInstance().getCurrentFortune().downvote();
+				}
+			});
 
-			return HomeView;
+			return mView;
 		}
 
 		@Override
