@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,11 +13,11 @@
         layout="@layout/fortune_layout" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/refresh_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="updateFortune"
+        android:layout_alignParentBottom="true"
         android:text="@string/refresh_button"/>
-    
- 
-</LinearLayout>
+
+</RelativeLayout>

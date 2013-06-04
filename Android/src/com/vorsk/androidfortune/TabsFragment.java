@@ -9,21 +9,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
 import com.vorsk.androidfortune.data.Client;
-import com.vorsk.androidfortune.data.Fortune;
 
 public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
@@ -42,7 +36,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 		
 		setContentView(R.layout.fragment_tabs_pager);
 
-		//create the client TODO update the singleton instance ctor to model the DB
 		this.client = Client.getInstance(getApplicationContext());
 		
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -97,15 +90,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 	public void updateFortune(View view){
 		new UpdateFortuneReceiver().onReceive(this, null);
 	}
-	
-	/*
-	public void historyRefresh(View view){
-		HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.historyFragmentId);
-		if(fragment == null)
-			Toast.makeText(getBaseContext(), "HistoryFragment null", Toast.LENGTH_SHORT).show();
-		else
-			fragment.historyRefresh();
-	}*/
 	
 	@Override
 	public void onStart() {

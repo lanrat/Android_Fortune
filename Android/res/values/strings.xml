@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Get Fortune</string>
     <string name="action_settings">Settings</string>
     <string name="create_notification">Get New Notification!</string>
-    <string name="create_notification_id">Get Notification by ID</string>
     <string name="notification_title">New Fortune</string>
-    <string name="result_text">You clicked on a fortune!</string>
-    
     <string name="pref_update">Update Options</string>
     <string name="pref_enable_update">Enable updates</string>
 	<string name="pref_enable_update_summ">Allow app to automatically update fortunes</string>
     <string name="pref_enable_notification">Enable notifications</string>
 	<string name="pref_enable_notification_summ">Send notification when app updates</string>
 	<string name="pref_notification_interval">Send notifications</string>
-	<string name="pref_notification_time">Set time</string>
+	<string name="pref_notification_time">Set Time</string>
 	<string name="pref_database">Database</string>
 	<string name="pref_database_clear">Clear Database</string>
-	
 	<string name="set">Set</string>
 	<string name="cancel">Cancel</string>
-	
 	<string name="history_title">History</string>
-	
 	<string name="upvote_description">Up Arrow</string>
 	<string name="downvote_description">Down Arrow</string>
 	<string name="up_button">Upvote Button</string>
 	<string name="down_button">Downvote Button</string>
-	
 	<string name="already_voted">You already voted</string>
 	<string name="up_vote">Upvote Received</string>
 	<string name="down_vote">Downvote Received</string>
-	
-	<string name="null_fortune">No fortunes yet</string>
-	
+	<string name="null_fortune">No Fortunes Yet</string>
 	<string name="server_error">Server Communication Error</string>
-	
-	<string name="refresh_button">Get new Fortune</string>
+	<string name="refresh_button">Get New Fortune</string>
 	<string name="vote_default_count">0</string>
-	<string name="submit_title">Submitted Fortunes</string>	<string name="submit_button_text">Submit New Fortune</string>
-
+	<string name="submit_title">Submitted Fortunes</string>
+	<string name="submit_button_text">Submit New Fortune</string>
 </resources>

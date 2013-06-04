@@ -32,7 +32,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	public static final String KEY_TIME_PREF = "pref_notification_time";
 	public static final String KEY_NOTIFICATION_ENABLE = "pref_enable_notification";
 	public static final String KEY_CURR_FORTUNE = "currentFortuneID";
-	private ListPreference mIntervalPreference;
+	//private ListPreference mIntervalPreference;
 	private SharedPreferences prefs;
 
 	@SuppressWarnings("deprecation")
