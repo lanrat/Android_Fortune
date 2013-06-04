@@ -44,11 +44,9 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 						 f.displayNotification(mContext);
 					 }
 					 WidgetActivity.displayFortune(mContext, f);
-					 //TODO update home screen with new fortune
-					 TabsFragment home_activity = TabsFragment.instance();
-					 if (home_activity != null) {
-						 home_activity.displayFortune(f);
-					 }
+					 HomeActivity.FortuneFragment.displayFortune(f);
+					 HistoryActivity.HistoryFragment.refreshHistory();
+
 				 }else if(display_errors){
 						Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
 				 }

@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class HistoryActivity extends SherlockFragmentActivity {
 	
@@ -51,34 +50,36 @@ public class HistoryActivity extends SherlockFragmentActivity {
 	}
 	
 	public static class HistoryFragment extends SherlockFragment {
+		
+		private static View mView;
+		
+		public static void refreshHistory() {
+			if (mView == null) {
+				return;
+			}
+			ArrayList<Fortune> list = Client.getInstance().getSeenFortunes(); 
+			//Collections.reverse(list); // reverse chronological order
+			
+			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
+			//TODO: sorting should be done in DB, also limit fortunes
+			Arrays.sort(fortunes, Collections.reverseOrder());
+			
+			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
+			ListView lv = (ListView) mView.findViewById(R.id.history_list);
+			lv.setAdapter(adapter);	
+		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			return inflater.inflate(R.layout.history, null);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			mView = inflater.inflate(R.layout.history, container, false);
+			return mView;
 		}
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
-			
-		
-			ArrayList<Fortune> list = Client.getInstance().getSeenFortunes(); 
-			//Collections.reverse(list); // reverse chronological order
-			
-			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);	
-			Arrays.sort(fortunes, Collections.reverseOrder());
-			
-			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
-			ListView lv = (ListView) getActivity().findViewById(R.id.history_list);
-			lv.setAdapter(adapter);	
-			
+			refreshHistory();	
 		}
-		
-		public void historyRefresh() {
-			getView().invalidate();
-			Toast toast = Toast.makeText(getActivity(), "Refreshing History", Toast.LENGTH_SHORT);
-			toast.show();
-		}
+
 	}
 }

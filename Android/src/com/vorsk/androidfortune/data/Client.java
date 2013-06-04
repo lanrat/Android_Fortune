@@ -170,20 +170,23 @@ public class Client
 	 * Submit a fortune to the server and add it to the local database
 	 * @param text the message for the fortune
 	 */
-	public void submitFortune(final String text)
+	public boolean submitFortune(final String text)
 	{
-		new Thread(new Runnable() {
-		    public void run() {
-				JSONObject obj = getRequestJSON();
-				try {
-					obj.put("text", text);
-					int id = database.insertFortune(Fortune.createFromJSON((sendData("submitFortune", obj).getJSONObject(0))));
-					database.updateFortuneCol(id,FortuneDbAdapter.KEY_OWNER, true);
-				} catch (JSONException e) {
-					Log.e(TAG,"JSONException");
-				}
-		    }
-		}).start();
+		JSONObject obj = getRequestJSON();
+		try {
+			obj.put("text", text);
+			JSONArray response = sendData("submitFortune", obj);
+			if (response == null || response.length() < 1) {
+				return false;
+			}
+			int id = database.insertFortune(Fortune.createFromJSON(response.getJSONObject(0)));
+			database.updateFortuneCol(id,FortuneDbAdapter.KEY_OWNER, true);
+		} catch (JSONException e) {
+			Log.e(TAG,"JSONException");
+			return false;
+		}
+		return true;
+
 	}
 	
 	/**

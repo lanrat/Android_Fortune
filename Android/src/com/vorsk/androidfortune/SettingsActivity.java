@@ -25,7 +25,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements
-	OnSharedPreferenceChangeListener  {
+		OnSharedPreferenceChangeListener {
 
 	public static final String KEY_UPDATE_ENABLE = "pref_enable_update";
 	public static final String KEY_INTERVAL = "pref_notification_interval";
@@ -34,7 +34,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	public static final String KEY_CURR_FORTUNE = "currentFortuneID";
 	private ListPreference mIntervalPreference;
 	private SharedPreferences prefs;
-	
+
 	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
@@ -45,19 +45,20 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		// Display fragment as main content
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			addPreferencesFromResource(R.xml.preferences);
-//			 mIntervalPreference = (ListPreference) (ListPreference)getPreferenceScreen()
-//		                .findPreference(KEY_INTERVAL);
+			// mIntervalPreference = (ListPreference)
+			// (ListPreference)getPreferenceScreen()
+			// .findPreference(KEY_INTERVAL);
 		} else {
 			getFragmentManager().beginTransaction()
 					.replace(android.R.id.content, new Prefs1Fragment())
 					.commit();
 		}
-			
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	}
-	
+
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item){
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
@@ -72,6 +73,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	 */
 	@Override
 	public void onBuildHeaders(List<Header> target) {
+		super.onBuildHeaders(target);
 		// Not used right now, but may switch back to headers if we have a lot
 		// of settings
 		// loadHeadersFromResource(R.xml.preference_headers, target);
@@ -81,7 +83,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	 * This fragment shows the preferences for the first header.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static class Prefs1Fragment extends PreferenceFragment{
+	public static class Prefs1Fragment extends PreferenceFragment {
 		public static ListPreference mIntervalPreference;
 
 		@Override
@@ -90,38 +92,38 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 
 			// Load the preferences from an XML resource
 			addPreferencesFromResource(R.xml.preferences);
-//			mIntervalPreference = (ListPreference) getPreferenceScreen()
-//					.findPreference(KEY_INTERVAL);
-			
-			Preference button = (Preference)findPreference("pref_database_clear");
+			// mIntervalPreference = (ListPreference) getPreferenceScreen()
+			// .findPreference(KEY_INTERVAL);
+
+			Preference button = (Preference) findPreference("pref_database_clear");
 			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			                @Override
-			                public boolean onPreferenceClick(Preference arg0) {
-			                	Log.v("Local Database", "clear database");
-			                    FortuneDbAdapter.getInstance(null).removeAll();
-			                    return true;
-			                }
-			            });
+				@Override
+				public boolean onPreferenceClick(Preference arg0) {
+					Log.v("Local Database", "clear database");
+					FortuneDbAdapter.getInstance(null).removeAll();
+					return true;
+				}
+			});
 		}
 	}
 
-	
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-		/* slightly hacky way of getting the fragment's list preference.
-		  I tried to do it in onCreate, but the preference is still null at that point.
-		  this way, at least the deprecated code is kept together.*/
-//		if ( mIntervalPreference == null )
-//			mIntervalPreference = Prefs1Fragment.mIntervalPreference;
-		
+
+		/*
+		 * slightly hacky way of getting the fragment's list preference. I tried
+		 * to do it in onCreate, but the preference is still null at that point.
+		 * this way, at least the deprecated code is kept together.
+		 */
+		// if ( mIntervalPreference == null )
+		// mIntervalPreference = Prefs1Fragment.mIntervalPreference;
+
 		// Setup the initial values
-		//mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
+		// mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
 		// Set up a listener whenever a key changes
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		
-		
+
 	}
 
 	@Override
@@ -131,52 +133,54 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		prefs.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
-	public void onSharedPreferenceChanged( SharedPreferences prefs, String key) {
-		//do nothing because this is used to keep track of current fortune
-		if ( key.equals(KEY_CURR_FORTUNE) ) return; 
-		
-		
-		//if (key.equals(KEY_INTERVAL)) {
-		//	mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
-			
-		//}
-		
-		if ( prefs.getBoolean(KEY_UPDATE_ENABLE,true) ) {
-			long interval = AlarmManager.INTERVAL_DAY; //TODO change to vary by preference
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+		// do nothing because this is used to keep track of current fortune
+		if (key.equals(KEY_CURR_FORTUNE)) {
+			return;
+		}
+
+		// if (key.equals(KEY_INTERVAL)) {
+		// mIntervalPreference.setSummary(prefs.getString(KEY_INTERVAL, ""));
+
+		// }
+
+		if (prefs.getBoolean(KEY_UPDATE_ENABLE, true)) {
+			long interval = AlarmManager.INTERVAL_DAY; // TODO change to vary by
+														// preference
 			long time = prefs.getLong(KEY_TIME_PREF, 0);
-			
-			//adjust time so it occurs after current time
-			while ( time < System.currentTimeMillis() )
+
+			// adjust time so it occurs after current time
+			while (time < System.currentTimeMillis())
 				time += interval;
-			
-			Log.v("Settings", "Alarm set to " + new Date(time).toString() );
+
+			Log.v("Settings", "Alarm set to " + new Date(time).toString());
 			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
-		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		    am.cancel(pendingIntent);	
-		    am.setRepeating(AlarmManager.RTC_WAKEUP, time, interval, pendingIntent);
-		    
-		    Editor editor = prefs.edit();
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+					intent, PendingIntent.FLAG_CANCEL_CURRENT);
+			AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			am.cancel(pendingIntent);
+			am.setRepeating(AlarmManager.RTC_WAKEUP, time, interval,
+					pendingIntent);
+
+			Editor editor = prefs.edit();
 			editor.putLong(KEY_TIME_PREF, time);
 			editor.commit();
-		} else  { //cancel alarm
+		} else { // cancel alarm
 			Intent intent = new Intent(this, UpdateFortuneReceiver.class);
-		    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
-		        intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		    AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		    am.cancel(pendingIntent);	
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+					intent, PendingIntent.FLAG_CANCEL_CURRENT);
+			AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			am.cancel(pendingIntent);
 		}
-			
 
 	}
-	
+
 	@Override
 	public void onStart() {
 		super.onStart();
 		EasyTracker.getInstance().activityStart(this);
 	}
-	
+
 	@Override
 	public void onStop() {
 		super.onStop();

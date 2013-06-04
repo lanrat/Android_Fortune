@@ -1,15 +1,22 @@
 package com.vorsk.androidfortune;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
+
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class HomeActivity extends SherlockFragmentActivity {
 	
@@ -26,12 +33,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 			FortuneFragment fragment = new FortuneFragment();
 			fm.beginTransaction().add(android.R.id.content, fragment).commit();
 		}
+		
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.e("AAA","onstart");
 		EasyTracker.getInstance().activityStart(this);
 		EasyTracker.getTracker().sendView(FRAGMENT_NAME);
 	}
@@ -43,11 +50,49 @@ public class HomeActivity extends SherlockFragmentActivity {
 	}
 
 	public static class FortuneFragment extends SherlockFragment {
+		
+		private static View mView;
+		private static final String TAG = "FortuneFragment";
 
+		/**
+		 * called to update the fortune displayed on the home page
+		 * @param f the fortune to display
+		 */
+		public static void displayFortune(Fortune f) {
+			if (f == null) {
+				Log.e(TAG,"Cannot display null fortune");
+				return;
+			}
+			if (mView == null) {
+				Log.e(TAG,"view instance is null");
+			}
+			//set the fortune text
+			TextView current_fortune = (TextView)mView.findViewById(R.id.fortune_text);
+			current_fortune.setText(f.getFortuneText(true));
+			//set the votes
+			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.upvote_count);
+			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.downvote_count);
+			current_fortune_upcount.setText(Integer.toString(f.getUpvotes()));
+			current_fortune_downcount.setText(Integer.toString(f.getDownvotes()));
+			//set the date
+			TextView timeText = (TextView) mView.findViewById(R.id.fortune_time);
+			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy",Locale.US);
+			timeText.setText(formatter.format(f.getSubmitted()));
+			//TODO display additional data like views, etc...
+		}
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			return inflater.inflate(R.layout.home, null);
+			View HomeView = inflater.inflate(R.layout.home, container, false);
+			mView = HomeView;
+			Fortune f = Client.getInstance(getActivity().getApplicationContext()).getCurrentFortune();
+			if (f != null) {
+				TextView current_fortune = (TextView)mView.findViewById(R.id.fortune_text);
+				current_fortune.setText(f.getFortuneText(true));
+			}
+
+			return HomeView;
 		}
 
 		@Override

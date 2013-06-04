@@ -25,7 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class SubmitActivity extends SherlockFragmentActivity {
 	
@@ -59,21 +59,35 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	}
 
 	public static class SubmitFragment extends SherlockFragment {
-		private static RelativeLayout layout;
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			layout = (RelativeLayout)inflater.inflate(R.layout.submit, null);
-			
-			ArrayList<Fortune> list = Client.getInstance().getFortunesSubmitted();
+		private static View mView;
+		
+		public static void refreshHistory() {
+			if (mView == null) {
+				return;
+			}
+			ArrayList<Fortune> list = Client.getInstance().getFortunesSubmitted(); 
+			//TODO: sorting should be done in DB
 			Collections.reverse(list); // reverse chronological order
+			
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
 			
-			FortuneArrayAdapter adapter = new FortuneArrayAdapter(getActivity(), fortunes);
-			ListView lv = (ListView) layout.findViewById(R.id.submit_list);
-			lv.setAdapter(adapter);
-	
-			View submitButton = layout.findViewById(R.id.submitButton);
+			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
+			ListView lv = (ListView) mView.findViewById(R.id.submit_list);
+			lv.setAdapter(adapter);	
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+			mView = inflater.inflate(R.layout.submit, container, false);
+			return mView;
+		}
+
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			super.onActivityCreated(savedInstanceState);
+			refreshHistory();
+			
+			View submitButton = mView.findViewById(R.id.submitButton);
 			((Button)submitButton).setOnClickListener( new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
@@ -96,31 +110,43 @@ public class SubmitActivity extends SherlockFragmentActivity {
 						  new DialogInterface.OnClickListener() {
 						    public void onClick(DialogInterface dialog,int id) {
 						    	Log.v("SubmitActivity", "Attempting to submit fortune");
-				            	class SubmitFortuneTask extends AsyncTask<Void, Void, Void>{
-				            		private String mText;
-				            		public SubmitFortuneTask (String text) {
-				            			super();
-				            			mText = text;
-				            		}
-				            		
-				        			@Override
-				        			protected Void doInBackground(Void... params) {
-				        				Client.getInstance().submitFortune(mText);
-				        				return null; //TODO what to return	
-				        			}
-				            	}
-				            	// Build notification
-				        		SubmitFortuneTask task = new SubmitFortuneTask(userInput.getText().toString());
-				        		task.execute();
-				            	userInput.setText(null);
-				            	
-				            	// hide keyboard
-				            	InputMethodManager inputManager = 
-				            	        (InputMethodManager) getSherlockActivity().
-				            	            getSystemService(Context.INPUT_METHOD_SERVICE);
-				            	inputManager.hideSoftInputFromWindow(userInput.getWindowToken(), 
-				            			InputMethodManager.HIDE_NOT_ALWAYS);
-						    }  
+						    	String newFortune = userInput.getText().toString();
+						    	if (newFortune != null && newFortune.length() > 5)
+						    	{
+					            	class SubmitFortuneTask extends AsyncTask<String, Void, Boolean>{
+					            		private Context ctx;
+					            		public SubmitFortuneTask (Context ctx) {
+					            			this.ctx = ctx;
+					            		}
+					            		
+					        			@Override
+					        			protected Boolean doInBackground(String... params) {
+					        				return Client.getInstance().submitFortune(params[0]);	
+					        			}
+					        			@Override
+					        			 protected void onPostExecute(Boolean result) {
+					        				if (result) {
+					        					//refresh submit list
+					        					refreshHistory();
+					        				}else {
+					        					//error
+					        					Toast.makeText(ctx, R.string.server_error, Toast.LENGTH_SHORT).show();
+					        				}
+					        			}
+					            	}
+					            	// Build notification
+					        		SubmitFortuneTask task = new SubmitFortuneTask(getActivity().getApplicationContext());
+					        		task.execute(userInput.getText().toString());
+					            	userInput.setText(null);
+					            	
+					            	// hide keyboard
+					            	InputMethodManager inputManager = 
+					            	        (InputMethodManager) getSherlockActivity().
+					            	            getSystemService(Context.INPUT_METHOD_SERVICE);
+					            	inputManager.hideSoftInputFromWindow(userInput.getWindowToken(), 
+					            			InputMethodManager.HIDE_NOT_ALWAYS);
+							    } 
+						    }
 						 })
 						.setNegativeButton("Cancel",
 						  new DialogInterface.OnClickListener() {
@@ -136,13 +162,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 					alertDialog.show();
 				}
 				
-			});
-			return layout;
-		}
-
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			super.onActivityCreated(savedInstanceState);
+			}); //end button code
 		}
 		
 		

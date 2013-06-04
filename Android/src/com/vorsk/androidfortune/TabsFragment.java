@@ -29,17 +29,12 @@ public class TabsFragment extends SherlockFragmentActivity {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 	Client client;
-	private static TabsFragment mInst;
 	
 	private static final String TAB_ID_LEFT = "left";
 	private static final String TAB_ID_RIGHT = "right";
 	private static final String TAB_ID_HOME = "home";
 	
 	private final static String TAG = "Tabs Fragment";
-	
-	public static TabsFragment instance() {
-        return mInst;
-}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +64,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 		// 0-based so 1 is the second tab
 		mViewPager.setCurrentItem(1);
-		
 
 	}
 
@@ -94,22 +88,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 	public void onResume() {
 		super.onResume();
 	}	
-	
-	/**
-	 * called to update the fortune displayed on the home page
-	 * @param f the fortune to display
-	 */
-	public void displayFortune(Fortune f) {
-		if (f == null) {
-			Log.e(TAG,"Cannot display null fortune");
-			return;
-		}
-		TextView current_fortune = (TextView)findViewById(R.id.fortune_text);
-		current_fortune.setText(f.getFortuneText(true));
-		//TODO finish
-	}
-	
-	
+		
 
 	/**
 	 * Called by the manual refresh button
@@ -119,25 +98,24 @@ public class TabsFragment extends SherlockFragmentActivity {
 		new UpdateFortuneReceiver().onReceive(this, null);
 	}
 	
+	/*
 	public void historyRefresh(View view){
 		HistoryFragment fragment = (HistoryFragment) getSupportFragmentManager().findFragmentById(R.id.historyFragmentId);
 		if(fragment == null)
 			Toast.makeText(getBaseContext(), "HistoryFragment null", Toast.LENGTH_SHORT).show();
 		else
 			fragment.historyRefresh();
-	}
+	}*/
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		mInst = this;
 		EasyTracker.getInstance().activityStart(this);
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		mInst = null;
 		EasyTracker.getInstance().activityStop(this);
 	}
 
