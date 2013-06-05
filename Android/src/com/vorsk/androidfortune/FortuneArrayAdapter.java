@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
+import com.vorsk.androidfortune.HomeActivity.FortuneFragment;
 import com.vorsk.androidfortune.SubmitActivity.SubmitFragment;
+import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.Fortune;
 
 import android.app.Dialog;
@@ -98,15 +100,26 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				String dialogText = "";
 				
 				// check return value of voting
-				if(fortune.upvote()) {
-					HistoryFragment.refreshHistory();
-					dialogTitle = "Up Vote";
-					dialogText = "You have successfully up voted";
-				}
-				else {
+				
+				if(fortune.hasVoted()) {
 					dialogTitle = "Already Voted";
 					dialogText = "You have already voted for this fortune";
 				}
+				else {
+					fortune.upvote();
+					Fortune f = Client.getInstance(context.getApplicationContext()).getCurrentFortune();
+					HistoryFragment.refreshHistory();
+					if(fortune.getOwner()) {
+						SubmitFragment.refreshHistory();
+					}
+					if(fortune.equals(f)) {
+						FortuneFragment.displayFortune(f);
+					}
+					dialogTitle = "Up Vote";
+					dialogText = "You have successfully up voted";
+				}
+					
+				
 				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

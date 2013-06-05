@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 public class UpdateFortuneReceiver extends BroadcastReceiver {
 	private static String TAG = "UpdateFortuneReceiver";
+	public static Fortune currentFortune = null;
 	
 	//we may want to change this to false for errors caused by the alarm
 	public static final boolean display_errors = true;
@@ -46,6 +47,7 @@ public class UpdateFortuneReceiver extends BroadcastReceiver {
 					 WidgetActivity.displayFortune(mContext, f);
 					 HomeActivity.FortuneFragment.displayFortune(f);
 					 HistoryActivity.HistoryFragment.refreshHistory();
+					 currentFortune = f;
 
 				 }else if(display_errors){
 						Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
