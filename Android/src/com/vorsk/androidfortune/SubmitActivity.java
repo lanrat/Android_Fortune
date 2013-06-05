@@ -68,9 +68,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 				return;
 			}
 			ArrayList<Fortune> list = Client.getInstance().getFortunesSubmitted(); 
-			//TODO: sorting should be done in DB
-			Collections.reverse(list); // reverse chronological order
-			
+
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
