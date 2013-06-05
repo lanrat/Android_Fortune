@@ -3,6 +3,8 @@ package com.vorsk.androidfortune;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import com.vorsk.androidfortune.HistoryActivity.HistoryFragment;
+import com.vorsk.androidfortune.SubmitActivity.SubmitFragment;
 import com.vorsk.androidfortune.data.Fortune;
 
 import android.app.Dialog;
@@ -92,7 +94,19 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			@Override
 			public void onClick(View view) {
 				Fortune fortune = fortunes[position];
-				fortune.upvote();
+				String dialogTitle = "";
+				String dialogText = "";
+				
+				// check return value of voting
+				if(fortune.upvote()) {
+					HistoryFragment.refreshHistory();
+					dialogTitle = "Up Vote";
+					dialogText = "You have successfully up voted";
+				}
+				else {
+					dialogTitle = "Already Voted";
+					dialogText = "You have already voted for this fortune";
+				}
 				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -105,9 +119,9 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				// create dialog 
 				final Dialog dialog = new Dialog(getContext());
 				dialog.setContentView(R.layout.history_vote_dialog);
-				dialog.setTitle("Up Vote");
+				dialog.setTitle(dialogTitle);
 				TextView text = (TextView) dialog.findViewById(R.id.vote_dialog);
-				text.setText("UPVOTE");
+				text.setText(dialogText);
 				dialog.setCancelable(true);
 				dialog.show();
 			}
@@ -118,7 +132,21 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 			@Override
 			public void onClick(View view) {
 				Fortune fortune = fortunes[position];
-				fortune.downvote();
+				String dialogTitle = "";
+				String dialogText = "";
+				
+				if(fortune.downvote()) {
+					HistoryFragment.refreshHistory();
+					if(fortune.getOwner()) {
+						SubmitFragment.refreshHistory();
+					}
+					dialogTitle = "Down Vote";
+					dialogText = "You have successfully downvoted";
+				}
+				else {
+					dialogTitle = "Already Voted";
+					dialogText = "You have already voted for this fortune";
+				}
 				//TODO check the return value of downvote to see if we need to refresh the list
 				
 				// TODO need to get downvote_count text view from here to update count
@@ -136,9 +164,9 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				// create dialog
 				final Dialog dialog = new Dialog(getContext());
 				dialog.setContentView(R.layout.history_vote_dialog);
-				dialog.setTitle("Down Vote");
+				dialog.setTitle(dialogTitle);
 				TextView text = (TextView) dialog.findViewById(R.id.vote_dialog);
-				text.setText("DOWNVOTE");
+				text.setText(dialogText);
 				dialog.setCancelable(true);
 				dialog.show();
 			}
