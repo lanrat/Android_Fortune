@@ -215,6 +215,10 @@ public class Fortune implements Comparable<Fortune> {
 		NotificationActivity.displayNotificationFromFortune(ctx, this);
 	}
 	
+	public boolean equals(Fortune other){
+		return this.fortuneText.equals(other.fortuneText);
+	}
+	
 	//Getters
 	public int getFortuneID() { return fortuneID; }
 	public int getUpvotes() { return upvotes; }
