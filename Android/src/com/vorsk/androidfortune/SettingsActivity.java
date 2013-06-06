@@ -6,9 +6,6 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.vorsk.androidfortune.data.Client;
-import com.vorsk.androidfortune.data.FortuneDbAdapter;
-
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -19,7 +16,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -27,8 +23,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements
 		OnSharedPreferenceChangeListener {

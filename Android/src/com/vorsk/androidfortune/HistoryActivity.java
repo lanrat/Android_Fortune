@@ -1,9 +1,6 @@
 package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
