@@ -228,9 +228,9 @@ public class FortuneDbAdapter {
 	 * 
 	 * @return ArrayList of all fortunes
 	 */
-	public ArrayList<Fortune> fetchAllBy(String where) {
+	public ArrayList<Fortune> fetchAllBy(String where, String order, String limit) {
 		ArrayList<Fortune> fortunes = new ArrayList<Fortune>();
-		Cursor c = mDb.query(DATABASE_TABLE, null, where, null, null, null, null);
+		Cursor c = mDb.query(DATABASE_TABLE, null, where, null, null, null, order, limit);
 		
 		if (c == null) {
 			return null;
@@ -286,16 +286,16 @@ public class FortuneDbAdapter {
 	 * @return ArrayList of all fortunes
 	 */
 	public ArrayList<Fortune> fetchAllFortunes() {
-		return fetchAllBy(null);
+		return fetchAllBy(null,null,null);
 	}
 	
-	/**
+	/**l
 	 * Return a list of all the fortunes by the current user
 	 * 
 	 * @return ArrayList of all fortunes
 	 */
 	public ArrayList<Fortune> fetchAllByUser() {
-		return fetchAllBy(KEY_OWNER+"="+1);
+		return fetchAllBy(KEY_OWNER+"="+1,KEY_VIEWDATE+" DESC","20");
 	}
 
 	/**

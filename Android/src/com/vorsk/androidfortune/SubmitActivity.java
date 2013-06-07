@@ -1,8 +1,6 @@
 package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,9 +66,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 				return;
 			}
 			ArrayList<Fortune> list = Client.getInstance().getFortunesSubmitted(); 
-			//TODO: sorting should be done in DB
-			Collections.reverse(list); // reverse chronological order
-			
+
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);

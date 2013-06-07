@@ -190,13 +190,14 @@ public class Client
 	}
 	
 	/**
-	 * returns all fortunes stored locally
+	 * returns fortune stored locally but not by user
 	 * @return an arraylist f the fortunes
 	 */
 	public ArrayList<Fortune> getSeenFortunes()
 	{
 		//TODO filter only seen fortunes
-		return database.fetchAllBy(FortuneDbAdapter.KEY_VIEWDATE+"!=" + "-1");
+		return database.fetchAllBy(FortuneDbAdapter.KEY_OWNER+"=" + "0",
+				FortuneDbAdapter.KEY_VIEWDATE+" DESC","20");
 	}
 	
 	/**

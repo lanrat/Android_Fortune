@@ -1,9 +1,6 @@
 package com.vorsk.androidfortune;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -61,8 +58,6 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			//Collections.reverse(list); // reverse chronological order
 			
 			Fortune[] fortunes = list.toArray(new Fortune[list.size()]);
-			//TODO: sorting should be done in DB, also limit fortunes
-			Arrays.sort(fortunes, Collections.reverseOrder());
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
 			ListView lv = (ListView) mView.findViewById(R.id.history_list);

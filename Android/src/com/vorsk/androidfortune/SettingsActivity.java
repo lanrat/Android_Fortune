@@ -6,12 +6,12 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.vorsk.androidfortune.data.FortuneDbAdapter;
-
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -99,8 +99,33 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 			button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference arg0) {
-					Log.v("Local Database", "clear database");
-					FortuneDbAdapter.getInstance(null).removeAll();
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+							getActivity() );
+					alertDialogBuilder
+						.setTitle("Database nuke")
+						.setMessage("Are you sure you want to clear the database?")
+						.setCancelable(true)
+						.setPositiveButton("Nuke",
+						  new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog,int id) {
+							//Log.v("Local Database", "clear database");	
+							//FortuneDbAdapter.getInstance(null).removeAll();
+						    }
+						 })
+						.setNegativeButton("Cancel",
+						  new DialogInterface.OnClickListener() {
+						    public void onClick(DialogInterface dialog,int id) {
+							dialog.cancel();
+						    }
+						  });
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+					
+
 					return true;
 				}
 			});
