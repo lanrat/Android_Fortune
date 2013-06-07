@@ -364,6 +364,19 @@ public class FortuneDbAdapter {
 	}
 	
 	/**
+	 * Update the vote counts
+	 * 
+	 * @param fortune row/object to update.
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneVotes(Fortune f) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_UPVOTES, f.getUpvotes());
+		args.put(KEY_DOWNVOTES, f.getDownvotes());
+		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + f.getFortuneID(), null) > 0;
+	}
+	
+	/**
 	 * Update the fortune using the details provided. Overloaded.
 	 * 
 	 * @param id id of fortune to update
