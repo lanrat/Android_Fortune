@@ -18,11 +18,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.Fortune;
 
 public class TabsFragment extends SherlockFragmentActivity {
-	ViewPager mViewPager;
-	TabsAdapter mTabsAdapter;
-	Client client;
+	private static ViewPager mViewPager;
+	private static TabsAdapter mTabsAdapter;
 	
 	private static final String TAB_ID_LEFT = "left";
 	private static final String TAB_ID_RIGHT = "right";
@@ -36,7 +36,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		
 		setContentView(R.layout.fragment_tabs_pager);
 
-		this.client = Client.getInstance(getApplicationContext());
+		Client.getInstance(getApplicationContext());
 		
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		
@@ -57,11 +57,17 @@ public class TabsFragment extends SherlockFragmentActivity {
 
 		// 0-based so 1 is the second tab
 		mViewPager.setCurrentItem(1);
-
+		
 	}
 	
 	public void testFlag(View view){
-		Client.getInstance().getCurrentFortune().flag();
+		Fortune f = Client.getInstance().getCurrentFortune();
+		//TODO ask confirmation
+		if (f != null) {
+			f.flag();
+			updateFortune(null);
+			
+		}
 	}
 
 	@Override

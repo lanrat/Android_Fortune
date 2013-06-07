@@ -71,6 +71,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
 			ListView lv = (ListView) mView.findViewById(R.id.submit_list);
+			lv.setEmptyView(mView.findViewById(R.id.blank));
 			lv.setAdapter(adapter);	
 		}
 		

@@ -7,8 +7,6 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.vorsk.androidfortune.data.Client;
-import com.vorsk.androidfortune.data.FortuneDbAdapter;
-
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -26,6 +24,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements
 		OnSharedPreferenceChangeListener {
@@ -105,14 +104,16 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 							getActivity() );
 					alertDialogBuilder
-						.setTitle("Database nuke")
+					//TODO make strings
+						.setTitle("Database Clear")
 						.setMessage("Are you sure you want to clear the database?")
 						.setCancelable(true)
-						.setPositiveButton("Nuke",
+						.setPositiveButton("Nuke It!",
 						  new DialogInterface.OnClickListener() {
 						    public void onClick(DialogInterface dialog,int id) {
 						    	Log.v("Local Database", "clear database");	
 						    	Client.getInstance().clearDatabase();
+						    	Toast.makeText(getActivity().getApplicationContext(), "Database Reset", Toast.LENGTH_SHORT).show();
 						    }
 						 })
 						.setNegativeButton("Cancel",

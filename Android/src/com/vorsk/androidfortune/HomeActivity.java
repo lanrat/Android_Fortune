@@ -34,7 +34,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 			FortuneFragment fragment = new FortuneFragment();
 			fm.beginTransaction().add(android.R.id.content, fragment).commit();
 		}
-		
 	}
 	
 	@Override
@@ -66,17 +65,21 @@ public class HomeActivity extends SherlockFragmentActivity {
 			}
 			if (mView == null) {
 				Log.e(TAG,"view instance is null");
+				return;
 			}
 			//set the fortune text
-			TextView current_fortune = (TextView)mView.findViewById(R.id.fortune_text);
+			TextView current_fortune = (TextView)mView.findViewById(R.id.home_fortune_text);
 			current_fortune.setText(f.getFortuneText(true));
 			//set the votes
-			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.upvote_count);
-			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.downvote_count);
-			current_fortune_upcount.setText(Integer.toString(f.getUpvotes()));
-			current_fortune_downcount.setText(Integer.toString(f.getDownvotes()));
+			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.home_fortune_upvotes);
+			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.home_fortune_downvotes);
+			//current_fortune_upcount.setText(Integer.toString(f.getUpvotes()));
+			//current_fortune_downcount.setText(Integer.toString(f.getDownvotes()));
+			current_fortune_upcount.setText("Upvotes: " + f.getUpvotes());
+			current_fortune_downcount.setText("Downvotes: " + f.getUpvotes());
+
 			//set the date
-			TextView timeText = (TextView) mView.findViewById(R.id.fortune_time);
+			TextView timeText = (TextView) mView.findViewById(R.id.home_fortune_date);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy",Locale.US);
 			timeText.setText(formatter.format(f.getSubmitted()));
 			//TODO display additional data like views, etc...
@@ -86,50 +89,39 @@ public class HomeActivity extends SherlockFragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			mView = inflater.inflate(R.layout.home, container, false);
-			Fortune f = Client.getInstance(getActivity().getApplicationContext()).getCurrentFortune();
-			if (f != null) {
-				// get text views
-				TextView text = (TextView) mView.findViewById(R.id.home_fortune_text);
-				TextView owner = (TextView) mView.findViewById(R.id.home_fortune_owner);
-				TextView date = (TextView) mView.findViewById(R.id.home_fortune_date);
-				TextView voted = (TextView) mView.findViewById(R.id.home_fortune_voted);
-				TextView upvotes = (TextView) mView.findViewById(R.id.home_fortune_upvotes);
-				TextView downvotes = (TextView) mView.findViewById(R.id.home_fortune_downvotes);
-				
-				// set text
-				text.setText(f.getFortuneText(true));
-				date.setText(f.getSeen().toString());
-				if(f.getOwner())
-					owner.setText("You submitted this fortune");
-				if(f.hasVoted()) {
-					if(f.getUpvoted())
-						voted.setText("You have upvoted this fortune");
-					else
-						voted.setText("You have downvoted this fortune");
-				}
-				else
-					voted.setText("You have not yet voted on this fortune");
-				upvotes.setText("Upvotes: " + f.getUpvotes());
-				downvotes.setText("Downvotes: " + f.getDownvotes());
-				
-			}
-			
-			
+
 			mView.findViewById(R.id.home_upvote_image).setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					Client.getInstance().getCurrentFortune().upvote();
+					Fortune f = Client.getInstance().getCurrentFortune();
+					if (f != null) {
+						f.upvote();
+						displayFortune(f);
+					}
 				}
 			});
 			
 			mView.findViewById(R.id.home_downvote_image).setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					Client.getInstance().getCurrentFortune().downvote();
+					Fortune f = Client.getInstance().getCurrentFortune();
+					if (f != null) {
+						f.downvote();
+						displayFortune(f);
+					}
 				}
 			});
 			
 
+			//if we have no fortune to display, get one!
+			if (Client.getInstance().getNumberOfLocalFortunes() == 0) {
+				new UpdateFortuneReceiver().onReceive(getActivity().getApplicationContext(), null);
+			}else {
+				Fortune f = Client.getInstance(getActivity().getApplicationContext()).getCurrentFortune();
+				//display the current fortune
+				displayFortune(f);
+			}
+			
 			return mView;
 		}
 

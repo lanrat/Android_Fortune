@@ -25,6 +25,15 @@
         android:layout_marginTop="@dimen/view_margin"
         android:layout_above="@+id/submitButton" />
     
+    <TextView android:id="@+id/blank"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+	    android:gravity="center"
+	    android:textSize="@dimen/home_text_large"
+	    android:textStyle="bold"
+	    android:textIsSelectable="false" 
+        android:text="No data"/>
+    
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"

@@ -61,6 +61,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			
 			FortuneArrayAdapter adapter = new FortuneArrayAdapter(mView.getContext(), fortunes);
 			ListView lv = (ListView) mView.findViewById(R.id.history_list);
+			lv.setEmptyView(mView.findViewById(R.id.blank));
 			lv.setAdapter(adapter);	
 		}
 
