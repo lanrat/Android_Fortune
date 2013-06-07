@@ -324,6 +324,13 @@ public class Client
 	/*
 	 * Get clear local database
 	 */
+	public void updateFortuneVotes(Fortune f) {
+		FortuneDbAdapter.getInstance().updateFortuneVotes(f);
+	}
+		
+	/*
+	 * Get clear local database
+	 */
 	public void clearDatabase() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		Editor editor = prefs.edit();
