@@ -88,23 +88,47 @@ public class HomeActivity extends SherlockFragmentActivity {
 			mView = inflater.inflate(R.layout.home, container, false);
 			Fortune f = Client.getInstance(getActivity().getApplicationContext()).getCurrentFortune();
 			if (f != null) {
-				TextView current_fortune = (TextView)mView.findViewById(R.id.fortune_text);
-				current_fortune.setText(f.getFortuneText(true));
+				// get text views
+				TextView text = (TextView) mView.findViewById(R.id.home_fortune_text);
+				TextView owner = (TextView) mView.findViewById(R.id.home_fortune_owner);
+				TextView date = (TextView) mView.findViewById(R.id.home_fortune_date);
+				TextView voted = (TextView) mView.findViewById(R.id.home_fortune_voted);
+				TextView upvotes = (TextView) mView.findViewById(R.id.home_fortune_upvotes);
+				TextView downvotes = (TextView) mView.findViewById(R.id.home_fortune_downvotes);
+				
+				// set text
+				text.setText(f.getFortuneText(true));
+				date.setText(f.getSeen().toString());
+				if(f.getOwner())
+					owner.setText("You submitted this fortune");
+				if(f.hasVoted()) {
+					if(f.getUpvoted())
+						voted.setText("You have upvoted this fortune");
+					else
+						voted.setText("You have downvoted this fortune");
+				}
+				else
+					voted.setText("You have not yet voted on this fortune");
+				upvotes.setText("Upvotes: " + f.getUpvotes());
+				downvotes.setText("Downvotes: " + f.getDownvotes());
+				
 			}
 			
-			mView.findViewById(R.id.upvote_info).setOnClickListener(new OnClickListener(){
+			
+			mView.findViewById(R.id.home_upvote_image).setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
 					Client.getInstance().getCurrentFortune().upvote();
 				}
 			});
 			
-			mView.findViewById(R.id.downvote_info).setOnClickListener(new OnClickListener(){
+			mView.findViewById(R.id.home_downvote_image).setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
 					Client.getInstance().getCurrentFortune().downvote();
 				}
 			});
+			
 
 			return mView;
 		}
