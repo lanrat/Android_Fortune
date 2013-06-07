@@ -289,6 +289,20 @@ public class FortuneDbAdapter {
 		return fetchAllBy(null,null,null);
 	}
 	
+	/**
+	 * Returns number of fortunes
+	 * 
+	 * @return int number of fortunes
+	 */
+	public int getNumberOfRows() {
+		Cursor mCount= mDb.rawQuery
+				("select count(*) from "+DATABASE_TABLE, null);
+		mCount.moveToFirst();
+		int count= mCount.getInt(0);
+		mCount.close();
+		return count;
+	}
+	
 	/**l
 	 * Return a list of all the fortunes by the current user
 	 * 

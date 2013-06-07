@@ -126,8 +126,8 @@ public class Fortune implements Comparable<Fortune> {
 	{
 		if (!this.flagged)
 		{
-			this.flagged = true;
 			Client.getInstance().submitFlag(this);
+			this.flagged = true;
 		}
 	}
 	

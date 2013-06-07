@@ -108,6 +108,7 @@ public class Client
 	{
 		if (!fortune.getFlagged())
 		{
+			Log.v(TAG, "Flagging fortune");
 			new Thread(new Runnable() {
 			    public void run() {
 					JSONObject obj = getRequestJSON();
@@ -207,6 +208,17 @@ public class Client
 	public ArrayList<Fortune> getFortunesSubmitted()
 	{
 		return database.fetchAllByUser();
+	}
+	
+	/**
+	 * Get the number of locally stored fortunes
+	 * @return an arraylist of the fortunes
+	 */
+	public int getNumberOfLocalFortunes()
+	{
+		int count = database.getNumberOfRows();
+		Log.v(TAG, "Number of fortunes in local db: "+count);
+		return count;
 	}
 	
 	

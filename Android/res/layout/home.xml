@@ -11,6 +11,20 @@
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
         layout="@layout/fortune_layout" />
+    <Button
+        android:id="@+id/flag_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testFlag"
+        android:layout_below="@+id/current_fortune"
+        android:text="Flag Current Fortune"/>
+    <Button
+        android:id="@+id/number_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testNumberFortunes"
+        android:layout_below="@+id/flag_button"
+        android:text="Get # of local fortunes"/>
 
     <Button
         android:id="@+id/refresh_button"

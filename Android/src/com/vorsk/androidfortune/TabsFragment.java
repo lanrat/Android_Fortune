@@ -59,6 +59,15 @@ public class TabsFragment extends SherlockFragmentActivity {
 		mViewPager.setCurrentItem(1);
 
 	}
+	
+	public void testFlag(View view){
+		Client.getInstance().getCurrentFortune().flag();
+	}
+	
+	public void testNumberFortunes(View view){
+		Client.getInstance().getNumberOfLocalFortunes();
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
