@@ -6,6 +6,9 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.vorsk.androidfortune.data.Client;
+import com.vorsk.androidfortune.data.FortuneDbAdapter;
+
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -108,8 +111,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 						.setPositiveButton("Nuke",
 						  new DialogInterface.OnClickListener() {
 						    public void onClick(DialogInterface dialog,int id) {
-							//Log.v("Local Database", "clear database");	
-							//FortuneDbAdapter.getInstance(null).removeAll();
+						    	Log.v("Local Database", "clear database");	
+						    	Client.getInstance().clearDatabase();
 						    }
 						 })
 						.setNegativeButton("Cancel",

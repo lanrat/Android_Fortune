@@ -197,7 +197,7 @@ public class Client
 	{
 		//TODO filter only seen fortunes
 		return database.fetchAllBy(FortuneDbAdapter.KEY_OWNER+"=" + "0",
-				FortuneDbAdapter.KEY_VIEWDATE+" DESC","20");
+				FortuneDbAdapter.KEY_VIEWDATE+" DESC","1,20");
 	}
 	
 	/**
@@ -319,6 +319,18 @@ public class Client
 		}
 		Fortune fortune = getInstance().getFortuneByID(id);
 		return fortune;
+	}
+	
+	/*
+	 * Get clear local database
+	 */
+	public void clearDatabase() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		Editor editor = prefs.edit();
+		editor.putLong(SettingsActivity.KEY_CURR_FORTUNE, -1);
+		editor.commit();
+		
+		FortuneDbAdapter.getInstance().removeAll();
 	}
 	
 	/**
