@@ -28,7 +28,6 @@ public class WidgetActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		displayFortune(getApplicationContext(),
 				Client.getInstance(getApplicationContext()).getCurrentFortune());
-		
 	}
 
 	/** Method where fortune must be passed in 
@@ -40,8 +39,6 @@ public class WidgetActivity extends Activity {
     	fortune = f;
     	if (f == null) {
     		Log.e(TAG,"displaying null fortune");
-    	}else {
-    		Log.v(TAG,"displaying fortune: +"+f.getFortuneText(false));
     	}
 		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
     	WidgetActivity.displayFortuneToText(context, remoteViews);

@@ -23,7 +23,7 @@
 	<string name="already_voted">You already voted</string>
 	<string name="up_vote">Upvote Received</string>
 	<string name="down_vote">Downvote Received</string>
-	<string name="null_fortune">Loading Fortune</string>
+	<string name="null_fortune">No Fortune Yet\n(click to refresh)</string>
 	<string name="server_error">Server Communication Error</string>
 	<string name="refresh_button">Get New Fortune</string>
 	<string name="flag_button">Flag Current Fortune</string>
