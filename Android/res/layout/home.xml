@@ -88,7 +88,7 @@
         android:onClick="testFlag"
         android:layout_above="@+id/refresh_button"
         android:drawableLeft="@drawable/ic_action_flag"
-        android:text="Flag Current Fortune"/>
+        android:text="@string/flag_button"/>
     
     <Button
         android:id="@+id/refresh_button"

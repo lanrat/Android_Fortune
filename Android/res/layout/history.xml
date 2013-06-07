@@ -20,6 +20,6 @@
 	    android:textSize="@dimen/home_text_large"
 	    android:textStyle="bold"
 	    android:textIsSelectable="false" 
-        android:text="No data"/>
+        android:text="@string/empty_history"/>
 
 </RelativeLayout>

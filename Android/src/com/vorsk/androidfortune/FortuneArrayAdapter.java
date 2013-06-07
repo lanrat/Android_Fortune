@@ -110,7 +110,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 					Fortune f = Client.getInstance(context.getApplicationContext()).getCurrentFortune();
 					HistoryFragment.refreshHistory();
 					if(fortune.getOwner()) {
-						SubmitFragment.refreshHistory();
+						SubmitFragment.refreshSubmitted();
 					}
 					if(fortune.equals(f)) {
 						FortuneFragment.displayFortune(f);
@@ -151,7 +151,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				if(fortune.downvote()) {
 					HistoryFragment.refreshHistory();
 					if(fortune.getOwner()) {
-						SubmitFragment.refreshHistory();
+						SubmitFragment.refreshSubmitted();
 					}
 					dialogTitle = "Down Vote";
 					dialogText = "You have successfully downvoted";

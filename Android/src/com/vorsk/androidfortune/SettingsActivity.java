@@ -10,6 +10,7 @@ import com.vorsk.androidfortune.data.Client;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -113,6 +114,12 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 						    public void onClick(DialogInterface dialog,int id) {
 						    	Log.v("Local Database", "clear database");	
 						    	Client.getInstance().clearDatabase();
+						    	HistoryActivity.HistoryFragment.refreshHistory();
+						    	SubmitActivity.SubmitFragment.refreshSubmitted();
+								NotificationManager notificationManager = (NotificationManager) getActivity().getApplicationContext()
+										.getSystemService(Context.NOTIFICATION_SERVICE);
+								notificationManager.cancel(NotificationActivity.ID_NOTIFICATION);
+						    	new UpdateFortuneReceiver().onReceive(getActivity().getApplicationContext(), null);
 						    	Toast.makeText(getActivity().getApplicationContext(), "Database Reset", Toast.LENGTH_SHORT).show();
 						    }
 						 })
@@ -174,8 +181,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		// }
 
 		if (prefs.getBoolean(KEY_UPDATE_ENABLE, true)) {
-			long interval = AlarmManager.INTERVAL_DAY; // TODO change to vary by
-														// preference
+			long interval = AlarmManager.INTERVAL_DAY; 
 			long time = prefs.getLong(KEY_TIME_PREF, 0);
 
 			// adjust time so it occurs after current time

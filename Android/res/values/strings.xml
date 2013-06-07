@@ -26,8 +26,11 @@
 	<string name="null_fortune">Loading Fortune</string>
 	<string name="server_error">Server Communication Error</string>
 	<string name="refresh_button">Get New Fortune</string>
+	<string name="flag_button">Flag Current Fortune</string>
 	<string name="vote_default_count">0</string>
 	<string name="submit_title">Submitted Fortunes</string>
 	<string name="submit_button_text">Submit New Fortune</string>
 	<string name="submit_fortune_hint">Your own fortune here</string>
+	<string name="empty_history">No Past Fortunes</string>
+	<string name="empty_submit">No Fortunes Submitted</string>
 </resources>

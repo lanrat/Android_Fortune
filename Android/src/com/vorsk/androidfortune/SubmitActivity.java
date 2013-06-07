@@ -61,7 +61,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 	public static class SubmitFragment extends SherlockFragment {
 		private static View mView;
 		
-		public static void refreshHistory() {
+		public static void refreshSubmitted() {
 			if (mView == null) {
 				return;
 			}
@@ -84,7 +84,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
-			refreshHistory();
+			refreshSubmitted();
 			
 			View submitButton = mView.findViewById(R.id.submitButton);
 			((Button)submitButton).setOnClickListener( new OnClickListener() {
@@ -133,7 +133,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 					        			 protected void onPostExecute(Boolean result) {
 					        				if (result) {
 					        					//refresh submit list
-					        					refreshHistory();
+					        					refreshSubmitted();
 					        				}else {
 					        					//error
 					        					Toast.makeText(ctx, R.string.server_error, Toast.LENGTH_SHORT).show();
