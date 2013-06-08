@@ -35,7 +35,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.fragment_tabs_pager);
-
+		
 		Client.getInstance(getApplicationContext());
 		
 		mViewPager = (ViewPager) findViewById(R.id.pager);

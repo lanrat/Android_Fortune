@@ -87,19 +87,16 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 		
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		// TODO Handle deletion of the widget.
 		super.onDeleted(context, appWidgetIds);
 	}
 
 	@Override
 	public void onDisabled(Context context) {
-		// TODO Widget has been disabled.
 		super.onDisabled(context);
 	}
 
 	@Override
 	public void onEnabled(Context context) {
-		// TODO Widget has been enabled.
 		super.onEnabled(context);
 	}
 }

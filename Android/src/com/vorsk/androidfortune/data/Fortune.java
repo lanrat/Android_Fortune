@@ -91,10 +91,9 @@ public class Fortune implements Comparable<Fortune> {
 		this.downvotes =  data.getInt("downvote");
 		this.upvoted = false;	//TODO check for the real value
 		this.downvoted = false; //TODO check for the real value
-		this.submitted = new Date(data.getInt("uploaddate")*1000); //TODO need to make the server return 0 not null on unknown
+		this.submitted = new Date(data.getInt("uploaddate")*1000);
 		this.seen = new Date();
 		this.views = data.getInt("views");
-		//this.flagged = data.getBoolean("flagged"); //TODO use this
 	}
 	
 	/**

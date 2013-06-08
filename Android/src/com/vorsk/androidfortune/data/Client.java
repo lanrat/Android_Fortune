@@ -25,7 +25,6 @@ import com.vorsk.androidfortune.SettingsActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -404,10 +403,6 @@ public class Client
 		} catch (IOException e) {
 			Log.e(TAG,"IOException");
 			return null;
-		} catch (NetworkOnMainThreadException e) {
-			//THIS LINE SHOULD NEVER BE REACHED, IF IT IS YOU ARE DOING IT WRONG!!!
-			Log.e(TAG,"Network on Main thread Exception!");
-			return null;
 		}
 		if (response == null) {
 			Log.e(TAG,"Server Timeout");
@@ -438,7 +433,7 @@ public class Client
 			{
 				return responseObj.getJSONArray(SERVER_DATA);
 			}else{
-				return null; //TODO this may want do be something different
+				return null;
 			}
 		} catch (JSONException e) {
 			Log.e(TAG,"Unable to parse resposne json for accepted");
