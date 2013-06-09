@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /*
@@ -193,6 +194,17 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 		bodyText.setText(fortunes[position].getFortuneText(false));
 		upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));
 		downvoteCountText.setText(Integer.toString(fortunes[position].getDownvotes()));
+		
+		if (fortunes[position].getUpvoted()) {
+			((ImageButton)rowView.findViewById(R.id.upvote_button)).setImageResource(R.drawable.arrow_up_dark);
+		}else {
+			((ImageButton)rowView.findViewById(R.id.upvote_button)).setImageResource(R.drawable.arrow_up);
+		}
+		if (fortunes[position].getDownvoted()) {
+			((ImageButton)rowView.findViewById(R.id.downvote_button)).setImageResource(R.drawable.arrow_down_dark);
+		}else {
+			((ImageButton)rowView.findViewById(R.id.downvote_button)).setImageResource(R.drawable.arrow_down);
+		}
 		
 		return rowView;
     	
