@@ -78,8 +78,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 			
 			// has voted?
 			TextView votedText = (TextView) mView.findViewById(R.id.home_voted);
-			if(f.hasVoted())
-				votedText.setText("You have already voted");
+			if(!f.hasVoted())
+				votedText.setText("You not voted for this fortune yet");
 			else if (f.getUpvoted())
 				votedText.setText("You have up voted");
 			else if (f.getDownvoted())
@@ -89,7 +89,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.home_fortune_upvotes);
 			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.home_fortune_downvotes);
 			current_fortune_upcount.setText("Upvotes: " + f.getUpvotes());
-			current_fortune_downcount.setText("Downvotes: " + f.getUpvotes());
+			current_fortune_downcount.setText("Downvotes: " + f.getDownvotes());
 
 			
 			
