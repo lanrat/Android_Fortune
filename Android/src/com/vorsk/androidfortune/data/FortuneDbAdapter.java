@@ -33,6 +33,8 @@ public class FortuneDbAdapter {
 	public static final String KEY_FLAG = "flag";
 	public static final String KEY_OWNER = "owner";
 	
+	public static final String KEY_UPDATED="updateDate";
+	
 	private static final String TAG = "FortuneDbAdapter";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -51,11 +53,12 @@ public class FortuneDbAdapter {
 			      KEY_SUBMITDATE + " integer not null, " +
 			      KEY_VIEWDATE + " integer, " +
 			      KEY_FLAG + " integer, " +
+			      KEY_UPDATED + " integer, " +
 			      KEY_OWNER + " integer);";
 
 	private static final String DATABASE_NAME = "data";
 	private static final String DATABASE_TABLE = "fortunes";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	private final Context mContext;
 
@@ -103,10 +106,15 @@ public class FortuneDbAdapter {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-					+ newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS fortunes");
-			onCreate(db);
+			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "+ newVersion);
+			if ( oldVersion == 2 && newVersion==3 ) {
+				Log.w(TAG, "Adding new column "+KEY_UPDATED+" to table " + DATABASE_TABLE);
+				db.execSQL("ALTER TABLE "+ DATABASE_TABLE + " ADD COLUMN " +KEY_UPDATED +" INTEGER DEFAULT 0");
+			}
+			else {
+				db.execSQL("DROP TABLE IF EXISTS fortunes");
+				onCreate(db);
+			}
 		}
 	}
 
@@ -130,87 +138,6 @@ public class FortuneDbAdapter {
 	public void close() {
 		mDbHelper.close();
 	}
-
-
-	/**
-	 * Create a new fortune from user
-	 * 
-	 * @param body the body of the fortune
-	 * @return rowId or -1 if failed
-	 */
-	public long createFortune(String text) {
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_TEXT, text.trim());
-		initialValues.put(KEY_SUBMITDATE, System.currentTimeMillis() );
-		
-		initialValues.put(KEY_UPVOTES, 0);
-		initialValues.put(KEY_DOWNVOTES, 0);
-		initialValues.put(KEY_UPVOTED, 0);
-		initialValues.put(KEY_DOWNVOTED, 0);
-		initialValues.put(KEY_VIEWDATE, -1);
-		initialValues.put(KEY_FLAG, 0);
-		initialValues.put(KEY_OWNER, 1);
-		
-		return mDb.insert(DATABASE_TABLE, null, initialValues);
-	}
-	
-	/**
-	 * Take a JSON string and inserts it into the database
-	 * 
-	 * @param json String to parse as JSON to insert into database
-	 * @return id or -1 if failed
-	 * @throws JSONException 
-	 */
-	/*public long createFortuneFromJson(String json) throws JSONException {
-
-		ContentValues initialValues = new ContentValues();
-		try { 
-			JSONObject data = new JSONObject(json);
-			Log.v(TAG, "Adding into database fortuneID:" + data.getInt("fortuneID"));
-			initialValues.put(KEY_ID, data.getInt("fortuneID"));
-			initialValues.put(KEY_TEXT, data.getString("text"));
-			initialValues.put(KEY_UPVOTES, data.getInt("upvote"));
-			initialValues.put(KEY_DOWNVOTES, data.getInt("downvote"));
-			initialValues.put(KEY_UPVOTED, 0);
-			initialValues.put(KEY_DOWNVOTED, 0);
-			initialValues.put(KEY_SUBMITDATE, data.getInt("uploadDate"));
-			initialValues.put(KEY_VIEWDATE, -1);
-			initialValues.put(KEY_FLAG, 0);
-			initialValues.put(KEY_OWNER, data.getInt("uploaders"));
-		} catch ( JSONException e) {
-			Log.v(TAG, "Failed to parse: " + json);
-		}
-		
-		return mDb.insert(DATABASE_TABLE, null, initialValues);
-	}*/
-	
-	/**
-	 * Returns the JSON string representation of row
-	 * 
-	 * @param id row to create Json of
-	 * @return String JSON string
-	 */
-	/*public String createFortuneJson(int id) {
-		Cursor c = 
-				mDb.query(true, DATABASE_TABLE, null, KEY_ID + "=" + id, null,
-						null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
-		}
-		
-		JSONObject json = new JSONObject();
-		try {
-			json.put("fortuneID", c.getInt(c.getColumnIndexOrThrow(KEY_ID)));
-			json.put("text", c.getString(c.getColumnIndexOrThrow(KEY_TEXT)));
-			json.put("uploadDate", c.getInt(c.getColumnIndexOrThrow(KEY_SUBMITDATE)));
-		}
-		catch (Exception e) {
-			Log.v(TAG,e.getMessage());
-		}
-		
-		String s = json.toString();
-		return s;
-	}*/
 
 	/**
 	 * Delete the fortune with the given rowId
@@ -253,7 +180,7 @@ public class FortuneDbAdapter {
 		int id, upvotes, downvotes;
 		String text;
 		boolean upvoted,downvoted,flag,owner;
-		Date seen, submitted;
+		Date seen, submitted, updated;
 		try {
 			id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
 			text = c.getString(c.getColumnIndexOrThrow(KEY_TEXT));
@@ -269,6 +196,7 @@ public class FortuneDbAdapter {
 				seen = new Date(tempTime*1000);
 			}	
 		    submitted = new Date( c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_SUBMITDATE))*1000);
+		    updated = new Date( c.getLong(c.getColumnIndexOrThrow(FortuneDbAdapter.KEY_UPDATED))*1000);
 		} catch ( IllegalStateException e) {
 			Log.v(TAG, e.getMessage());
 			return null;
@@ -277,7 +205,7 @@ public class FortuneDbAdapter {
 			return null;
 		}
 					
-		return new Fortune(id,text,upvotes,downvotes,upvoted,downvoted,flag,owner,seen,submitted);
+		return new Fortune(id,text,upvotes,downvotes,upvoted,downvoted,flag,owner,seen,submitted,updated);
 	}
 	
 	/**
@@ -337,7 +265,9 @@ public class FortuneDbAdapter {
 	 * @return rowId of new entry
 	 */
 	public int insertFortune(Fortune f) {
-
+		if ( fetchFortune(f.getFortuneID()) != null )
+			return f.getFortuneID();
+			
 		ContentValues initialValues = new ContentValues();
 
 		initialValues.put(KEY_ID, f.getFortuneID());
@@ -349,6 +279,7 @@ public class FortuneDbAdapter {
 		initialValues.put(KEY_SUBMITDATE, f.getSubmitted().getTime()/1000);
 		if ( f.getSeen()!= null )
 			initialValues.put(KEY_VIEWDATE, f.getSeen().getTime()/1000);
+		initialValues.put(KEY_UPDATED, f.getUpdated().getTime()/1000);
 		initialValues.put(KEY_FLAG, f.getFlagged() ? 1 : 0);
 		initialValues.put(KEY_OWNER, f.getOwner()? 1 : 0 );
 		
@@ -372,6 +303,8 @@ public class FortuneDbAdapter {
 		//don't update submit date
 		if ( f.getSeen()!= null )
 			args.put(KEY_VIEWDATE, f.getSeen().getTime()/1000);
+	
+		args.put(KEY_UPDATED, f.getUpdated().getTime()/1000);
 		args.put(KEY_FLAG, f.getFlagged() ? 1 : 0);
 		//args.put(KEY_OWNER, f.getOwner()? 1 : 0 ); //probably shouldn't update
 		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + f.getFortuneID(), null) > 0;
@@ -388,6 +321,16 @@ public class FortuneDbAdapter {
 		args.put(KEY_UPVOTES, f.getUpvotes());
 		args.put(KEY_DOWNVOTES, f.getDownvotes());
 		return mDb.update(DATABASE_TABLE, args, KEY_ID + "=" + f.getFortuneID(), null) > 0;
+	}
+	
+	/**
+	 * Update the vote counts
+	 * 
+	 * @param fortune row/object to update.
+	 * @return true if the fortune was successfully updated, false otherwise
+	 */
+	public boolean updateFortuneUpdated(Fortune f) {
+		return updateFortuneCol(f.getFortuneID(), KEY_UPDATED, f.getUpdated());
 	}
 	
 	/**

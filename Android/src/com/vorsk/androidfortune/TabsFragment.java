@@ -58,6 +58,13 @@ public class TabsFragment extends SherlockFragmentActivity {
 		// 0-based so 1 is the second tab
 		mViewPager.setCurrentItem(1);
 		
+		
+		//update Fortunes
+		ArrayList<Fortune> list = Client.getInstance().getSeenFortunes();
+		list.addAll(Client.getInstance().getFortunesSubmitted());
+		list.add(Client.getInstance().getCurrentFortune());
+		
+		new UpdateFortunesTask(getApplicationContext(),list).execute();
 	}
 	
 	public void testFlag(View view){
