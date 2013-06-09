@@ -168,6 +168,40 @@ public class Client
 	}
 	
 	/**
+	 * Updates a fortune
+	 * THIS SHOULD ONLY BE CALLED FROM WITHIN FORTUNE!
+	 * @param fortune the fortune
+	 */
+	public void updateFortune(final Fortune f)
+	{
+		Log.v(TAG,"Updating fortune id: "+f.getFortuneID());
+
+		new Thread(new Runnable() {
+		    public void run() {
+		    	Fortune newF;
+		    	JSONObject obj = getRequestJSON();
+				try {
+					obj.put("fortuneid",f.getFortuneID() );
+					JSONArray jsonArr = sendData("getFortuneByID", obj);
+					if (jsonArr == null || jsonArr.length() < 1){
+						return;
+					}
+					newF = Fortune.createFromJSON(jsonArr.getJSONObject(0));
+			    	
+					//no need to manually set new updated dated. Fortune ctor
+					//shoudl take care of that.
+					if ( newF != null ) {
+						database.updateFortune(newF);
+					}
+			    } catch (JSONException e) {
+					Log.e(TAG,"JSONException");
+			    }
+		    }
+		}).start();
+
+	}
+	
+	/**
 	 * Submit a fortune to the server and add it to the local database
 	 * @param text the message for the fortune
 	 */

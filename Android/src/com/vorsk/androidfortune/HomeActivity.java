@@ -76,7 +76,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			//current_fortune_upcount.setText(Integer.toString(f.getUpvotes()));
 			//current_fortune_downcount.setText(Integer.toString(f.getDownvotes()));
 			current_fortune_upcount.setText("Upvotes: " + f.getUpvotes());
-			current_fortune_downcount.setText("Downvotes: " + f.getUpvotes());
+			current_fortune_downcount.setText("Downvotes: " + f.getDownvotes());
 
 			//set the date
 			TextView timeText = (TextView) mView.findViewById(R.id.home_fortune_date);

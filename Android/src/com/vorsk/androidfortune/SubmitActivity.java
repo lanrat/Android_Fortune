@@ -100,7 +100,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 					alertDialogBuilder.setView(promptsView);
 					
 					final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialog);
-
+					final Context context = getActivity().getApplicationContext();
 					//use this bit of code to enable line wrapping
 					userInput.setInputType(
 						    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -115,43 +115,7 @@ public class SubmitActivity extends SherlockFragmentActivity {
 						.setPositiveButton("Submit",
 						  new DialogInterface.OnClickListener() {
 						    public void onClick(DialogInterface dialog,int id) {
-						    	Log.v("SubmitActivity", "Attempting to submit fortune");
-						    	String newFortune = userInput.getText().toString();
-						    	if (newFortune != null && newFortune.length() > 5)
-						    	{
-					            	class SubmitFortuneTask extends AsyncTask<String, Void, Boolean>{
-					            		private Context ctx;
-					            		public SubmitFortuneTask (Context ctx) {
-					            			this.ctx = ctx;
-					            		}
-					            		
-					        			@Override
-					        			protected Boolean doInBackground(String... params) {
-					        				return Client.getInstance().submitFortune(params[0]);	
-					        			}
-					        			@Override
-					        			 protected void onPostExecute(Boolean result) {
-					        				if (result) {
-					        					//refresh submit list
-					        					refreshSubmitted();
-					        				}else {
-					        					//error
-					        					Toast.makeText(ctx, R.string.server_error, Toast.LENGTH_SHORT).show();
-					        				}
-					        			}
-					            	}
-					            	// Build notification
-					        		SubmitFortuneTask task = new SubmitFortuneTask(getActivity().getApplicationContext());
-					        		task.execute(userInput.getText().toString());
-					            	userInput.setText(null);
-					            	
-					            	// hide keyboard
-					            	InputMethodManager inputManager = 
-					            	        (InputMethodManager) getSherlockActivity().
-					            	            getSystemService(Context.INPUT_METHOD_SERVICE);
-					            	inputManager.hideSoftInputFromWindow(userInput.getWindowToken(), 
-					            			InputMethodManager.HIDE_NOT_ALWAYS);
-							    } 
+					    		//do nothing here. over ridden
 						    }
 						 })
 						.setNegativeButton("Cancel",
@@ -162,8 +126,67 @@ public class SubmitActivity extends SherlockFragmentActivity {
 						  });
 	 
 					// create alert dialog
-					AlertDialog alertDialog = alertDialogBuilder.create();
+					final AlertDialog alertDialog = alertDialogBuilder.create();
 	 
+					alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+					    @Override
+					    public void onShow(DialogInterface dialog) {
+
+					        Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+					        b.setOnClickListener(new View.OnClickListener() {
+					        	
+					            @Override
+					            public void onClick(View view) {
+							    	Log.v("SubmitActivity", "Attempting to submit fortune");
+							    	String newFortune = userInput.getText().toString();
+							    	if (newFortune != null && newFortune.length() > 5 || newFortune.length()>255)
+							    	{
+						            	class SubmitFortuneTask extends AsyncTask<String, Void, Boolean>{
+						            		private Context ctx;
+						            		public SubmitFortuneTask (Context ctx) {
+						            			this.ctx = ctx;
+						            		}
+						            		
+						        			@Override
+						        			protected Boolean doInBackground(String... params) {
+						        				return Client.getInstance().submitFortune(params[0]);	
+						        			}
+						        			@Override
+						        			 protected void onPostExecute(Boolean result) {
+						        				if (result) {
+						        					//refresh submit list
+						        					refreshSubmitted();
+						        				}else {
+						        					//error
+						        					Toast.makeText(ctx, R.string.server_error, Toast.LENGTH_SHORT).show();
+						        				}
+						        			}
+						            	}
+						            	// Build notification
+						        		SubmitFortuneTask task = new SubmitFortuneTask(getActivity().getApplicationContext());
+						        		task.execute(userInput.getText().toString());
+						            	userInput.setText(null);
+						            	
+						            	// hide keyboard
+						            	InputMethodManager inputManager = 
+						            	        (InputMethodManager) getSherlockActivity().
+						            	            getSystemService(Context.INPUT_METHOD_SERVICE);
+						            	inputManager.hideSoftInputFromWindow(userInput.getWindowToken(), 
+						            			InputMethodManager.HIDE_NOT_ALWAYS);
+						            	
+						                alertDialog.dismiss();
+						            	
+								    } else
+					            		Toast.makeText(context, R.string.submit_text_error, Toast.LENGTH_SHORT).show();
+							    	
+					            }//onClick
+
+					        });
+					    
+					    }//onShow
+					});
+					
 					// show it
 					alertDialog.show();
 				}

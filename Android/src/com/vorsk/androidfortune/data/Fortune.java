@@ -21,6 +21,7 @@ public class Fortune implements Comparable<Fortune> {
 	private boolean owner = false; //true if the user created the fortune
 	private Date seen;
 	private Date submitted;
+	private Date updated;
 	private int views = 0; //TODO these are not stored in the DB, may not be an issue
 	
 	/**
@@ -45,7 +46,8 @@ public class Fortune implements Comparable<Fortune> {
 					boolean flagged,
 					boolean owner,
 					Date seen,
-					Date submitted
+					Date submitted,
+					Date updated
 			){
 		this.fortuneID = id;
 		this.fortuneText = text;
@@ -56,6 +58,7 @@ public class Fortune implements Comparable<Fortune> {
 		this.flagged = flagged;
 		this.seen = seen;
 		this.submitted = submitted;
+		this.updated = updated;
 	}
 	
 	
@@ -93,6 +96,7 @@ public class Fortune implements Comparable<Fortune> {
 		this.downvoted = false; //TODO check for the real value
 		this.submitted = new Date(data.getInt("uploaddate")*1000);
 		this.seen = new Date();
+		this.updated = new Date();
 		this.views = data.getInt("views");
 	}
 	
@@ -175,6 +179,15 @@ public class Fortune implements Comparable<Fortune> {
 		Client.getInstance().submitView(this);
 	}
 	
+	/**
+	 * marked the current fortune as seen
+	 */
+	public void update()
+	{
+		//do something.
+		Client.getInstance().updateFortune(this);
+	}
+	
 
 	/**
 	 * returns the fortune text
@@ -228,6 +241,7 @@ public class Fortune implements Comparable<Fortune> {
 	public boolean getOwner() { return owner; }
 	public Date getSeen() { return seen; }
 	public Date getSubmitted() { return submitted; }
+	public Date getUpdated() { return updated; }
 	public int getViews() {return views; }
 	
 }

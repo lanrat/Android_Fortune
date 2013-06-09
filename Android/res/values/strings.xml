@@ -25,6 +25,7 @@
 	<string name="down_vote">Downvote Received</string>
 	<string name="null_fortune">No Fortune Yet\n(click to refresh)</string>
 	<string name="server_error">Server Communication Error</string>
+	<string name="submit_text_error">Fortune length must be between 5 to 255 characters.</string>
 	<string name="refresh_button">Get New Fortune</string>
 	<string name="flag_button">Flag Current Fortune</string>
 	<string name="vote_default_count">0</string>
