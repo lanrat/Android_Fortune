@@ -33,6 +33,8 @@ public class FortuneDbAdapter {
 	public static final String KEY_FLAG = "flag";
 	public static final String KEY_OWNER = "owner";
 	
+	public static final String KEY_UPDATE="updateDate";
+	
 	private static final String TAG = "FortuneDbAdapter";
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -51,11 +53,12 @@ public class FortuneDbAdapter {
 			      KEY_SUBMITDATE + " integer not null, " +
 			      KEY_VIEWDATE + " integer, " +
 			      KEY_FLAG + " integer, " +
+			      KEY_UPDATE + " integer, " +
 			      KEY_OWNER + " integer);";
 
 	private static final String DATABASE_NAME = "data";
 	private static final String DATABASE_TABLE = "fortunes";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	private final Context mContext;
 
@@ -103,10 +106,15 @@ public class FortuneDbAdapter {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-					+ newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS fortunes");
-			onCreate(db);
+			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "+ newVersion);
+			if ( oldVersion == 2 && newVersion==3 ) {
+				Log.w(TAG, "Adding new column "+KEY_UPDATE+" to table " + DATABASE_TABLE);
+				db.execSQL("ALTER TABLE "+ DATABASE_TABLE + " ADD COLUMN " +KEY_UPDATE +" INTEGER DEFAULT 0");
+			}
+			else {
+				db.execSQL("DROP TABLE IF EXISTS fortunes");
+				onCreate(db);
+			}
 		}
 	}
 
