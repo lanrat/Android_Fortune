@@ -27,7 +27,7 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 		// updating the widget
 		for(int i =0; i<widgetIds; i++){
 			
-			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
+			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			WidgetActivity.displayFortune(context, Client.getInstance(context).getCurrentFortune());
 			
 			// displaying the fortune on to the textView

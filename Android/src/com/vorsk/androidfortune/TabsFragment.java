@@ -106,6 +106,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 	 */
 	public void updateFortune(View view){
 		new UpdateFortuneReceiver().onReceive(this, null);
+		
 	}
 	
 	@Override

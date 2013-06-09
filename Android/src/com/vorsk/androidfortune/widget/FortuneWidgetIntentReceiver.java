@@ -23,7 +23,7 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		Log.v(TAG,"onRecieve");
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 		final Fortune current_fortune = Client.getInstance(context).getCurrentFortune();
 		
 		if ( current_fortune == null ) {
@@ -35,18 +35,16 @@ public class FortuneWidgetIntentReceiver extends BroadcastReceiver{
 		if (current_fortune != null)
 		{
 			if(intent.getAction().equals("up_button.intent.action.UP_VOTE")){
-				if (WidgetActivity.countUpVote()) {
+				if (WidgetActivity.countUpVote(context)) {
 					vote_message = context.getResources().getString(R.string.up_vote);
-					remoteViews.setTextViewText(R.id.upvote_count, Integer.toString(current_fortune.getUpvotes()));
 				}else {
 					vote_message = context.getResources().getString(R.string.already_voted);
 				}
 				remoteViews.setOnClickPendingIntent(R.id.upvote_button, FortuneWidgetProvider.buildUpButtonPendingIntent(context));
 			}
 			else if(intent.getAction().equals("down_button.intent.action.DOWN_VOTE")){
-				if (WidgetActivity.countDownVote()) {
+				if (WidgetActivity.countDownVote(context)) {
 					vote_message = context.getResources().getString(R.string.down_vote);
-					remoteViews.setTextViewText(R.id.downvote_count, Integer.toString(current_fortune.getDownvotes()));
 				}else {
 					vote_message = context.getResources().getString(R.string.already_voted);
 				}
