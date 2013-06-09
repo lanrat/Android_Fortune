@@ -70,18 +70,30 @@ public class HomeActivity extends SherlockFragmentActivity {
 			//set the fortune text
 			TextView current_fortune = (TextView)mView.findViewById(R.id.home_fortune_text);
 			current_fortune.setText(f.getFortuneText(true));
-			//set the votes
-			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.home_fortune_upvotes);
-			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.home_fortune_downvotes);
-			//current_fortune_upcount.setText(Integer.toString(f.getUpvotes()));
-			//current_fortune_downcount.setText(Integer.toString(f.getDownvotes()));
-			current_fortune_upcount.setText("Upvotes: " + f.getUpvotes());
-			current_fortune_downcount.setText("Downvotes: " + f.getUpvotes());
-
+			
 			//set the date
 			TextView timeText = (TextView) mView.findViewById(R.id.home_fortune_date);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy",Locale.US);
-			timeText.setText(formatter.format(f.getSubmitted()));
+			timeText.setText(formatter.format(f.getSeen()));
+			
+			// has voted?
+			TextView votedText = (TextView) mView.findViewById(R.id.home_voted);
+			if(f.hasVoted())
+				votedText.setText("You have already voted");
+			else if (f.getUpvoted())
+				votedText.setText("You have up voted");
+			else if (f.getDownvoted())
+				votedText.setText("You have down voted");
+			
+			//set the votes
+			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.home_fortune_upvotes);
+			TextView current_fortune_downcount = (TextView)mView.findViewById(R.id.home_fortune_downvotes);
+			current_fortune_upcount.setText("Upvotes: " + f.getUpvotes());
+			current_fortune_downcount.setText("Downvotes: " + f.getUpvotes());
+
+			
+			
+			
 			//TODO display additional data like views, etc...
 		}
 		

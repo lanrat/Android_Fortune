@@ -148,17 +148,18 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 				String dialogTitle = "";
 				String dialogText = "";
 				
-				if(fortune.downvote()) {
+				if(fortune.hasVoted()) {
+					dialogTitle = "Already Voted";
+					dialogText = "You have already voted for this fortune";
+				}
+				else {
+					fortune.downvote();
 					HistoryFragment.refreshHistory();
 					if(fortune.getOwner()) {
 						SubmitFragment.refreshSubmitted();
 					}
 					dialogTitle = "Down Vote";
 					dialogText = "You have successfully downvoted";
-				}
-				else {
-					dialogTitle = "Already Voted";
-					dialogText = "You have already voted for this fortune";
 				}
 				//TODO check the return value of downvote to see if we need to refresh the list
 				
