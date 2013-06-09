@@ -63,6 +63,7 @@ public class HistoryActivity extends SherlockFragmentActivity {
 			ListView lv = (ListView) mView.findViewById(R.id.history_list);
 			lv.setEmptyView(mView.findViewById(R.id.blank));
 			lv.setAdapter(adapter);	
+			adapter.notifyDataSetChanged();
 		}
 
 		@Override
