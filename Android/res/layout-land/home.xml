@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+    
+	<TextView
+	    android:id="@+id/home_fortune_text"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="@dimen/view_margin"
+	    android:gravity="center"
+	    android:text="@string/null_fortune"
+	    android:textIsSelectable="false"
+	    android:textSize="@dimen/home_text_large"
+	    android:textStyle="bold" />
+	
+	    <LinearLayout
+	        android:id="@+id/home_dortune_info"
+	        android:layout_width="match_parent"
+	        android:orientation="vertical"
+	        android:layout_height="wrap_content" >
+		
+	<TextView
+	    android:id="@+id/home_fortune_date"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/home_fortune_text"
+	    android:layout_marginTop="@dimen/view_margin"
+	    android:textSize="@dimen/medium_text"
+	    android:textIsSelectable="false" /> 
+	    
+	<TextView 
+	    android:id="@+id/home_voted"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/home_fortune_date"
+	    android:layout_marginTop="@dimen/view_margin"
+	    android:textSize="@dimen/medium_text"
+	    android:textIsSelectable="false" />
+	    
+	<TextView 
+	    android:id="@+id/home_fortune_upvotes"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/home_voted"
+	    android:layout_marginTop="@dimen/view_margin"
+	    android:textSize="@dimen/medium_text"
+	    android:textIsSelectable="false" />
+	
+	<TextView 
+	    android:id="@+id/home_fortune_downvotes"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/home_fortune_upvotes"
+	    android:layout_marginTop="@dimen/view_margin"
+	    android:textSize="@dimen/medium_text"
+	    android:textIsSelectable="false" />
+	
+</LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/home_dortune_info"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:orientation="vertical" >
+
+	    <Button
+	        android:id="@+id/flag_button"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_above="@+id/refresh_button"
+	        android:drawableLeft="@drawable/ic_action_flag"
+	        android:onClick="testFlag"
+	        android:text="@string/flag_button" />
+
+	    <Button
+	        android:id="@+id/refresh_button"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:drawableLeft="@drawable/ic_action_new"
+	        android:onClick="updateFortune"
+	        android:text="@string/refresh_button" />
+	</LinearLayout>
+
+	<LinearLayout
+	    android:id="@+id/home_vote_buttons"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/home_fortune_text"
+	    android:layout_alignTop="@+id/home_fortune_text"
+	    android:orientation="vertical" >
+
+	    <ImageButton
+	        android:id="@+id/home_upvote_image"
+	        android:layout_width="@dimen/arrow_size_large"
+	        android:layout_height="@dimen/arrow_size_large"
+	        android:layout_marginLeft="@dimen/image_margin"
+	        android:layout_marginTop="@dimen/image_margin"
+	        android:background="@null"
+	        android:contentDescription="@string/upvote_description"
+	        android:scaleType="fitCenter"
+	        android:src="@drawable/arrow_up_large" />
+
+	    <ImageButton
+	        android:id="@+id/home_downvote_image"
+	        android:layout_width="@dimen/arrow_size_large"
+	        android:layout_height="@dimen/arrow_size_large"
+	        android:layout_marginRight="@dimen/image_margin"
+	        android:layout_marginTop="@dimen/image_margin"
+	        android:background="@null"
+	        android:contentDescription="@string/downvote_description"
+	        android:scaleType="fitCenter"
+	        android:src="@drawable/arrow_down_large" />
+	</LinearLayout>
+
+</RelativeLayout>
