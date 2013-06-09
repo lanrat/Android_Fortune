@@ -48,6 +48,8 @@ public class WidgetActivity extends Activity {
     public static void displayFortuneToText(Context ctx, RemoteViews remoteViews){
     	if (fortune != null) {
     		remoteViews.setTextViewText(R.id.fortune_text, fortune.getFortuneText(true));
+    		remoteViews.setTextViewText(R.id.upvote_count, Integer.toString(fortune.getUpvotes()));
+    		remoteViews.setTextViewText(R.id.downvote_count, Integer.toString(fortune.getDownvotes()));
     	}
     }
     
@@ -56,9 +58,11 @@ public class WidgetActivity extends Activity {
      * @param upV true if user made an up Voted
 	 * @return true if successful, false otherwise
      */
-    public static boolean countUpVote(){
+    public static boolean countUpVote(Context ctx){
     	if (fortune != null) {
-    		return fortune.upvote();
+    		boolean ret = fortune.upvote();
+    		displayFortune(ctx, fortune);
+    		return ret;
     	}
     	return false;
     }
@@ -68,9 +72,11 @@ public class WidgetActivity extends Activity {
      * @param downV true if user made an down Voted
   	 * @return true if successful, false otherwise
      */
-    public static boolean countDownVote(){
+    public static boolean countDownVote(Context ctx){
     	if (fortune != null) {
-    		return fortune.downvote();
+    		boolean ret = fortune.downvote();
+    		displayFortune(ctx, fortune);
+    		return ret;
     	}
     	return false;
     }

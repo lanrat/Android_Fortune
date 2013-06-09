@@ -2,84 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fortune_body"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="#88333333"
     android:baselineAligned="false"
     android:padding="5dp" >
-	
-    <LinearLayout
-        android:id="@+id/fortune_vote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/view_margin"
-        android:layout_marginLeft="@dimen/view_margin"
-        android:layout_marginTop="@dimen/view_margin"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
-		
-		<LinearLayout
-	        android:id="@+id/upvote_info"
-	        android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:clickable="true"
-	    	android:orientation="horizontal" >
-			
-		    <ImageButton
-			    android:id="@+id/upvote_button"
-			    android:background="@null"
-			    android:layout_width="@dimen/arrow_size"
-			    android:layout_height="@dimen/arrow_size"
-			    android:gravity="center_vertical"
-			    android:clickable="false"
-			    android:scaleType="fitCenter"
-			    android:src="@drawable/arrow_up"
-			    android:contentDescription="@string/upvote_description" />
-	    
-	    	<TextView 
-	        	android:id="@+id/upvote_count"
-	        	android:layout_height="wrap_content"
-	        	android:layout_width="wrap_content"
-	        	android:gravity="center_vertical"
-	        	android:clickable="false"
-	        	android:text="@string/vote_default_count"
-	        	android:textColor="@color/upvote_color"
-	        	android:textAppearance="?android:attr/textAppearanceLarge"
-	        	android:textIsSelectable="false" />
-	    
-	    </LinearLayout>
-	    
-		<LinearLayout
-	        android:id="@+id/downvote_info"
-	        android:layout_width="wrap_content"
-	       	android:clickable="true"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="horizontal" >
-		    
-			<ImageButton
-			    android:id="@+id/downvote_button"
-			    android:background="@null"
-			    android:clickable="false"
-			    android:layout_width="@dimen/arrow_size"
-			    android:layout_height="@dimen/arrow_size"
-			    android:gravity="center_vertical"
-			    android:scaleType="fitCenter"
-			    android:src="@drawable/arrow_down"
-			    android:contentDescription="@string/downvote_description" />
-			
-			<TextView
-			    android:id="@+id/downvote_count"
-			    android:clickable="false"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:gravity="center_vertical"
-			    android:text="@string/vote_default_count"
-			    android:textAppearance="?android:attr/textAppearanceLarge"
-			    android:textColor="@color/downvote_color"
-			    android:textIsSelectable="false" />
-			
-		</LinearLayout>
-	</LinearLayout>
 	
         <TextView
             android:id="@+id/fortune_text"
@@ -92,5 +18,75 @@
             android:text="@string/null_fortune"
             android:textIsSelectable="false"
             android:textSize="@dimen/medium_text" />
+
+        <LinearLayout
+            android:id="@+id/fortune_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/upvote_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/upvote_button"
+                    android:layout_width="@dimen/arrow_size"
+                    android:layout_height="@dimen/arrow_size"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:contentDescription="@string/upvote_description"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/arrow_up" />
+
+                <TextView
+                    android:id="@+id/upvote_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:text="@string/vote_default_count"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/upvote_color"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/downvote_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/downvote_button"
+                    android:layout_width="@dimen/arrow_size"
+                    android:layout_height="@dimen/arrow_size"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:contentDescription="@string/downvote_description"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/arrow_down" />
+
+                <TextView
+                    android:id="@+id/downvote_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:text="@string/vote_default_count"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/downvote_color"
+                    android:textIsSelectable="false" />
+            </LinearLayout>
+        </LinearLayout>
 
 </RelativeLayout>
