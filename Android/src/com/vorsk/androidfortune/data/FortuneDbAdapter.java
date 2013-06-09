@@ -298,8 +298,9 @@ public class FortuneDbAdapter {
 		args.put(KEY_TEXT, f.getFortuneText(false));
 		args.put(KEY_UPVOTES, f.getUpvotes());
 		args.put(KEY_DOWNVOTES, f.getDownvotes());
-		args.put(KEY_UPVOTED, f.getUpvoted() ? 1 : 0);
-		args.put(KEY_DOWNVOTED, f.getDownvoted() ? 1 : 0);
+		//don't change upvoted/downvoted
+		//args.put(KEY_UPVOTED, f.getUpvoted() ? 1 : 0);
+		//args.put(KEY_DOWNVOTED, f.getDownvoted() ? 1 : 0);
 		//don't update submit date
 		if ( f.getSeen()!= null )
 			args.put(KEY_VIEWDATE, f.getSeen().getTime()/1000);
