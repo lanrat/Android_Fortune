@@ -40,7 +40,7 @@ public class WidgetActivity extends Activity {
     	if (f == null) {
     		Log.e(TAG,"displaying null fortune");
     	}
-		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.fortune_layout);
+		final RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
     	WidgetActivity.displayFortuneToText(context, remoteViews);
 		FortuneWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
     }
