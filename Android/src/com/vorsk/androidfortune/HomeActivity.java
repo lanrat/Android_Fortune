@@ -10,6 +10,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.vorsk.androidfortune.data.Client;
 import com.vorsk.androidfortune.data.Fortune;
+import com.vorsk.androidfortune.widget.WidgetActivity;
 
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -109,6 +110,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					if (f != null) {
 						f.upvote();
 						displayFortune(f);
+						WidgetActivity.displayFortune(getActivity().getApplicationContext(), f);
 					}
 				}
 			});
@@ -120,6 +122,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					if (f != null) {
 						f.downvote();
 						displayFortune(f);
+						WidgetActivity.displayFortune(getActivity().getApplicationContext(), f);
 					}
 				}
 			});
