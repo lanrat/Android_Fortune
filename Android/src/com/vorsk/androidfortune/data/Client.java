@@ -216,6 +216,7 @@ public class Client
 			}
 			int id = database.insertFortune(Fortune.createFromJSON(response.getJSONObject(0)));
 			database.updateFortuneCol(id,FortuneDbAdapter.KEY_OWNER, true);
+			database.updateFortuneCol(id,FortuneDdAdapter.KEY_UPVOTED, true);
 		} catch (JSONException e) {
 			Log.e(TAG,"JSONException");
 			return false;
