@@ -50,6 +50,16 @@ public class WidgetActivity extends Activity {
     		remoteViews.setTextViewText(R.id.fortune_text, fortune.getFortuneText(true));
     		remoteViews.setTextViewText(R.id.upvote_count, Integer.toString(fortune.getUpvotes()));
     		remoteViews.setTextViewText(R.id.downvote_count, Integer.toString(fortune.getDownvotes()));
+    		if (fortune.getUpvoted()) {
+    			remoteViews.setImageViewResource(R.id.upvote_button,R.drawable.arrow_up_dark);
+    		}else {
+    			remoteViews.setImageViewResource(R.id.upvote_button,R.drawable.arrow_up);
+    		}
+    		if (fortune.getDownvoted()) {
+    			remoteViews.setImageViewResource(R.id.downvote_button,R.drawable.arrow_down_dark);
+    		}else {
+    			remoteViews.setImageViewResource(R.id.downvote_button,R.drawable.arrow_down);
+    		}
     	}
     }
     
