@@ -17,6 +17,8 @@ public class FortuneWidgetProvider extends AppWidgetProvider {
 	
 	private static final String TAG = "FortuneWidgetProvider";
 	
+	/** The Widget calls this method to update itself
+	 */
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		Log.v(TAG,"onUpdate");
