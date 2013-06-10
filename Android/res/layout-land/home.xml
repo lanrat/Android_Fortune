@@ -63,33 +63,6 @@
 </LinearLayout>
 
 	<LinearLayout
-	    android:id="@+id/home_dortune_info"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
-	    android:layout_alignParentLeft="true"
-	    android:orientation="vertical" >
-
-	    <Button
-	        android:id="@+id/flag_button"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/refresh_button"
-	        android:drawableLeft="@drawable/ic_action_flag"
-	        android:onClick="testFlag"
-	        android:text="@string/flag_button" />
-
-	    <Button
-	        android:id="@+id/refresh_button"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:drawableLeft="@drawable/ic_action_new"
-	        android:onClick="updateFortune"
-	        android:text="@string/refresh_button" />
-	</LinearLayout>
-
-	<LinearLayout
 	    android:id="@+id/home_vote_buttons"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"

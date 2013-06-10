@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_flag_fortune"
+        android:icon="@drawable/ic_action_flag"
+        android:title="@string/flag_button"
+        android:showAsAction="always" />
+    
+    <item
+        android:id="@+id/action_new_fortune"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresh_button"
+        android:showAsAction="always" />
+    
+   <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/action_settings"
+        android:showAsAction="ifRoom" />
+
+</menu>

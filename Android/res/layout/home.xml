@@ -27,38 +27,40 @@
 	    android:textSize="@dimen/medium_text"
 	    android:textIsSelectable="false" /> 
 	    
-	<TextView 
-	    android:id="@+id/home_voted"
+	
+	<RelativeLayout 
+	    android:id="@+id/home_vote_counts"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/home_fortune_date"
-	    android:layout_marginTop="@dimen/view_margin"
-	    android:textSize="@dimen/medium_text"
-	    android:textIsSelectable="false" />
+	    android:orientation="horizontal" >
 	    
-	<TextView 
-	    android:id="@+id/home_fortune_upvotes"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@id/home_voted"
-	    android:layout_marginTop="@dimen/view_margin"
-	    android:textSize="@dimen/medium_text"
-	    android:textIsSelectable="false" />
-	
-	<TextView 
-	    android:id="@+id/home_fortune_downvotes"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@id/home_fortune_upvotes"
-	    android:layout_marginTop="@dimen/view_margin"
-	    android:textSize="@dimen/medium_text"
-	    android:textIsSelectable="false" />
+		<TextView 
+		    android:id="@+id/home_fortune_upvotes"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:text="@string/vote_default_count"
+		   	android:layout_alignParentLeft="true"
+		    android:layout_marginTop="@dimen/view_margin"
+		    android:textSize="@dimen/medium_text"
+		    android:textIsSelectable="false" />
+		
+		<TextView 
+		    android:id="@+id/home_fortune_downvotes"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		   	android:text="@string/vote_default_count"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginTop="@dimen/view_margin"
+		    android:textSize="@dimen/medium_text"
+		    android:textIsSelectable="false" />
+		</RelativeLayout>
 	
 	<RelativeLayout 
 	    android:id="@+id/home_vote_images"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@id/home_fortune_downvotes"
+	    android:layout_below="@id/home_vote_counts"
 	    android:orientation="horizontal" >
 	    
 	    <ImageButton
@@ -87,25 +89,4 @@
 	    
 	</RelativeLayout>
 	
-	
-	       
-    <Button
-        android:id="@+id/flag_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="testFlag"
-        android:layout_above="@+id/refresh_button"
-        android:drawableLeft="@drawable/ic_action_flag"
-        android:text="@string/flag_button" />
-    
-    <Button
-        android:id="@+id/refresh_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="updateFortune"
-        android:layout_alignParentBottom="true"
-        android:drawableLeft="@drawable/ic_action_new"
-        
-        android:text="@string/refresh_button" />
-
 </RelativeLayout>

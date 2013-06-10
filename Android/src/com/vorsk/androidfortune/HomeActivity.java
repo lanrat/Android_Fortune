@@ -54,6 +54,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 		
 		private static View mView;
 		private static final String TAG = "FortuneFragment";
+		
 
 		/**
 		 * called to update the fortune displayed on the home page
@@ -76,15 +77,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 			TextView timeText = (TextView) mView.findViewById(R.id.home_fortune_date);
 			SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy",Locale.US);
 			timeText.setText(formatter.format(f.getSeen()));
-			
-			// has voted?
-			TextView votedText = (TextView) mView.findViewById(R.id.home_voted);
-			if(!f.hasVoted())
-				votedText.setText("You not voted for this fortune yet");
-			else if (f.getUpvoted())
-				votedText.setText("You have up voted");
-			else if (f.getDownvoted())
-				votedText.setText("You have down voted");
 			
 			//set the votes
 			TextView current_fortune_upcount = (TextView)mView.findViewById(R.id.home_fortune_upvotes);

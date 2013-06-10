@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import com.actionbarsherlock.app.ActionBar;
@@ -23,16 +24,20 @@ import com.vorsk.androidfortune.data.Fortune;
 public class TabsFragment extends SherlockFragmentActivity {
 	private static ViewPager mViewPager;
 	private static TabsAdapter mTabsAdapter;
+	private static TabsFragment mTabsFragment;
+	private static final int defaultPosition = 1;
 	
 	private static final String TAB_ID_LEFT = "left";
 	private static final String TAB_ID_RIGHT = "right";
 	private static final String TAB_ID_HOME = "home";
 	
-	//private final static String TAG = "Tabs Fragment";
+	private final static String TAG = "Tabs Fragment";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		mTabsFragment = this;
 		
 		setContentView(R.layout.fragment_tabs_pager);
 		
@@ -56,7 +61,7 @@ public class TabsFragment extends SherlockFragmentActivity {
 				SubmitActivity.SubmitFragment.class, null);
 
 		// 0-based so 1 is the second tab
-		mViewPager.setCurrentItem(1);
+		mViewPager.setCurrentItem(defaultPosition);
 		
 		
 		//update Fortunes
@@ -67,12 +72,14 @@ public class TabsFragment extends SherlockFragmentActivity {
 		new UpdateFortunesTask(getApplicationContext(),list).execute();
 	}
 	
-	public void testFlag(View view){
+	//TODO document and improve
+	//TODO move to home activity
+	public void flagFortune(){
 		Fortune f = Client.getInstance().getCurrentFortune();
 		//TODO ask confirmation
 		if (f != null) {
 			f.flag();
-			updateFortune(null);
+			new UpdateFortuneReceiver().onReceive(this, null);
 			
 		}
 	}
@@ -81,17 +88,47 @@ public class TabsFragment extends SherlockFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		// actionbar menu
-		getSupportMenuInflater().inflate(R.menu.menu, menu);
+		int pos = mViewPager.getCurrentItem();
+		Log.v(TAG,"Changing menu to pos: "+pos);
+
+		switch (pos) {
+		case 0:
+			getSupportMenuInflater().inflate(R.menu.default_menu, menu);
+			break;
+		case 1:
+			getSupportMenuInflater().inflate(R.menu.home_menu, menu);
+			break;
+		case 2:
+			getSupportMenuInflater().inflate(R.menu.submit_menu, menu);
+			break;
+		default:
+			getSupportMenuInflater().inflate(R.menu.default_menu, menu);
+			break;
+		}
 		return true;
+	}
+	
+	static void updateActionBar() {
+		mTabsFragment.supportInvalidateOptionsMenu();
+
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_settings:
-			startActivity(new Intent(this, SettingsActivity.class));
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.action_settings:
+				startActivity(new Intent(this, SettingsActivity.class));
+				return true;
+			case R.id.action_flag_fortune:
+				flagFortune();
+				return true;
+			case R.id.action_new_fortune:
+				new UpdateFortuneReceiver().onReceive(this, null);
+				return true;
+			case R.id.action_submit:
+				SubmitActivity.showSubmitDiolog(this);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 	
@@ -99,15 +136,6 @@ public class TabsFragment extends SherlockFragmentActivity {
 		super.onResume();
 	}	
 		
-
-	/**
-	 * Called by the manual refresh button
-	 * @param view
-	 */
-	public void updateFortune(View view){
-		new UpdateFortuneReceiver().onReceive(this, null);
-		
-	}
 	
 	@Override
 	public void onStart() {
@@ -210,6 +238,8 @@ public class TabsFragment extends SherlockFragmentActivity {
 		@Override
 		public void onPageSelected(int position) {
 			mContext.getSupportActionBar().setSelectedNavigationItem(position);
+			//update actionbar
+			updateActionBar();
 		}
 
 		@Override
