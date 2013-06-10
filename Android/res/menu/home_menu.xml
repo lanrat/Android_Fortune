@@ -5,7 +5,7 @@
         android:id="@+id/action_flag_fortune"
         android:icon="@drawable/ic_action_flag"
         android:title="@string/flag_button"
-        android:showAsAction="always" />
+        android:showAsAction="always|withText" />
     
     <item
         android:id="@+id/action_new_fortune"
