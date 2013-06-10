@@ -89,6 +89,7 @@
             android:layout_toLeftOf="@+id/fortune_vote"
             android:ellipsize="marquee"
             android:text="@string/null_fortune"
+            android:textColor="#FFFFFFFF"
             android:textIsSelectable="false"
             android:textSize="@dimen/medium_text" />
 

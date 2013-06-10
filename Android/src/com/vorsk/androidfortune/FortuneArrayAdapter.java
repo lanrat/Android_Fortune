@@ -189,7 +189,7 @@ public class FortuneArrayAdapter extends ArrayAdapter<Fortune> {
 		});
 		
 		// SimpleDateFormat => Wed May 30 10:24 PM 2013
-		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a yyyy",Locale.US);
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd hh:mm a",Locale.US);
 		timeText.setText(formatter.format(fortunes[position].getSeen()));
 		bodyText.setText(fortunes[position].getFortuneText(false));
 		upvoteCountText.setText(Integer.toString(fortunes[position].getUpvotes()));

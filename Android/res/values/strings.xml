@@ -34,5 +34,8 @@
 	<string name="submit_button_text">Submit New Fortune</string>
 	<string name="submit_fortune_hint">Your own fortune here</string>
 	<string name="empty_history">No Past Fortunes</string>
+	<string name="date_submitted">Submitted on </string>
 	<string name="empty_submit">No Fortunes Submitted</string>
+	<string name="upvotes">Upvotes</string>
+	<string name="downvotes">Downvotes</string>
 </resources>
